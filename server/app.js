@@ -1,21 +1,13 @@
-/*
-    Once the server is defined, this module creates routes and entry to endpoints.
-
-*/
+require('dotenv').config();
 const express = require("express");
 const app = express();
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 //database connection
-/*
-mongoose
-    .connect(
-        "mongodb+srv://miguellopez:miguel3612@cluster0.0m5jhdu.mongodb.net/MANUFACTURER_INFO?retryWrites=true&w=majority"
-    )
+mongoose.connect(process.env.MIGUEL_MONGO_URI)
     .then(() => {
         console.log("Connected to database succesfully!");
-    }).catch(error => handleError(error));
-*/
+    }).catch(error => console.log(error));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
