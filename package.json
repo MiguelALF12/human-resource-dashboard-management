@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/MiguelALF12/humanResourceManagement/issues"
   },
-  "homepage": "https://github.com/MiguelALF12/humanResourceManagement#readme"
+  "homepage": "https://github.com/MiguelALF12/humanResourceManagement#readme",
+  "devDependencies": {
+    "react-router-dom": "^6.10.0"
+  }
 }
