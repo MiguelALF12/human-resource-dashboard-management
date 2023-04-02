@@ -1,7 +1,7 @@
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import Form from 'react-bootstrap/Form'
-import { Outlet } from 'react-router-dom'
+import React from 'react';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
 
 import Offer from './offer.jsx'
 import "../styles/bodyInfo.css";

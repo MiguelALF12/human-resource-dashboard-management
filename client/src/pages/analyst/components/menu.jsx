@@ -1,6 +1,5 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Row from 'react-bootstrap/esm/Row';
-import Col from 'react-bootstrap/esm/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
