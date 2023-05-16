@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-xfhme*m!6mj+s7upk+=562_6tq9k8!t&z(2#!qp9k=xdau!3dg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -48,8 +48,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -131,12 +131,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # connection with multiple backends
-CORS_ALLOWED_ORIGINS = []
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+# CORS_ALLOW_ALL_ORIGINS: True
 
 # Uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'aplicant_employee_api/')
 MEDIA_URL = '/documents/'
 # API Docs
 REST_FRAMEWORK = {
-  'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }

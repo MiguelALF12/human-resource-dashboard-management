@@ -28,16 +28,18 @@ class Aplicantes(models.Model):
     numTelefono = models.CharField(max_length=12)
     # TODO: opciones de ciudad aquí con Field.Choices
     ciudad = models.CharField(max_length=15)
-    direccion = models.TextField()
+    direccion = models.TextField(default=True)
     escolaridad = models.CharField(max_length=12,
                                    choices=GRADOS_ESCOLARIDAD, default=ESCOLARIDAD_BACHILLER)
-    manejoIngles = models.BooleanField(default=False)
+    titulo = models.CharField(max_length=100, default=True)
+    certificaciones = models.TextField(default=True)
+    manejoIngles = models.BooleanField()
     speaking = models.CharField(max_length=5, choices=FLUIDEZ_INGLES)
     writing = models.CharField(max_length=5, choices=FLUIDEZ_INGLES)
     listening = models.CharField(max_length=5, choices=FLUIDEZ_INGLES)
     experienciaLaboral = models.CharField(max_length=2)  # experiencia en años
-    dispuestoTraslado = models.BooleanField(default=False)
-    trabajarHorasExtra = models.BooleanField(default=False)
+    dispuestoTraslado = models.BooleanField(default=True)
+    trabajarHorasExtra = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.nombre
