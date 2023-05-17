@@ -16,17 +16,16 @@ class DocumentosAplicantesViews(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def load_files(self, request):
-        files = request.FILES['files']
-        if len(files) >= 8:
-            for file in range(files):
-                serializer = self.get_serializer(files[file])
-                serializer.is_valid(raise_exception=True)
-                #TODO: Falta entender como anexar la FK de Aplicantes (es id propio de django) y resolver
-                # la situación con indicies de cada files[file]
-
-
-            
-        pass
+        print(request.data)
+        # if len(files) >= 1:
+        #     for file in files:
+        #         serializer = self.get_serializer(data=file)
+        #         serializer.is_valid(raise_exception=True)
+        #         print(serializer)
+        #         # uploadedFile = DocumentosAplicantes(serializer)
+        #         #TODO: Falta entender como anexar la FK de Aplicantes (es id propio de django) y resolver
+        #         # la situación con indicies de cada files[file]
+        return Response("Nais")
     def post(self, request, format=None):
         uploadedFile = request.FILES['file']
         filename = '/tmp/myfile'

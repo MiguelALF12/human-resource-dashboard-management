@@ -12,6 +12,7 @@ import { createAplicant } from '../api/aplicantes';
 
 
 import "../styles/bodyInfo.css";
+import { createDocuments } from '../api/documentos';
 
 // Yup y Zod
 // librerias para valiaciones mas complejas
@@ -21,138 +22,50 @@ const Register = () => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const { register, handleSubmit } = useForm();
-    const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
-        // const form = data.currentTarget;
+    const onSubmit = handleSubmit((user) => {
+
         // if (form.checkValidity() === false) {
         //     data.preventDefault();
         //     data.stopPropagation();
         // }
-        // setValidated(true);
-        // const formData = new FormData();
-        // // Credentials and Personal Info
-        // formData.append("identification", form.formGroupId.value);
-        // formData.append("name", form.formGroupUserName.value);
-        // formData.append("lastName", form.formGroupUserLastname.value);
-        // formData.append("userName", form.formGroupUserAccountName.value);
-        // formData.append("email", form.formGroupEmail.value);
-        // formData.append("password", form.formGroupPassword.value);
-        // formData.append("phoneNumber", form.formGroupUserPhone.value);
-        // formData.append("telephone", form.formGroupUserTelephone.value);
-        // // Location    
-        // formData.append("country", form.formGroupCountry.value);
-        // formData.append("state", form.formGroupState.value);
-        // formData.append("city", form.formGroupCity.value);
-        // // Academics
-        // formData.append("escolarity", form.formGroupUserEscolarity.value);
-        // formData.append("title", form.formGroupUserProfessionalTitle.value);
-        // formData.append("certifications", form.formGroupUserCertifications.value);
-        // formData.append("englishSecondLang", form.formGroupUserEnglishSecondLang.value);
-        // formData.append("speaking", form.formGroupUserEnglishSecondLangSpeaking.value);
-        // formData.append("writingListening", form.UserEnglishSecondLangWritingListening.value);
+        // setValidated(true)
 
-        // // Application
-        // formData.append("workingExperience", form.formGroupUserWorkExerience.value);
-        // formData.append("ableToTransfer", form.formGroupUserMovilizationCapacity.value);
-        // formData.append("ableToWorkExtraHours", form.formGroupUserExtraHourCapacity.value);
-        // // // files 
-        // // formData.append("files", form.formFileIdentification.files[0], "identification");
-        // // formData.append("files", form.formFileEducationCertificates.files[0], "eduactionCertificates");
-        // // formData.append("files", form.formFilePension.files[0], "pension");
-        // // formData.append("files", form.formFileMilitarCard.files[0], "militarCard");
-        // // formData.append("files", form.formFileWorkExperienceLetters.files[0], "workExperienceLetters");
-        // // formData.append("files", form.formFileUserPenalBackground.files[0], "penalBackground");
-        // // formData.append("files", form.formFileResume.files[0], "resume");
-        // // formData.append("files", form.formFileHealthInsurance.files[0], "healthInsurance");
-
-        // // const testObject = {
-        // //     "cedula": "1004718953",
-        // //     "nombre": "Miguel",
-        // //     "apellido": "Lopez",
-        // //     "correo": "miguel.lopez@utp.edu.co",
-        // //     "contrasena": "miguel3612",
-        // //     "numCelular": "3218484132",
-        // //     "numTelefono": "0",
-        // //     "ciudad": "Pereira",
-        // //     "academic": {
-        // //         "escolarity": "Bachiller",
-        // //         "title": "Cursando",
-        // //         "certifications": "Ninguna",
-        // //         "englishSecondLang": {
-        // //             "handle": true,
-        // //             "fluentness": {
-        // //                 "speaking": "3",
-        // //                 "writingListening": "3"
-        // //             }
-        // //         }
-        // //     },
-        // //     "workingExperience": "0",
-        // //     "ableToTransfer": false,
-        // //     "ableToWorkExtraHours": true
-        // //     // "files": [
-        // //     //     { name: "identification", data: form.formFileIdentification.files },
-        // //     //     { name: "studyCertificates", data: form.formFileEducationCertificates.files },
-        // //     //     { name: "pension", data: form.formFilePension.files },
-        // //     //     { name: "militarCard", data: form.formFileMilitarCard.files },
-        // //     //     { name: "workingExperience", data: form.formFileWorkExperienceLetters.files },
-        // //     //     { name: "penalBackground", data: form.formFileUserPenalBackground.files },
-        // //     //     { name: "resume", data: form.formFileResume.files },
-        // //     //     { name: "healthInsurance", data: form.formFileHealthInsurance.files }
-        // //     // ]
-        // // }
-        // const testObject = {
-        //     "cedula": "1004718953",
-        //     "nombre": "Miguel",
-        //     "apellido": "Lopez",
-        //     "correo": "miguel.lopez@utp.edu.co",
-        //     "contrasena": "miguel3612",
-        //     "numCelular": "3218484132",
-        //     "numTelefono": "0",
-        //     "ciudad": "Pereira",
-        //     "direccion": "PArque industrial manzana 6 casa 4 sector B",
-        //     "escolaridad": "BACHILLER",
-        //     "manejoIngles": true,
-        //     "speaking": "MEDIA",
-        //     "writing": "MEDIA",
-        //     "listening": "MEDIA",
-        //     "experienciaLaboral": "0",
-        //     "dispuestoTraslado": false,
-        //     "trabajarHorasExtra": true
-        //     // "files": [
-        //     //     { name: "identification", data: form.formFileIdentification.files },
-        //     //     { name: "studyCertificates", data: form.formFileEducationCertificates.files },
-        //     //     { name: "pension", data: form.formFilePension.files },
-        //     //     { name: "militarCard", data: form.formFileMilitarCard.files },
-        //     //     { name: "workingExperience", data: form.formFileWorkExperienceLetters.files },
-        //     //     { name: "penalBackground", data: form.formFileUserPenalBackground.files },
-        //     //     { name: "resume", data: form.formFileResume.files },
-        //     //     { name: "healthInsurance", data: form.formFileHealthInsurance.files }
-        //     // ]
-        // }
-        await createAplicant(data)
-            .then((res) => console.log(res))
-            .catch((err) => {
-                if (err.response) {
-                    // La respuesta fue hecha y el servidor respondió con un código de estado
-                    // que esta fuera del rango de 2xx
-                    console.log("response")
-                    console.log(err.response.data);
-                    console.log(err.response.status);
-                    console.log(err.response.headers);
-                } else if (err.request) {
-                    // La petición fue hecha pero no se recibió respuesta
-                    // `err.request` es una instancia de XMLHttpRequest en el navegador y una instancia de
-                    // http.ClientRequest en node.js
-                    console.log("request")
-                    console.log(err.request);
-                } else {
-                    // Algo paso al preparar la petición que lanzo un err
-                    console.log("err in request")
-                    console.log('err', err.message);
-                }
-                console.log(err.config);
+        createAplicant(user)
+            .then((res) => {
+                console.log("Usuario creado!", res);
+            }).catch((err) => {
+                console.log(err);
             });
-        // submit(formData);
+
+        const formData = new FormData();
+
+        for (let file of user.files) {
+            formData.append("files", file[0])
+        }
+        createDocuments(formData).then((res) => {
+            console.log("Usuario creado!", res);
+        }).catch((err) => {
+            console.log(err);
+            if (err.response) {
+                // La respuesta fue hecha y el servidor respondió con un código de estado
+                // que esta fuera del rango de 2xx
+                console.log("response")
+                console.log(err.response.data);
+                console.log(err.response.status);
+                console.log(err.response.headers);
+            } else if (err.request) {
+                // La petición fue hecha pero no se recibió respuesta
+                // `err.request` es una instancia de XMLHttpRequest en el navegador y una instancia de
+                // http.ClientRequest en node.js
+                console.log("request")
+                console.log(err.request);
+            } else {
+                // Algo paso al preparar la petición que lanzo un err
+                console.log("err in request")
+                console.log('err', err.message);
+            }
+            console.log(err.config);
+        });
         // navigate("/");
     });
 
