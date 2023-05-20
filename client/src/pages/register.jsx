@@ -1,3 +1,11 @@
+/*
+    #TODO: Crear validacion, basarme en el sigueinte tutorial https://www.freecodecamp.org/news/add-form-validation-in-react-app-with-react-hook-form/
+    #TODO: Validar cantidad de documentos enviados
+    #TODO: Crear un objeto de test, cambiando los valores default 
+    #TODO: Por que no funciona el retorno de ID por parte de createAplicant()?. Se mandara hasta que se solucione la cedula del aplicante.
+*/
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
@@ -14,61 +22,35 @@ import { createAplicant } from '../api/aplicantes';
 import "../styles/bodyInfo.css";
 import { createDocuments } from '../api/documentos';
 
-// Yup y Zod
-// librerias para valiaciones mas complejas
+
 
 const Register = () => {
 
     const navigate = useNavigate();
-    const [validated, setValidated] = useState(false);
-    const { register, handleSubmit } = useForm();
-    const onSubmit = handleSubmit((user) => {
-
-        // if (form.checkValidity() === false) {
-        //     data.preventDefault();
-        //     data.stopPropagation();
-        // }
-        // setValidated(true)
-
-        createAplicant(user)
-            .then((res) => {
-                console.log("Usuario creado!", res);
-            }).catch((err) => {
-                console.log(err);
-            });
-
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = (user, event) => {
+        // console.log(user);
+        // console.log(event)
+        createAplicant(user);
         const formData = new FormData();
-
-        for (let file of user.files) {
-            formData.append("files", file[0])
+        formData.append("cedula", user.cedula);
+        for (let key in user.files) {
+            // console.log(key, user.files[key][0])
+            formData.append(key, user.files[key][0])
         }
-        createDocuments(formData).then((res) => {
-            console.log("Usuario creado!", res);
-        }).catch((err) => {
-            console.log(err);
-            if (err.response) {
-                // La respuesta fue hecha y el servidor respondió con un código de estado
-                // que esta fuera del rango de 2xx
-                console.log("response")
-                console.log(err.response.data);
-                console.log(err.response.status);
-                console.log(err.response.headers);
-            } else if (err.request) {
-                // La petición fue hecha pero no se recibió respuesta
-                // `err.request` es una instancia de XMLHttpRequest en el navegador y una instancia de
-                // http.ClientRequest en node.js
-                console.log("request")
-                console.log(err.request);
-            } else {
-                // Algo paso al preparar la petición que lanzo un err
-                console.log("err in request")
-                console.log('err', err.message);
-            }
-            console.log(err.config);
-        });
-        // navigate("/");
-    });
+        createDocuments(formData).then((res) => { console.log("Documentos subidos!", res); })
+            .catch((err) => { console.log(err); });
 
+        // navigate("/");
+
+        // };
+    }
+
+    const onError = (e) => {
+        alert("Tiene errores en su registro. Reviselo!")
+        console.log(e)
+        // Al enviar el form con errores y mostrar e, se muestra el objeto de campos, con los campos que presentan error.
+    }
 
 
 
@@ -83,28 +65,25 @@ const Register = () => {
                     <h2 className='text-center'>Formulario de <strong>Registro</strong></h2>
                     <div className='mx-auto w-75'>
                         {/* Need to ad border to separate each part with id="formSection" */}
-                        <Form id="registrationForm" noValidate validated={validated} onSubmit={onSubmit}>
+                        <Form id="registrationForm" onSubmit={handleSubmit(onSubmit, onError)}>
                             <h3 className='mt-3'>Cree sus credenciales</h3>
                             <Row className='my-3'>
                                 <Col>
                                     <Form.Group className="mb-3" controlId="formGroupId">
                                         <Form.Label>Identificación (cédula) sin puntos, comas. Solo número</Form.Label>
-                                        <Form.Control type="number" placeholder="Ej: 1004718953" defaultValue="1234" required {...register("cedula")} />
+                                        <Form.Control type="number" placeholder="Ej: 1004718953" defaultValue="1234" {...register("cedula", { required: true })} />
                                     </Form.Group>
-                                    {/* <Form.Group className="mb-3" controlId="formGroupUserAccountName">
-                                        <Form.Label>Nombre de usuario</Form.Label>
-                                        <Form.Control type="text" placeholder="Ej: miUser35" defaultValue="" required {...register("nombre")} />
-                                    </Form.Group> */}
                                 </Col>
                                 <Col>
                                     <Form.Group className="mb-3" controlId="formGroupEmail">
                                         <Form.Label>Correo electrónico</Form.Label>
-                                        <Form.Control type="email" placeholder="Ej: miUser35@gmail.com" defaultValue="myuser@example.com" required {...register("correo")} />
+                                        <Form.Control type="email" placeholder="Ej: miUser35@gmail.com" defaultValue="myuser@example.com" {...register("correo", { required: true, maxLength: 100 })} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formGroupPassword">
                                         <Form.Label>Contraseña</Form.Label>
-                                        <Form.Control type="password" placeholder="Contraseña" defaultValue="someDifficultPassword" required {...register("contrasena")} />
+                                        <Form.Control type="password" placeholder="Contraseña" defaultValue="someDifficultPassword" {...register("contrasena", { required: true, maxLenght: 50 })} />
                                     </Form.Group>
+                                    {errors.contrasena && <p>Introduzca una contraseña menor a 50 caracteres</p>}
                                 </Col>
                             </Row>
                             <h3 className='mt-3'>Información personal</h3>
@@ -112,17 +91,17 @@ const Register = () => {
                                 <Col>
                                     <Form.Group className="mb-3" controlId="formGroupUserName">
                                         <Form.Label>Nombres</Form.Label>
-                                        <Form.Control type="text" placeholder="Ej: Juan Esteban" defaultValue="Miguel Angel" required {...register("nombre")} />
+                                        <Form.Control type="text" placeholder="Ej: Juan Esteban" defaultValue="Miguel Angel" {...register("nombre", { required: true, maxLength: 100 })} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formGroupUserLastname">
                                         <Form.Label>Apellidos</Form.Label>
-                                        <Form.Control type="text" placeholder="Ej: Aldana Solarte" defaultValue="Lopez Fernandez" required {...register("apellido")} />
+                                        <Form.Control type="text" placeholder="Ej: Aldana Solarte" defaultValue="Lopez Fernandez" {...register("apellido", { required: true, maxLength: 100 })} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
                                     <Form.Group className="mb-3" controlId="formGroupUserPhone">
                                         <Form.Label>Celular</Form.Label>
-                                        <Form.Control type="number" placeholder="Ej: 3218484132" defaultValue="1234567" {...register("numCelular")} />
+                                        <Form.Control type="number" placeholder="Ej: 3218484132" defaultValue="1234567" {...register("numCelular", { required: true })} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formGroupUserTelephone">
                                         <Form.Label>Telefono fijo (opcional)</Form.Label>
@@ -135,11 +114,11 @@ const Register = () => {
                                 <Col>
                                     <Form.Group className="mb-3" controlId="formGroupCountry">
                                         <Form.Label>Ciudad</Form.Label>
-                                        <Form.Control type="text" placeholder="Ej: Colombia" defaultValue="Pereira" required {...register("ciudad")} />
+                                        <Form.Control type="text" placeholder="Ej: Colombia" defaultValue="Pereira" {...register("ciudad", { required: true })} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formGroupState">
                                         <Form.Label>Dirección</Form.Label>
-                                        <Form.Control type="email" placeholder="Ej: Parque industrial Manzana 6 Casa 4" defaultValue="Una casa" required {...register("direccion")} />
+                                        <Form.Control type="text" placeholder="Ej: Parque industrial Manzana 6 Casa 4" defaultValue="Una casa" required {...register("direccion", { required: true })} />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -147,7 +126,7 @@ const Register = () => {
                             <Row>
                                 <Form.Group as={Col} controlId="formGroupUserEscolarity">
                                     <Form.Label>Nivel de escolaridad actual</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="PROFESIONAL" required {...register("escolaridad")}>
+                                    <Form.Select aria-label="Default select example" defaultValue="PROFESIONAL" {...register("escolaridad", { required: true })}>
                                         <option>Seleccionar</option>
                                         <option value="PRIMARIA"> Primaria</option>
                                         <option value="BACHILLER"> Bachiller</option>
@@ -207,11 +186,11 @@ const Register = () => {
                             <Row className='my-3'>
                                 <Form.Group as={Col} controlId="formGroupUserWorkExerience">
                                     <Form.Label>Experiencia verificable en años</Form.Label>
-                                    <Form.Control type="text" placeholder="Años" defaultValue="1" {...register("experienciaLaboral")} />
+                                    <Form.Control type="text" placeholder="Años" defaultValue="1" {...register("experienciaLaboral", { required: true })} />
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGroupUserMovilizationCapacity">
                                     <Form.Label>Estaría dispuesto a trasladarse</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="False" required {...register("dispuestoTraslado")}>
+                                    <Form.Select aria-label="Default select example" defaultValue="False" {...register("dispuestoTraslado", { required: true })}>
                                         <option>Seleccionar</option>
                                         <option value="True">Si</option>
                                         <option value="False">No</option>
@@ -219,7 +198,7 @@ const Register = () => {
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGroupUserExtraHourCapacity">
                                     <Form.Label>Estaría dispuesto a trabajar horas extras en cualquier horario?</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="False" required {...register("trabajarHorasExtra")}>
+                                    <Form.Select aria-label="Default select example" defaultValue="False" {...register("trabajarHorasExtra", { required: true })}>
                                         <option>Seleccionar</option>
                                         <option value="True">Si</option>
                                         <option value="False">No</option>
@@ -239,43 +218,43 @@ const Register = () => {
                                 <Col>
                                     <Form.Group controlId="formFileCedula" className="mb-3">
                                         <Form.Label>Cedula ampliada al 150% </Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.0")} />
+                                        <Form.Control type="file" size="sm" {...register("files.CEDULA", { required: true })} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileLibretaMilitar" className="mb-3">
                                         <Form.Label>Libreta militar</Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.1")} />
+                                        <Form.Control type="file" size="sm" {...register("files.LIBRETA_MILITAR", { required: true })} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileHojaDeVida" className="mb-3">
                                         <Form.Label>Hoja de vida</Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.2")} />
+                                        <Form.Control type="file" size="sm" {...register("files.HOJA_DE_VIDA", { required: true })} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
                                     <Form.Group controlId="formFileCertifications" className="mb-3">
                                         <Form.Label>Certificados de educación </Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.3")} />
+                                        <Form.Control type="file" size="sm" {...register("files.CERTIFICADOS_EDUCACION", { required: true })} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileExperienciaLaboral" className="mb-3">
                                         <Form.Label>Cartas de experiencia laboral </Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.4")} />
+                                        <Form.Control type="file" size="sm" {...register("files.CARTAS_EXPERIENCIA_LABORAL", { required: true })} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileEps" className="mb-3">
                                         <Form.Label>Certificado de EPS</Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.5")} />
+                                        <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_EPS", { required: true })} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
                                     <Form.Group controlId="formFilePension" className="mb-3">
                                         <Form.Label>Certificado de pensión</Form.Label>
-                                        <Form.Control type="file" size="sm" {...register("files.6")} />
+                                        <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_PENSION", { required: true })} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileBeneficios" className="mb-3">
                                         <Form.Label>Beneficios</Form.Label>
-                                        <Form.Control type="file" size="sm"  {...register("files.7")} />
+                                        <Form.Control type="file" size="sm"  {...register("files.BENEFICIOS", { required: true })} />
                                     </Form.Group>
                                     <Form.Group controlId="formFileOthers" className="mb-3">
                                         <Form.Label>Otros</Form.Label>
-                                        <Form.Control type="file" size="sm" multiple {...register("files.8")} />
+                                        <Form.Control type="file" size="sm" multiple {...register("files.OTROS", { required: true })} />
                                     </Form.Group>
                                 </Col>
                             </Row>

@@ -40,6 +40,7 @@ class Aplicantes(models.Model):
     experienciaLaboral = models.CharField(max_length=2)  # experiencia en años
     dispuestoTraslado = models.BooleanField(default=True)
     trabajarHorasExtra = models.BooleanField(default=True)
+    contratado = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.nombre
