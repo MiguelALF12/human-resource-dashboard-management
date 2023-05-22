@@ -1,14 +1,16 @@
+"""
+#TODO: Mirar el siguiente link para mejorar el insertado de llaves foraneas: https://docs.djangoproject.com/en/4.2/topics/db/queries/#saving-foreignkey-and-manytomanyfield-fields
+
+"""
 from django.shortcuts import render
-import io
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from ..serializers.documentosAplicantes import DocumentosAplicantesSerializer
-from ..serializers.tipoDocumento import TipoDocumentoSerializer
 
-from ..models import DocumentosAplicantes, Aplicantes
+from ..models import DocumentosAplicantes, Aplicantes, TipoDocumento
 
 
 class DocumentosAplicantesViews(viewsets.ModelViewSet):
@@ -19,18 +21,26 @@ class DocumentosAplicantesViews(viewsets.ModelViewSet):
         
     @action(detail=False, methods=['post'])
     def load_files(self, request):
+        print("=========== documentosAplicantes.load_files() ===========\n")
         # Aquí solo llegan los 8 documentos de cargue iniciales
         files = request.data
         belongsToUserWithCedula = files['cedula']
-        aplicant = list(Aplicantes.objects.filter(cedula=belongsToUserWithCedula))
-        listOfFiles = list(files.items())[1:] 
-        for file in listOfFiles[1:]:
-            serializer = self.get_serializer(data={'idAplicante':aplicant[0].id , 'idTipo':listOfFiles.index(file) , 'archivo':file[1]})
+        aplicant = Aplicantes.objects.get(cedula=belongsToUserWithCedula)
+        listOfFiles = list(files.items())[1:]
+        print("\n\n")
+        print("Lista de archvios a guardar: ", listOfFiles)
+        print("\n\n")
+        for file in listOfFiles:
+            fileType = TipoDocumento.objects.get(tipo=file[0])
+            print("Archivo y llave foranea ",file[0], fileType )
+            print("\n\n")
+            serializer = self.get_serializer(data={'idAplicante':aplicant.id , 'idTipo':fileType.id , 'archivo':file[1]})
+            print("Información serializada antes de guardar en BD: ", serializer.initial_data)
+            print("\n\n")
             print("Aplicante a registrar ", serializer.initial_data)
             if serializer.is_valid():
                 serializer.save()
-            #TODO: Falta entender como anexar la FK de Aplicantes (es id propio de django) y resolver
-            # la situación con indicies de cada files[file]
+        print("=========================================================")
         return Response("Nais")
     
     def post(self, request, format=None):

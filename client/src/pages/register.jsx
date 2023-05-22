@@ -3,6 +3,7 @@
     #TODO: Validar cantidad de documentos enviados
     #TODO: Crear un objeto de test, cambiando los valores default 
     #TODO: Por que no funciona el retorno de ID por parte de createAplicant()?. Se mandara hasta que se solucione la cedula del aplicante.
+    #TODO: Por que o aparece en consola el registro de usuario antes del cargue de documentos?
 */
 
 
@@ -13,13 +14,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
-
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { createAplicant } from '../api/aplicantes';
-
-
 import "../styles/bodyInfo.css";
+
+import { createAplicant } from '../api/aplicantes';
 import { createDocuments } from '../api/documentos';
 
 
@@ -28,10 +27,12 @@ const Register = () => {
 
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (user, event) => {
-        // console.log(user);
-        // console.log(event)
-        createAplicant(user);
+    const onSubmit = (user) => {
+        createAplicant(user)
+            .then((res) => {
+                console.log("usuario creado", res.json());
+            })
+            .catch((err) => { console.log(err); });
         const formData = new FormData();
         formData.append("cedula", user.cedula);
         for (let key in user.files) {

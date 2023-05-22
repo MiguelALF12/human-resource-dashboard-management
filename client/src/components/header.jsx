@@ -44,8 +44,13 @@ const Header = ({ session = false }) => {
                             <>
                                 <Image src='client/src/styles/img/user.png' alt="user photo" fluid roundedCircle />
                                 <DropdownButton id="dropdown-basic-button" title="Bienvenido usuario">
-                                    <Dropdown.Item href="#/action-1">Configuración del perfil</Dropdown.Item>
-                                    <Dropdown.Item href="/">Salir</Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to="myAplications">Mis aplicaciones</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to="profile">Configuración de mi perfil</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>Salir</Dropdown.Item>
                                 </DropdownButton>
                             </>
                         )

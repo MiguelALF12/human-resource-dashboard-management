@@ -6,11 +6,18 @@ import Footer from "../components/footer";
 
 import '../styles/index.css'
 
-function Home() {
+import { Outlet } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+function Home(props) {
+    let location = useLocation();
+    console.log(location.pathname);
+
     return (
         <Container fluid id="homeContainer">
-            <Header session={false} />
-            <BodyInfo />
+            <Header session={props.haveUser} />
+            {location.pathname.includes('myAplications') || location.pathname.includes('profile') ?
+                <Outlet /> : <BodyInfo />}
             <Footer />
         </Container>
     );

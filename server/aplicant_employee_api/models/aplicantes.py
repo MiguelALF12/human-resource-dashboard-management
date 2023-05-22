@@ -43,4 +43,4 @@ class Aplicantes(models.Model):
     contratado = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.nombre
+        return str(self.id) + " " + self.nombre

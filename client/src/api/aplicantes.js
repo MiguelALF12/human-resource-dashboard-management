@@ -1,5 +1,8 @@
-// #TODO: Por que no funciona el retorno de ID por parte de #createAplicant?.Se mandara hasta que se solucione la cedula del aplicante.
-
+/**
+ * #TODO: Por que no funciona el retorno de ID por parte de #createAplicant?.Se mandara hasta que se solucione la cedula del aplicante.
+ * #TODO: Crear un indicativo de que el usuario ha sido o no creado. 
+ */
+import axios from 'axios'
 const baseURL = "http://localhost:8000/aplicant_employee_api/api/v1/aplicantes/";
 
 export const createAplicant = async (aplicant) => {
@@ -10,19 +13,20 @@ export const createAplicant = async (aplicant) => {
             'Content-Type': 'application/json',
         },
         "body": JSON.stringify(aplicant)
-    }).then((res) => { console.log(res); })
-        // .then((data) => {
-        //     // return new Promise((resolve, reject) => {
-        //     //     setTimeout(() => {
-        //     //         resolve(data);
-        //     //     }, 3);
-        //     // })
-        //     // console.log("data on api call: ", data)
-        //     return new Promise((resolve, reject) => {
-        //         resolve(data);
-        //         reject("Error con el ID de usuario");
-        //     });
-        // })
-        .catch((err) => { console.log(err); });
+    });
+}
 
+// export const authenticateUser = (credentials) => {
+
+//     return axios.post(baseURL + "authenticate/", JSON.stringify(credentials));
+// }
+export const authenticateUser = async (credentials) => {
+    return await fetch(
+        baseURL + "authenticate/", {
+        "method": 'POST',
+        "headers": {
+            'Content-Type': 'application/json',
+        },
+        "body": JSON.stringify(credentials)
+    }).then((res) => res.json());
 }
