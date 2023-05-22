@@ -12,7 +12,7 @@ import Home from './pages/home';
 import Loggin from './pages/loggin'
 import Register from './pages/register'
 import OfferDetails from './pages/offerDetails';
-import Applications from "./pages/user/applications"
+import Aplications from "./pages/user/aplications"
 import Profile from "./pages/user/profile"
 import Credentials from "./pages/user/components/confCredentials.jsx"
 import Personals from "./pages/user/components/confPersonal"
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "myAplications",
-        element: <Applications />
+        element: <Aplications />
       },
       {
         path: "profile",

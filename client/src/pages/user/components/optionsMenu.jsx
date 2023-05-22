@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-
-
-// import '../../../styles/userAnalystMenu.css'
+import '../../../styles/profileConfiguration.css';
 const optionsMenu = () => {
     return (
+
         <ListGroup >
-            <ListGroup.Item action variant="secondary" className='text-black'>
+            <ListGroup.Item action variant="secondary" >
                 <Link to="credentials" className='d-block'>Credenciales</Link>
             </ListGroup.Item>
-            <ListGroup.Item action variant="secondary" className='text-black'>
+            <ListGroup.Item action variant="secondary">
                 <Link to="personals" className='d-block'>Información personal</Link>
             </ListGroup.Item>
             <ListGroup.Item action variant="secondary">

@@ -5,12 +5,12 @@ import OptionsMenu from './components/optionsMenu'
 
 import { Outlet } from "react-router-dom";
 
-import '../../styles/bodyInfo.css';
+import '../../styles/profileConfiguration.css';
 
 const Profile = () => {
     return (
-        <Row id="analystBodyinfoArea">
-            <Col xs={12} md={2} id="menu">
+        <Row id="configOptionArea">
+            <Col xs={12} md={2} className="bg-light" id="menu">
                 <OptionsMenu />
             </Col>
             <Col xs={12} md={10}>

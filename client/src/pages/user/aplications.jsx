@@ -3,19 +3,20 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 
-import Offer from '../../components/offer'
-import '../../styles/bodyInfo.css';
+import Offer from './components/aplication'
+import '../../styles/userAplications.css'
 
 
 /* #TODO: Anexar comunicación con endpoint
  * #TODO: Crear comoponente de busqueda
  */
 
-const Applications = () => {
+const Aplications = () => {
     return (
         <Row id="bodyInfoContainer">
+            <h2>Mis aplicaiones</h2>
             <Col className="m-auto" xs={12} md={9}>
-                <Row>
+                {/* <Row>
                     <Col id="filterArea">
                         <h2>Ofertas de trabajo activas</h2>
                         <Form.Group className="mb-3">
@@ -26,7 +27,7 @@ const Applications = () => {
                             </Form.Select>
                         </Form.Group>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row>
                     <Col className="mt-2">
                         <span>Resultados de la busqueda: kjlk</span>
@@ -48,4 +49,4 @@ const Applications = () => {
     )
 }
 
-export default Applications;
+export default Aplications;
