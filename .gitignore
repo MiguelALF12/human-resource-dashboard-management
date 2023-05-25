@@ -99,3 +99,11 @@ dist
 
 # TernJS port file
 .tern-port
+
+# python cache files
+.server/aplicant_employee_api/__pycache__/
+.server/aplicant_employee_api/migrations/__pycache__/
+.server/aplicant_employee_api/models/__pycache__/
+.server/aplicant_employee_api/serializers/__pycache__/
+.server/aplicant_employee_api/viewsPkg/__pycache__/
+
