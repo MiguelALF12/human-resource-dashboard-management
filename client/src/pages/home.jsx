@@ -6,12 +6,22 @@ import Footer from "../components/footer";
 
 import '../styles/index.css'
 
-import { Outlet } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useLoaderData } from 'react-router-dom';
+
+import { getAplicant } from '../api/aplicantes';
+
+
+export const userLoader = async ({ params }) => {
+    const user = await getAplicant(params.id);
+    return { user }
+}
+
 
 function Home(props) {
     let location = useLocation();
-    console.log(location.pathname);
+    const user = useLoaderData();
+    console.log("Ruta actual despues de iniciar sesión: ", location.pathname);
+    console.log(user);
 
     return (
         <Container fluid id="homeContainer">

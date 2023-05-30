@@ -1,39 +1,140 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-
+import React, { useEffect, useState } from "react";
+import { set, useForm } from "react-hook-form";
+import { useRouteLoaderData } from "react-router-dom";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 
 import "../../../styles/profileConfiguration.css";
 
+import { getAplicantDocuments, updateDocs } from "../../../api/documentos";
+import { updateAplicant } from "../../../api/aplicantes";
+import { renameFile, cleanFileName } from "../../../utilities/files";
+import { compareTwoWithCriteria, compareTwoObjects } from "../../../utilities/components";
+import JSZip from "jszip";
+
 const Personals = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { user } = useRouteLoaderData("userSessionHome");
+
+    const handleSelectOptions = () => {
+        let indexDispuestoTraslado = compareTwoWithCriteria(user.dispuestoTraslado, [true, false]);
+        let indexHorasExtras = compareTwoWithCriteria(user.trabajarHorasExtra, [true, false]);
+        let optionsDispuestoTraslado = [document.getElementById("dispuestoTrasladoTrue"), document.getElementById("dispuestoTrasladoFalse")];
+        let optionsHorasExtras = [document.getElementById("dispuestoHorasExtrasTrue"), document.getElementById("dispuestoHorasExtrasFalse")];
+
+        optionsDispuestoTraslado[indexDispuestoTraslado].setAttribute("selected", "");
+        optionsHorasExtras[indexHorasExtras].setAttribute("selected", "");
+
+    };
+
+    useEffect(() => {
+        async function getDocuments() {
+            const res = await getAplicantDocuments(user.id);
+
+            const zip = new JSZip();
+            zip.loadAsync(res)
+                .then(function (zip) {
+                    // Obtener la lista de nombres de archivo
+                    const fileNames = Object.keys(zip.files);
+
+                    // Generar enlaces de descarga para cada archivo
+                    const downloadLinks = fileNames.map(function (fileName) {
+                        const file = zip.files[fileName];
+                        file.name = file.name.replace("Users/miguellopez/Desktop/UNIVERSIDAD/Projects/SW-Recursos-humanos/server/media/aplicants/", "")
+                        // Crear un objeto Blob a partir del contenido del archivo
+                        return file.async('blob')
+                            .then(function (fileData) {
+                                // Crear un enlace de descarga
+                                const link = document.createElement('a');
+                                link.href = URL.createObjectURL(fileData);
+                                link.download = file.name;
+                                link.textContent = file.name;
+                                link.id = cleanFileName(file.name.split('-')[1].split('.')[0].toLowerCase()) + "Viewer";
+                                return link;
+                            });
+                    });
+
+                    // Agregar los enlaces al DOM
+                    Promise.all(downloadLinks)
+                        .then(function (links) {
+                            links.forEach(function (link) {
+                                if (!document.getElementById(link.id).hasChildNodes()) {
+                                    document.getElementById(link.id).appendChild(link);
+                                }
+                            });
+                        });
+                })
+                .catch(function (error) {
+                    console.error('Error al cargar el archivo ZIP:', error);
+                });
+        };
+        handleSelectOptions();
+        getDocuments()
+
+    })
+
+    const onSubmit = (newOffersInfo) => {
+        // let newFiles = [];
+        const formData = new FormData();
+        for (const [documentType, file] of Object.entries(newOffersInfo.files)) {
+            // console.log(documentType, file);
+            if (file.length === 1) {
+                formData.append(documentType, renameFile(documentType, file[0]));
+            }
+        }
+        updateDocs(user.id, formData)
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => { console.log(err); });
+
+        delete newOffersInfo.files;
+        if (newOffersInfo.dispuestoTraslado === "Seleccionar") {
+            newOffersInfo.dispuestoTraslado = user.dispuestoTraslado;
+        }
+        if (newOffersInfo.trabajarHorasExtra === "Seleccionar") {
+            newOffersInfo.trabajarHorasExtra = user.trabajarHorasExtra;
+        }
+        if (compareTwoObjects(newOffersInfo, { experienciaLaboral: user.experienciaLaboral, dispuestoTraslado: user.dispuestoTraslado, trabajarHorasExtra: user.trabajarHorasExtra })) {
+            updateAplicant(user.id, newOffersInfo)
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((err) => { console.log(err); });
+        } else {
+            console.log("Información de oferta no alterada.")
+        }
+
+    }
+
+
+
     return <Row className="formConfigContainer">
+        {/* <div id="download-container"></div> */}
         <Col className="">
-            <Form>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <h3 className='mt-3'>Acerca de ofertas</h3>
                 <Row className='my-3'>
                     <Form.Group as={Col} controlId="formGroupUserWorkExerience">
                         <Form.Label>Experiencia verificable en años</Form.Label>
-                        <Form.Control type="text" placeholder="Años" defaultValue="1" {...register("experienciaLaboral", { required: true })} />
+                        <Form.Control type="text" placeholder="Años" defaultValue={user.experienciaLaboral} {...register("experienciaLaboral")} />
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGroupUserMovilizationCapacity">
                         <Form.Label>Estaría dispuesto a trasladarse</Form.Label>
-                        <Form.Select aria-label="Default select example" defaultValue="False" {...register("dispuestoTraslado", { required: true })}>
+                        <Form.Select aria-label="Default select example" {...register("dispuestoTraslado")}>
                             <option>Seleccionar</option>
-                            <option value="True">Si</option>
-                            <option value="False">No</option>
+                            <option id="dispuestoTrasladoTrue" value="True">Si</option>
+                            <option id="dispuestoTrasladoFalse" value="False">No</option>
                         </Form.Select>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGroupUserExtraHourCapacity">
                         <Form.Label>Estaría dispuesto a trabajar horas extras en cualquier horario?</Form.Label>
-                        <Form.Select aria-label="Default select example" defaultValue="False" {...register("trabajarHorasExtra", { required: true })}>
+                        <Form.Select aria-label="Default select example" {...register("trabajarHorasExtra")}>
                             <option>Seleccionar</option>
-                            <option value="True">Si</option>
-                            <option value="False">No</option>
+                            <option id="dispuestoHorasExtrasTrue" value="True">Si</option>
+                            <option id="dispuestoHorasExtrasFalse" value="False">No</option>
                         </Form.Select>
                     </Form.Group>
                 </Row>
@@ -50,43 +151,52 @@ const Personals = () => {
                     <Col>
                         <Form.Group controlId="formFileCedula" className="mb-3">
                             <Form.Label>Cedula ampliada al 150% </Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.CEDULA", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.CEDULA")} />
+                            <div id="cedulaViewer"></div>
                         </Form.Group>
                         <Form.Group controlId="formFileLibretaMilitar" className="mb-3">
                             <Form.Label>Libreta militar</Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.LIBRETA_MILITAR", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.LIBRETA_MILITAR")} />
+                            <div id="libreta_militarViewer"></div>
                         </Form.Group>
                         <Form.Group controlId="formFileHojaDeVida" className="mb-3">
                             <Form.Label>Hoja de vida</Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.HOJA_DE_VIDA", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.HOJA_DE_VIDA")} />
+                            <div id="hoja_de_vidaViewer"></div>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="formFileCertifications" className="mb-3">
                             <Form.Label>Certificados de educación </Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.CERTIFICADOS_EDUCACION", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.CERTIFICADOS_EDUCACION")} />
+                            <div id="certificados_educacionViewer"></div>
                         </Form.Group>
                         <Form.Group controlId="formFileExperienciaLaboral" className="mb-3">
                             <Form.Label>Cartas de experiencia laboral </Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.CARTAS_EXPERIENCIA_LABORAL", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.CARTAS_EXPERIENCIA_LABORAL")} />
+                            <div id="cartas_experiencia_laboralViewer"></div>
                         </Form.Group>
                         <Form.Group controlId="formFileEps" className="mb-3">
                             <Form.Label>Certificado de EPS</Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_EPS", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_EPS")} />
+                            <div id="certificado_epsViewer"></div>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="formFilePension" className="mb-3">
                             <Form.Label>Certificado de pensión</Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_PENSION", { required: true })} />
+                            <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_PENSION")} />
+                            <div id="certificado_pensionViewer"></div>
                         </Form.Group>
                         <Form.Group controlId="formFileBeneficios" className="mb-3">
                             <Form.Label>Beneficios</Form.Label>
-                            <Form.Control type="file" size="sm"  {...register("files.BENEFICIOS", { required: true })} />
+                            <Form.Control type="file" size="sm"  {...register("files.BENEFICIOS")} />
+                            <div id="beneficiosViewer"></div>
                         </Form.Group>
                         <Form.Group controlId="formFileOthers" className="mb-3">
                             <Form.Label>Otros</Form.Label>
-                            <Form.Control type="file" size="sm" multiple {...register("files.OTROS", { required: true })} />
+                            <Form.Control type="file" size="sm" multiple {...register("files.OTROS")} />
+                            <div id="otrosViewer"></div>
                         </Form.Group>
                     </Col>
                 </Row>

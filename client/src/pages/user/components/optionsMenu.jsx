@@ -1,3 +1,6 @@
+/*
+ * #TODO: Implementar función de eliminar cuenta.
+*/
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';

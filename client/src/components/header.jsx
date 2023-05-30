@@ -15,6 +15,7 @@ const Header = ({ session = false }) => {
     const [showAbout, setShowAbout] = useState(false);
     const handleCloseAbout = () => setShowAbout(false);
     const handleShowAbout = () => setShowAbout(true);
+
     return (
         <Row className="pt-2 border border-1">
             <Col xs={12} md={6} >
@@ -40,6 +41,7 @@ const Header = ({ session = false }) => {
             <Col className="text-end my-auto" xs={12} md={6} >
                 {(() => {
                     if (session === true) {
+
                         return (
                             <>
                                 <Image src='client/src/styles/img/user.png' alt="user photo" fluid roundedCircle />
@@ -50,7 +52,8 @@ const Header = ({ session = false }) => {
                                     <Dropdown.Item>
                                         <Link to="profile">Configuración de mi perfil</Link>
                                     </Dropdown.Item>
-                                    <Dropdown.Item>Salir</Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to="/">Salir</Link></Dropdown.Item>
                                 </DropdownButton>
                             </>
                         )

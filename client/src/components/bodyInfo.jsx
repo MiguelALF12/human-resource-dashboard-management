@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
@@ -7,6 +7,7 @@ import Offer from './offer.jsx'
 import "../styles/bodyInfo.css";
 
 const BodyInfo = () => {
+
     return (
         <Row id="bodyInfoContainer">
             <Col className="m-auto" xs={12} md={9}>

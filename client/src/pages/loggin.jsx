@@ -1,35 +1,44 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { authenticateUser } from '../api/aplicantes';
+import AlertMessage from '../components/alertMessage';
 
 import '../styles/loggin.css'
 
+import { authenticateUser } from '../api/aplicantes';
+
 const Loggin = () => {
     const navigate = useNavigate();
-
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [loginAlert, setLoginAlert] = useState([false, "", "", ""]);
+
+    const handleLoginAlert = (show, id, variant, message) => setLoginAlert([show, id, variant, message]);
 
     const onSubmit = async (credentials) => {
         const res = await authenticateUser(credentials);
+
         if (res.status === 'authenticated') {
-            let redirection = "/" + res.type + `/${credentials.cedula}`;
+            handleLoginAlert(false, "", "", "");
+            let redirection = "/" + res.type + `/${res.id}/${res.userName}`;
             navigate(redirection, { replace: true });
         } else if (res.status === 'unauthenticated') {
-            // Mostrar algo
-            console.log("wrong");
+            // alert("Usuario/contraseña incorrectos. Verifique!")
+            handleLoginAlert(true, "Bad user", "danger", "Usario/Contraseña incorrectos. Reintente!");
         }
     }
     const onError = (e) => {
-        alert("Tiene errores en su registro. Reviselo!")
+        handleLoginAlert(true, "No given information", "warning", "Ingrese usuario y contraseña.")
         console.log(e)
         // Al enviar el form con errores y mostrar e, se muestra el objeto de campos, con los campos que presentan error.
     }
-    return (
+    return (<>
+        <AlertMessage show={loginAlert[0]} id={loginAlert[1]} variant={loginAlert[2]} message={loginAlert[3]} />
+
+
         <div id="logginAreaDiv">
             <Row className="mt-5 shadow" id="logginArea">
                 <Col xs={12} md={6} className="bg-primary">
@@ -63,6 +72,7 @@ const Loggin = () => {
                 </Col>
             </Row>
         </div>
+    </>
     )
 };
 export default Loggin;

@@ -1,13 +1,14 @@
 /*
-    #TODO: Crear validacion, basarme en el sigueinte tutorial https://www.freecodecamp.org/news/add-form-validation-in-react-app-with-react-hook-form/
+    #TODO: Crear validacion, basarme en el sigueinte tutorial https://www.freecodecamp.org/news/add-form-validation-in-react-app-with-react-hook-form/ ; https://www.react-hook-form.com/api/useform/seterror/
     #TODO: Validar cantidad de documentos enviados
     #TODO: Crear un objeto de test, cambiando los valores default 
-    #TODO: Por que no funciona el retorno de ID por parte de createAplicant()?. Se mandara hasta que se solucione la cedula del aplicante.
-    #TODO: Por que o aparece en consola el registro de usuario antes del cargue de documentos?
+    #TODO: Por que o aparece en consola el registro de usuario antes del cargue de documentos
+    #TODO: Crear alerta cuando se crea nuevo usuario
+    #TODO: Colocar un warning al subir archivos que indique que el nombre de achivos no puede contener putnos, solo la extensión. aunque creo que esto ya es de por si un warning
 */
 
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 
@@ -21,8 +22,7 @@ import "../styles/bodyInfo.css";
 
 import { createAplicant } from '../api/aplicantes';
 import { createDocuments } from '../api/documentos';
-
-
+import { renameFile } from '../utilities/files';
 
 const Register = () => {
 
@@ -30,28 +30,25 @@ const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = (user) => {
         createAplicant(user)
-            .then((res) => {
-                console.log("usuario creado", res.json());
+            .then((data) => {
+                console.log("usuario creado: ", data);
             })
             .catch((err) => { console.log(err); });
+
         const formData = new FormData();
         formData.append("cedula", user.cedula);
         for (let key in user.files) {
-            // console.log(key, user.files[key][0])
-            formData.append(key, user.files[key][0])
+            // console.log(key, renameFile(key, user.files[key][0]));
+            formData.append(key, renameFile(key, user.files[key][0]));
         }
-        createDocuments(formData).then((res) => { console.log("Documentos subidos!", res); })
+        createDocuments(formData)
+            .then((data) => { console.log("Documentos subidos!", data); })
             .catch((err) => { console.log(err); });
-
-        // navigate("/");
-
-        // };
     }
 
     const onError = (e) => {
         alert("Tiene errores en su registro. Reviselo!")
         console.log(e)
-        // Al enviar el form con errores y mostrar e, se muestra el objeto de campos, con los campos que presentan error.
     }
 
 
@@ -160,27 +157,27 @@ const Register = () => {
                                     <Form.Label>Nivel de speaking</Form.Label>
                                     <Form.Select aria-label="Default select example" defaultValue="BAJA" {...register("speaking")}>
                                         <option>Seleccionar</option>
-                                        <option value="BAJA">Baja</option>
-                                        <option value="MEDIA">Media</option>
-                                        <option value="ALTA">Alta</option>
+                                        <option value="BAJA">BAJA</option>
+                                        <option value="MEDIA">MEDIA</option>
+                                        <option value="ALTA">ALTA</option>
                                     </Form.Select>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="UserEnglishSecondLangWritingWriting">
                                     <Form.Label>Nivel de writing</Form.Label>
                                     <Form.Select aria-label="Default select example" defaultValue="BAJA" {...register("writing")}>
                                         <option>Seleccionar</option>
-                                        <option value="BAJA">Baja</option>
-                                        <option value="MEDIA">Media</option>
-                                        <option value="ALTA">Alta</option>
+                                        <option value="BAJA">BAJA</option>
+                                        <option value="MEDIA">MEDIA</option>
+                                        <option value="ALTA">ALTA</option>
                                     </Form.Select>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="UserEnglishSecondLangWritingListening">
                                     <Form.Label>Nivel de listening</Form.Label>
                                     <Form.Select aria-label="Default select example" defaultValue="BAJA" {...register("listening")}>
                                         <option>Seleccionar</option>
-                                        <option value="BAJA">Baja</option>
-                                        <option value="MEDIA">Media</option>
-                                        <option value="ALTA">Alta</option>
+                                        <option value="BAJA">BAJA</option>
+                                        <option value="MEDIA">MEDIA</option>
+                                        <option value="ALTA">ALTA</option>
                                     </Form.Select>
                                 </Form.Group>
                             </Row>

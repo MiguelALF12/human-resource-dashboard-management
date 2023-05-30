@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
-  RouterProvider,
+  RouterProvider
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 
 // pages
-import Home from './pages/home';
+import Home, { userLoader } from './pages/home';
 import Loggin from './pages/loggin'
 import Register from './pages/register'
 import OfferDetails from './pages/offerDetails';
@@ -25,6 +25,7 @@ import ModuleOneHome from './pages/analyst/moduleOne/moduleOneHome';
 import Preselection from './pages/analyst/moduleOne/preselection';
 import SelectionPerfilation from './pages/analyst/moduleOne/selectionPerfilation';
 import ErrorPage from './pages/error';
+
 
 
 const router = createBrowserRouter([
@@ -46,8 +47,10 @@ const router = createBrowserRouter([
     element: <Register />
   },
   {
-    path: "/user/:id",
+    path: "/user/:id/:cedula",
     element: <Home haveUser={true} />,
+    id: "userSessionHome",
+    loader: userLoader,
     children: [
       {
         path: "myAplications",
@@ -82,7 +85,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/admin/:id",
+    path: "/admin/:id/:userName",
     element: <AnalystHome />,
     children: [
       {

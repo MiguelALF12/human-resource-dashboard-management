@@ -6,11 +6,9 @@ from .tipoDocumento import TipoDocumento
 
 
 class DocumentosAplicantes(models.Model):
-    # Cada vez que se elimine un aplicante, sua rchivo se eliminará también
     idAplicante = models.ForeignKey(Aplicantes, on_delete=models.CASCADE)
     idTipo = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE)
-    # TODO: Pendiente por resolver configuracion
-    archivo = models.FileField(upload_to="media/")
+    archivo = models.FileField(upload_to="aplicants")
 
     def __str__(self) -> str:
         return str(self.id) + " " + self.archivo.name

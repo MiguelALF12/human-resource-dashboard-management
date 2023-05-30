@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'coreapi',
-    'aplicant_employee_api'
+    'aplicant_employee_api',
+    'analyst_api'
 ]
 
 
@@ -134,7 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 
 # Uploaded files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'aplicant_employee_api/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/documents/'
 # API Docs
 REST_FRAMEWORK = {
