@@ -20,10 +20,11 @@ import Academics from "./pages/user/components/confAcademics"
 import AboutOffers from "./pages/user/components/confaboutOffers"
 import DeleteAccount from "./pages/user/components/confDeleteAccount"
 import AnalystHome from './pages/analyst/home';
-import Hall from './pages/analyst/hall';
-import ModuleOneHome from './pages/analyst/moduleOne/moduleOneHome';
-import Preselection from './pages/analyst/moduleOne/preselection';
-import SelectionPerfilation from './pages/analyst/moduleOne/selectionPerfilation';
+import Offers from './pages/analyst/components/moduleOne/offers';
+import Preselection from './pages/analyst/components/moduleOne/preselection';
+import SelectionPerfilation from './pages/analyst/components/moduleOne/selectionPerfilation';
+import MenuNomina from './pages/analyst/components/menuNomina';
+import MenuInteligenciaNegocio from './pages/analyst/components/menuInteligenciaNegocio';
 import ErrorPage from './pages/error';
 
 
@@ -89,12 +90,8 @@ const router = createBrowserRouter([
     element: <AnalystHome />,
     children: [
       {
-        path: "home",
-        element: <Hall />,
-      },
-      {
-        path: "module1",
-        element: <ModuleOneHome />,
+        path: "offers",
+        element: <Offers />,
         children: [
           {
             path: "preselection",
@@ -106,8 +103,18 @@ const router = createBrowserRouter([
           }
         ]
       },
-
+      {
+        path: "nomina",
+        element: <MenuNomina />
+      },
+      {
+        path: "inteligencianegocio",
+        element: <MenuInteligenciaNegocio />
+      }
     ]
+  },
+  {
+
   }
 ]);
 

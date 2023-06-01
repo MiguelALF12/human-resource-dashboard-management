@@ -117,7 +117,7 @@ const Register = () => {
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formGroupState">
                                         <Form.Label>Dirección</Form.Label>
-                                        <Form.Control type="text" placeholder="Ej: Parque industrial Manzana 6 Casa 4" defaultValue="Una casa" required {...register("direccion", { required: true })} />
+                                        <Form.Control type="text" placeholder="Ej: Parque industrial Manzana 6 Casa 4" defaultValue="Una casa" {...register("direccion", { required: true })} />
                                     </Form.Group>
                                 </Col>
                             </Row>

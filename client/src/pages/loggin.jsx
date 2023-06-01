@@ -20,7 +20,7 @@ const Loggin = () => {
 
     const onSubmit = async (credentials) => {
         const res = await authenticateUser(credentials);
-
+        console.log(res);
         if (res.status === 'authenticated') {
             handleLoginAlert(false, "", "", "");
             let redirection = "/" + res.type + `/${res.id}/${res.userName}`;

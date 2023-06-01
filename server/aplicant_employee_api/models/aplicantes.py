@@ -1,3 +1,6 @@
+"""
+# TODO: opciones de ciudad aquí con Field.Choices
+"""
 from django.db import models
 
 # Create your models here.
@@ -21,16 +24,13 @@ class Aplicantes(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     cedula = models.CharField(max_length=12, blank=False, default="0")
-    # userName = models.CharField(max_length=50,unique=True)
     correo = models.CharField(max_length=100)
     contrasena = models.CharField(max_length=50)
     numCelular = models.CharField(max_length=20)
     numTelefono = models.CharField(max_length=12)
-    # TODO: opciones de ciudad aquí con Field.Choices
     ciudad = models.CharField(max_length=15)
     direccion = models.TextField(default=True)
-    escolaridad = models.CharField(max_length=12,
-                                   choices=GRADOS_ESCOLARIDAD, default=ESCOLARIDAD_BACHILLER)
+    escolaridad = models.CharField(max_length=12,choices=GRADOS_ESCOLARIDAD, default=ESCOLARIDAD_BACHILLER)
     titulo = models.CharField(max_length=100, default=True)
     certificaciones = models.TextField(default=True)
     manejoIngles = models.BooleanField()
@@ -42,5 +42,33 @@ class Aplicantes(models.Model):
     trabajarHorasExtra = models.BooleanField(default=True)
     contratado = models.BooleanField(default=False)
 
+    @property
+    def as_object(self):
+        aplicant_as_object = {
+            "id": self.id,
+            "nombre": self.nombre,
+            "apellido": self.apellido,
+            "cedula": self.cedula,
+            "correo": self.correo,
+            "contrasena": self.contrasena,
+            "numCelular": self.numCelular,
+            "numTelefono": self.numTelefono,
+            "ciudad": self.ciudad,
+            "direccion": self.direccion,
+            "escolaridad": self.escolaridad,
+            "titulo": self.titulo,
+            "certificaciones": self.certificaciones,
+            "manejoIngles": self.manejoIngles,
+            "speaking": self.speaking,
+            "writing": self.writing,
+            "listening": self.listening,
+            "experienciaLaboral": self.experienciaLaboral,
+            "dispuestoTraslado": self.dispuestoTraslado,
+            "trabajarHorasExtra": self.trabajarHorasExtra,
+            "contratado": self.contratado
+        }
+        return aplicant_as_object
+
+    
     def __str__(self) -> str:
         return str(self.id) + " " + self.nombre

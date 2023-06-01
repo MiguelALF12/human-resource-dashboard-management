@@ -10,13 +10,15 @@ from rest_framework.documentation import include_docs_urls
 
 from .viewsPkg.aplicantes import AplicantesViews
 from .viewsPkg.documentosAplicantes import DocumentosAplicantesViews
-
-from .views import *
+from .viewsPkg.ofertas import OfertasViews
+from .viewsPkg.seleccionados import SeleccionadosViews
+from .viewsPkg.aplicaciones import AplicacionesViews
 
 router = routers.DefaultRouter()
 router.register(r'aplicantes', AplicantesViews, 'aplicantes')
 router.register(r'ofertas', OfertasViews, 'ofertas')
-router.register(r'aplicaciones', AplicacioneViews, 'aplicaciones')
+router.register(r'aplicaciones', AplicacionesViews, 'aplicaciones')
+router.register(r'seleccionados', SeleccionadosViews, 'seleccionados')
 router.register(r'documentosaplicante',
                 DocumentosAplicantesViews, 'documentosaplicantes')
 

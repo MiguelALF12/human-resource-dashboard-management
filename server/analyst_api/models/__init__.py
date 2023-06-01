@@ -11,3 +11,4 @@ from .retiros import Retiros
 from .tipoActividad import TipoActividad
 from .tipoDocumento import TipoDocumento
 from .tipoLiquidacion import TipoLiquidacion
+from .tipoContrato import TipoContrato
