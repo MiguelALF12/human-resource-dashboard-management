@@ -1,0 +1,20 @@
+#bodyInfoContainer {
+    min-height: 90vh;
+}
+
+#filterArea {
+    border-bottom: 1px solid black;
+}
+
+#analystBodyinfoArea {
+    min-height: 90vh;
+}
+
+#menu {
+    border-right: 2px solid black;
+    padding: 0px;
+}
+
+#formSection {
+    border-bottom: 2px solid black;
+}

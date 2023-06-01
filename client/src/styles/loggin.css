@@ -1,0 +1,13 @@
+#logginArea {
+    border-radius: 8px;
+    width: 75%;
+    height: 80%;
+}
+
+#logginAreaDiv {
+    height: 80vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}

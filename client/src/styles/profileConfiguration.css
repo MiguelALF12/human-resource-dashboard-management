@@ -1,0 +1,16 @@
+.formConfigContainer {
+    padding: 50px;
+}
+
+#configOptionArea {
+    min-height: 90vh;
+}
+
+#menu {
+    background-color: #cbcbcf;
+}
+
+#menu>li {
+    background-color: #cbcbcf;
+    ;
+}
