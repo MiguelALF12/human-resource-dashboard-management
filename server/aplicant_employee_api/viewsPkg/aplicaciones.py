@@ -15,9 +15,9 @@ class AplicacionesViews (viewsets.ModelViewSet):
 
     def list(self, request):
         print("=========== aplicaciones.list() ===========\n")
-        # queryset = self.filter_queryset(self.get_queryset())
-        # serializer = self.get_serializer(queryset, many=True)
-        # serializer.is_valid()
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(data=queryset, many=True)
+        serializer.is_valid()
         detailedUserInApplications = {} #{"offerId": {Aplicante.as_object}}
         for application in self.get_queryset():
             # detailedUserInApplications.append({application.idOferta.id: application.idAplicante.as_object})
@@ -26,7 +26,7 @@ class AplicacionesViews (viewsets.ModelViewSet):
             else:
                 detailedUserInApplications[application.idOferta.id] = [application.idAplicante.as_object]
         
-        return Response(data=detailedUserInApplications , status=status.HTTP_200_OK)
+        return Response(data=[detailedUserInApplications,serializer.data] , status=status.HTTP_200_OK)
     
         
         #Retornar aplicaciones y objetos con ususario-oferta

@@ -41,7 +41,6 @@ const Preselection = () => {
         const loadOffersApplications = async () => {
             const offersRes = await getOffers();
             const aplicationsRes = await getAplications();
-            console.log(aplicationsRes)
             setOffers(offersRes);
             setAplications(aplicationsRes)
         }
@@ -70,14 +69,16 @@ const Preselection = () => {
                     <h4>Aplicantes</h4>
                     <div id="aplicantsArea">
                         {/* Table component */}
-                        <AplicantsTable clickedAplicant={handleClickedAplicant} clickedOffer={clickedOffer} aplication={aplications[parseInt(clickedOffer.split('-')[1])]} />
+                        {/* {console.log("preselection clickedOffer: ", clickedOffer)} */}
+                        <AplicantsTable clickedAplicant={handleClickedAplicant} aplication={clickedOffer === "0" ? "undefined" : aplications[0][parseInt(clickedOffer.split('-')[1])]} />
                     </div>
                 </Col>
                 <Col xs={12} md={4} className="border border-1">
                     <h4>Información del aplicante</h4>
                     <div id="aplicantsArea">
                         {/* userInformationComponent */}
-                        {isNaN(parseInt(clickedAplicant.split('-')[1])) ? "Seleccione un aplicante para visualizar su información" : <AplicantInformation aplicant={aplications[parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])]} />}
+                        {/* {console.log("Que es Clickedapplicant: ", clickedAplicant)} */}
+                        {clickedAplicant === "0" ? "Seleccione un aplicante para visualizar su información" : <AplicantInformation aplicant={aplications[0][parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])]} />}
                     </div>
                 </Col>
             </Row>
@@ -99,11 +100,12 @@ const Preselection = () => {
                 </Col>
             </Row >
             <MedicalAppointment show={showMedicalAppointment} close={handleCloseMedicalAppointment}
+                // aplicant=[aplicant.id, aplicant.correo, offer.id, aplication.id]
                 aplicant={clickedAplicant === "0" ? "" :
-                    [aplications[parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])].id,
-                    aplications[parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])].correo,
-                    offers.find(offer => offer.id === parseInt(clickedOffer.split('-')[1])
-                    )]}
+                    [aplications[0][parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])].id,
+                    aplications[0][parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])].correo,
+                    offers.find(offer => offer.id === parseInt(clickedOffer.split('-')[1]))]}
+                aplicationsObjects={aplications[1]}
             />
 
         </>

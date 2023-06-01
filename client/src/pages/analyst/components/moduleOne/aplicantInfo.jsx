@@ -5,7 +5,7 @@ import Image from "react-bootstrap/Image";
 import Stack from 'react-bootstrap/Stack';
 
 const AplicantInformation = (props) => {
-    console.log(props)
+    // console.log("aplicant info: ", props.aplicant)
     return (
         <>
             <Row>
@@ -69,6 +69,7 @@ const AplicantInformation = (props) => {
                     </Stack>
                 </Col>
             </Row>
+
 
         </>
 

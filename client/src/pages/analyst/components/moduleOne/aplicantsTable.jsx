@@ -5,6 +5,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 const AplicantsTable = (props) => {
+    console.log("aplicants table: props.aplication ", props.aplication, " Igual a algo?", typeof (props.aplication) == "object" ? "Yes" : "No")
     return (
         <Table striped bordered hover>
             <thead>
@@ -16,7 +17,7 @@ const AplicantsTable = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {typeof (props.aplication) !== "undefined" ? props.aplication.map((aplicant, index) => {
+                {typeof (props.aplication) == "object" ? props.aplication.map((aplicant, index) => {
                     return (
                         <tr key={"aplicant-" + index} id={"aplicant-" + index} onClick={event => props.clickedAplicant(event.currentTarget.getAttribute("id"))}>
                             <td>{aplicant.nombre}</td>
