@@ -1,10 +1,8 @@
 /*
     #TODO: Crear validacion, basarme en el sigueinte tutorial https://www.freecodecamp.org/news/add-form-validation-in-react-app-with-react-hook-form/ ; https://www.react-hook-form.com/api/useform/seterror/
     #TODO: Validar cantidad de documentos enviados
-    #TODO: Crear un objeto de test, cambiando los valores default 
-    #TODO: Por que o aparece en consola el registro de usuario antes del cargue de documentos
     #TODO: Crear alerta cuando se crea nuevo usuario
-    #TODO: Colocar un warning al subir archivos que indique que el nombre de achivos no puede contener putnos, solo la extensión. aunque creo que esto ya es de por si un warning
+    #TODO: Cambiar el required de los campos
 */
 
 

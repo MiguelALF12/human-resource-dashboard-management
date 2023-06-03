@@ -7,8 +7,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import '../../../styles/userAnalystMenu.css'
-const MenuInteligenciaNegocio = () => {
+// import '../../../styles/nomina.css'
+const InteligenciaNegocio = () => {
     return (
         <Row className='border border-primary my-4'>
             <Col className='d-flex justify-content-start'>
@@ -22,4 +22,4 @@ const MenuInteligenciaNegocio = () => {
     )
 };
 
-export default MenuInteligenciaNegocio;
+export default InteligenciaNegocio;

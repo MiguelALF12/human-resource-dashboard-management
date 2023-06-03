@@ -1,5 +1,4 @@
 from django.db import models
-from .contratos import Contratos
 # Create your models here.
 
 
@@ -20,8 +19,8 @@ class Empleados(models.Model):
     numTelefono = models.CharField(max_length=12)
     ciudad = models.CharField(max_length=15)
     direccion = models.TextField(default=True)
-    estado = models.CharField(max_length=30, choices=ESTADO_EMPLEADO) 
-    idContrato = models.ForeignKey(Contratos, on_delete=models.CASCADE)
+    estado = models.CharField(max_length=30, choices=ESTADO_EMPLEADO)
+    resultadosEntrevista = models.TextField(blank=True) 
     
     def __str__(self) -> str:
         return str(self.id) + " " + self.cedula + self.nombre

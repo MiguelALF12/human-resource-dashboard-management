@@ -13,7 +13,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from ..serializers.documentosAplicantes import DocumentosAplicantesSerializer
 from ..models import DocumentosAplicantes, Aplicantes, TipoDocumento
 
-from ..utilities.variousFunctions import zipFiles
+from utilities.variousFunctions import zipFiles
 
 class DocumentosAplicantesViews(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser, JSONParser)

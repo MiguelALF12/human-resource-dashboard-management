@@ -10,3 +10,29 @@ export const createSeleccionado = async (selectedAplicant) => {
         "body": JSON.stringify(selectedAplicant)
     }).then((res) => res.json());
 }
+
+
+export const getSeleccionados = async () => {
+    return await fetch(baseURL, {
+        "method": "GET",
+        "headers": {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then((res) => res.json());
+}
+
+export const updateSeleccionadoState = async (seleccionId, newState) => {
+    return await fetch(
+        baseURL + seleccionId + '/',
+        {
+            "method": 'PATCH',
+            "headers": {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            "body": JSON.stringify(newState)
+        }
+
+    ).then((res) => res.json());
+}

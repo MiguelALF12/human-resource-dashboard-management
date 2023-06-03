@@ -1,0 +1,50 @@
+#sharedMenucontainer {
+    min-height: 10vh;
+    background-color: rgb(187, 187, 187);
+}
+
+#hiringOptArea {
+    height: 60px;
+}
+
+.menuOptionTitle {
+    color: #737272;
+}
+
+.menuOptArea {
+    border-right: 2px solid #4e4e4e;
+}
+
+.menuOptBtnAreaSpecial {
+    background-color: #797878;
+    border: 0;
+
+}
+
+.menuOptBtn {
+    background-color: transparent;
+    color: black;
+    border: 0;
+
+}
+
+.menuOptBtn:hover {
+    background-color: #979797;
+    cursor: pointer;
+}
+
+.menuOptBtnAreaSpecial:hover {
+    background-color: #979797;
+    cursor: pointer;
+}
+
+#conceptosAfiliaciónSeguridadSocial {
+    min-height: 60vh;
+}
+
+#conceptosAfiliaciónSeguridadSocial>button {
+    margin: 0;
+    height: 180px;
+    width: 100%;
+    border: 1px solid black;
+}

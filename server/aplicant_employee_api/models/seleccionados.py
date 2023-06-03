@@ -4,10 +4,8 @@ from .aplicaciones import Aplicaciones
 
 
 class Seleccionados(models.Model):
-    PRESELECCION = "PRESELECCION"
     SELECCION = "SELECCION"
-    CONTRATACION = "CONTRATACION"
-    FASES = [(PRESELECCION, "Preselección"), (SELECCION,
-                                              "Selección"), (CONTRATACION, "Contratación")]
+    PRECONTRATACION = "PRE_CONTRATACION"
+    FASES = [(SELECCION,"Selección"), (PRECONTRATACION, "Precontratación")]
     idAplicacion = models.ForeignKey(Aplicaciones, on_delete=models.CASCADE)
-    faseAplicante = models.CharField(max_length=13, choices=FASES)
+    faseAplicante = models.CharField(max_length=17, choices=FASES)

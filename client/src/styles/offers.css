@@ -1,0 +1,26 @@
+#preselectionSelectionContainer {
+    min-height: 70vh;
+}
+
+#aplicantsArea {
+    border: 1px dashed grey;
+    border-radius: 8px;
+}
+
+div>h6 {
+    margin: 0;
+}
+
+#hiringProcessesContainer {
+    min-height: 70vh;
+}
+
+.hiringProcessBtns {
+    height: 40%;
+    margin: 10px 0;
+}
+
+.scrollableAssArea {
+    overflow: auto;
+    height: 70vh;
+}

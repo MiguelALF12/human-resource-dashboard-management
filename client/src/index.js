@@ -20,13 +20,16 @@ import Academics from "./pages/user/components/confAcademics"
 import AboutOffers from "./pages/user/components/confaboutOffers"
 import DeleteAccount from "./pages/user/components/confDeleteAccount"
 import AnalystHome from './pages/analyst/home';
-import Offers from './pages/analyst/components/moduleOne/offers';
-import Preselection from './pages/analyst/components/moduleOne/preselection';
-import SelectionPerfilation from './pages/analyst/components/moduleOne/selectionPerfilation';
-import MenuNomina from './pages/analyst/components/menuNomina';
-import MenuInteligenciaNegocio from './pages/analyst/components/menuInteligenciaNegocio';
+import Offers from './pages/analyst/offers/offers';
+import OffersHandling from './pages/analyst/offers/offerHandling';
+import Preselection from './pages/analyst/offers/preselection';
+import SelectionPerfilation from './pages/analyst/offers/selectionPerfilation';
+import Entry from './pages/analyst/offers/hiringProcess/entry';
+import { aplicantLoader } from './pages/analyst/offers/hiringProcess/entry';
+import Nomina from './pages/analyst/nomina/nomina';
+import AfiliacionSeguridadSocial from './pages/analyst/nomina/afiliacionSeguridadSocial';
+import InteligenciaNegocio from './pages/analyst/inteligenciaNegocio/inteligenciaNegocio';
 import ErrorPage from './pages/error';
-
 
 
 const router = createBrowserRouter([
@@ -94,22 +97,38 @@ const router = createBrowserRouter([
         element: <Offers />,
         children: [
           {
+            path: "offersHandling",
+            element: <OffersHandling />
+          },
+          {
             path: "preselection",
             element: <Preselection />
           },
           {
             path: "selectionPerfilation",
             element: <SelectionPerfilation />
+          },
+          {
+            path: ":id/hiringProcess",
+            element: <Entry />,
+            loader: aplicantLoader
           }
+
         ]
       },
       {
         path: "nomina",
-        element: <MenuNomina />
+        element: <Nomina />,
+        children: [
+          {
+            path: "afiliacionSeguridadSocial",
+            element: <AfiliacionSeguridadSocial />
+          },
+        ]
       },
       {
         path: "inteligencianegocio",
-        element: <MenuInteligenciaNegocio />
+        element: <InteligenciaNegocio />
       }
     ]
   },

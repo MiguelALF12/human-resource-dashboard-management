@@ -2,7 +2,7 @@ from django.db import models
 
 class TipoContrato(models.Model):
 
-    FIJO = "CEDULA"
+    FIJO = "FIJO"
     PARCIAL = "PARCIAL"
     TIPOS_DE_CONTRATO = [
         (FIJO, "Fijo"),

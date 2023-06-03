@@ -1,5 +1,5 @@
 /**
- * #TODO: Fetch para crear seleccionados. Pensar en manera de como traer el ID de la aplicación.
+ * #TODO: POner en la tabla de aplicantes su estado, ademas de validar que no se pueda volver a seleccionar a un aplicante seleccionad a una oferta especifica.
  */
 import React, { useState, useEffect, useMemo } from 'react';
 import Row from "react-bootstrap/Row";
@@ -8,12 +8,12 @@ import Button from "react-bootstrap/Button";
 import ActiveOffer from './activeOffer';
 import AplicantsTable from "./aplicantsTable";
 import AplicantInformation from './aplicantInfo';
-import Pagination from '../../../../components/pagination';
-import '../../../../styles/moduleOne.css';
+import Pagination from '../../../components/pagination';
+import '../../../styles/offers.css';
 import MedicalAppointment from './medicalAppointment';
 
-import { getOffers } from '../../../../api/ofertas';
-import { getAplications } from '../../../../api/aplicaciones';
+import { getOffers } from '../../../api/ofertas';
+import { getAplications } from '../../../api/aplicaciones';
 
 let PageSize = 4;
 
@@ -30,8 +30,7 @@ const Preselection = () => {
     const handleCloseMedicalAppointment = () => setShowMedicalAppointment(false);
     const handleShowMedicalAppointment = () => {
         if (clickedAplicant.includes("aplicant-")) {
-            console.log(clickedAplicant)
-
+            // console.log(clickedAplicant)
             setShowMedicalAppointment(true);
         };
     }
@@ -58,7 +57,7 @@ const Preselection = () => {
 
     return (
         <>
-            <Row className="mt-3 mx-3" id="preselectionContainer">
+            <Row className="mt-3 mx-3" id="preselectionSelectionContainer">
                 <Col xs={12} md={3} className="border border-1">
                     <h4>Ofertas Activas</h4>
                     {currentListedOffers.map((offer) =>

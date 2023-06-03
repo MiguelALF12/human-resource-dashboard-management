@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+/**
+ * #TODO: Refactorizar la función getDocuments() en use effect poniendola en otra carpeta
+ */
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useRouteLoaderData } from "react-router-dom";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
