@@ -64,7 +64,7 @@ const AplicantFilesVerification = (props) => {
                 }
             }
             addDataIntoLocalStorage(formData);
-            // document.location.href = `${props.aplicant.id}/hiringProcess/`;
+            document.location.href = `${props.aplicant.id}/hiringProcess/`;
         } else {
             // Queda la duda de que hacer cuando la contratación es indirecta.
             alert("El aplicante no puede pasar al siguiente proceso. La contratación debe ser DIRECTA, su estado debe ser PRE-CONTRATACION y tanto los documentos de HOJA DE VIDA como CEDULA deben ser validos (check).")
