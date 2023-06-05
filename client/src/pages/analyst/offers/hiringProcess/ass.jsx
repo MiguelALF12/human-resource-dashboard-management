@@ -1,8 +1,8 @@
 /*
  * #TODO: HAcer fecth con endpoint de DocumentosEmpleados, en el apartado de otros. 
  */
-import React, {useState} from "react";
-import {useForm} from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button";
 import { renameFile } from "../../../../utilities/files";
 
 const Ass = (props) => {
-    const {register, handleSubmit} = useForm();
+    const { register, handleSubmit } = useForm();
     let emailMsg = {
         subject: "Afiliaci%C3%B3n%20a%20COOMEVA-%20SANITAS-%20NUEVA%20EPS",
         body: `Muy%20buen%20d%C3%ADa%20Luz%20Polonia%2C%0D%0A%0D%0ARelaciono%20entonces%20los%20siguientes%20datos%3A%0D%0A%0D%0ADatos%20de%20nueva%20empleada%20para%20afiliaci%C3%B3n%20a%20Eps%20Coomeva%3A%0D%0A
@@ -31,10 +31,11 @@ const Ass = (props) => {
         formData.append("cedula", props.aplicant.cedula);
         formData.append("id", props.aplicant.id);
         for (let key in socialSecurityFiles.files) {
-            console.log(key, renameFile(key, socialSecurityFiles.files[key][0]));
+            // console.log(key, renameFile(key, socialSecurityFiles.files[key][0]));
             formData.append(key, renameFile(key, socialSecurityFiles.files[key][0]));
         }
         props.files(formData);
+        alert("Puede continuar a la fase de contratación!");
     }
     return (
         <Row className="py-5 ps-2">
@@ -158,33 +159,33 @@ const Ass = (props) => {
                 </p>
                 <hr class="border border-2 opacity-50" />
                 <p>
-                    Una vez realizado el registro según el tipo de afiliación social, y obtenido el comprobante de afiliación, usted deberá subir dichos documentos en los campos que siguen a continuación: <br/>
+                    Una vez realizado el registro según el tipo de afiliación social, y obtenido el comprobante de afiliación, usted deberá subir dichos documentos en los campos que siguen a continuación: <br />
                     <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Row className="py-5">
-                            
-                        <Col>
-                            <Form.Group controlId="formFileCertifications" className="mb-3">
-                                <Form.Label>Comprobante ARL<br /></Form.Label>
-                                <Form.Control type="file" size="sm" {...register("files.ARL", { required: true })} />
+                        <Row className="py-5">
+
+                            <Col>
+                                <Form.Group controlId="formFileCertifications" className="mb-3">
+                                    <Form.Label>Comprobante ARL<br /></Form.Label>
+                                    <Form.Control type="file" size="sm" {...register("files.ARL", { required: true })} />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="formFileCertifications" className="mb-3">
+                                    <Form.Label>Comprobante Caja de Compensación Familiar</Form.Label>
+                                    <Form.Control type="file" size="sm" {...register("files.CAJA_COMPENSACION", { required: true })} />
+                                </Form.Group>
+                            </Col>
+                            <Col><Form.Group controlId="formFileCertifications" className="mb-3">
+                                <Form.Label>Comprobante EPS<br /></Form.Label>
+                                <Form.Control type="file" size="sm" {...register("files.EPS", { required: true })} />
                             </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group controlId="formFileCertifications" className="mb-3">
-                                <Form.Label>Comprobante Caja de Compensación Familiar</Form.Label>
-                                <Form.Control type="file" size="sm" {...register("files.CAJA_COMPENSACION", { required: true })} />
-                            </Form.Group>
-                        </Col>
-                        <Col><Form.Group controlId="formFileCertifications" className="mb-3">
-                            <Form.Label>Comprobante EPS<br /></Form.Label>
-                            <Form.Control type="file" size="sm" {...register("files.EPS", { required: true })} />
-                        </Form.Group>
-                        </Col>
-                        <Col xs={12} md={12} lg={12} className="d-flex justify-content-between">
-                            <span>IMPORTANTE: Si no suministra los comprobantes no podrá continuar.</span>
-                            <Button type="submit">Enviar</Button>
+                            </Col>
+                            <Col xs={12} md={12} lg={12} className="d-flex justify-content-between">
+                                <span>IMPORTANTE: Si no suministra los comprobantes no podrá continuar.</span>
+                                <Button type="submit">Enviar</Button>
                             </Col>
                         </Row>
-                        </Form>
+                    </Form>
                 </p>
 
             </Col>
@@ -193,25 +194,3 @@ const Ass = (props) => {
 };
 
 export default Ass;
-
-// Muy buen día Luz Polonia,
-
-// Relaciono entonces los siguientes datos:
-
-// Datos de nueva empleada para afiliación a Eps Coomeva:
-//     -Nombre: ${props.aplicant.nombre}
-//     - Cédula: ${props.aplicant.cedula}
-//     - Dirección: ${props.aplicant.direccion} Teléfono: 3205359713
-//     - Fecha de ingreso: ${props.aplicant.fechaInicioOferta}
-//     - Cargo: ${props.aplicant.nombreOferta}
-//     - Salario: ${props.aplicant.salarioOferta}
-//     - Arl: Colpatria
-//     - Fondo de Pensiones: Porvenir
-        
-// Datos empresa:
-//     - Razón social: Localizamos TSA S.A.S.
-//     - Nit: 900.619.003-5
-//     - Dirección: Calle 1 No. 12 - 18 Barrio Popular Modelo
-//     - Teléfono: 3444050
-
-// Mil gracias por su colaboración y quedamos atentos a sus comentarios.

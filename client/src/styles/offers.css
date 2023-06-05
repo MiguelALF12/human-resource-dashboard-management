@@ -1,4 +1,4 @@
-#preselectionSelectionContainer {
+.preselectionSelectionContainer {
     min-height: 70vh;
 }
 
@@ -23,4 +23,16 @@ div>h6 {
 .scrollableAssArea {
     overflow: auto;
     height: 70vh;
+}
+
+#editOfferRecordBtn {
+    width: 35px;
+    height: 35px;
+    background-image: url('img/icons8-edit-32.png');
+}
+
+#deleteOfferRecordBtn {
+    width: 35px;
+    height: 35px;
+    background-image: url('img/icons8-delete-32.png');
 }

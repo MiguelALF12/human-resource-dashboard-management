@@ -12,7 +12,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from ..serializers.documentosEmpleados import DocumentosEmpleadosSerializer
 from ..models import DocumentosEmpleados, Empleados, TipoDocumento
 
-from ...utilities.variousFunctions import zipFiles
+from utilities.variousFunctions import zipFiles
 
 class DocumentosEmpleadosViews(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
@@ -25,16 +25,17 @@ class DocumentosEmpleadosViews(viewsets.ModelViewSet):
         # Llega cualquier cantidad de documentos
         files = request.data
         belongsToUserWithCedula = files['cedula']
-        aplicant = Empleados.objects.get(cedula=belongsToUserWithCedula)
+        employee = Empleados.objects.get(cedula=belongsToUserWithCedula)
         listOfFiles = list(files.items())[1:]
+        print("Empleado relacionado: ", employee)
         print("\n\n")
         print("Lista de archvios a guardar: ", listOfFiles)
         print("\n\n")
         for file in listOfFiles:
-            fileType = TipoDocumento.objects.get(tipo=file[0])
+            fileType = TipoDocumento.objects.get(tipo="OTROS")
             print("Archivo y llave foranea ",file[0], fileType )
             print("\n\n")
-            serializer = self.get_serializer(data={'idAplicante':aplicant.id , 'idTipo':fileType.id , 'archivo':file[1]})
+            serializer = self.get_serializer(data={'idEmpleado':employee.id , 'idTipo':fileType.id , 'archivo':file[1]})
             print("Información serializada antes de guardar en BD: ", serializer.initial_data)
             print("\n\n")
             if serializer.is_valid():

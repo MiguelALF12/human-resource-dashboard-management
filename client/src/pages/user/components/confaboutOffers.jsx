@@ -79,7 +79,7 @@ const Personals = () => {
     })
 
     const onSubmit = (newOffersInfo) => {
-        // let newFiles = [];
+        console.log("Nueva información: ", newOffersInfo);
         const formData = new FormData();
         for (const [documentType, file] of Object.entries(newOffersInfo.files)) {
             // console.log(documentType, file);

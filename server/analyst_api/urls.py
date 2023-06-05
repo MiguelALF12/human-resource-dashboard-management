@@ -4,8 +4,11 @@ from rest_framework.documentation import include_docs_urls
 
 from .viewsPkg.empleados import EmpleadosViews
 from .viewsPkg.contratos import ContratosViews
+from .viewsPkg.documentosEmpleados import DocumentosEmpleadosViews
+
 router = routers.DefaultRouter()
 router.register(r'empleados', EmpleadosViews, 'empleados')
+router.register(r'documentosempleados', DocumentosEmpleadosViews, 'documentosempleados')
 router.register(r'contratos', ContratosViews, 'contratos')
 urlpatterns = [
     path("api/v1/", include(router.urls)),

@@ -57,7 +57,7 @@ const Preselection = () => {
 
     return (
         <>
-            <Row className="mt-3 mx-3" id="preselectionSelectionContainer">
+            <Row className="preselectionSelectionContainer mt-3 mx-3">
                 <Col xs={12} md={3} className="border border-1">
                     <h4>Ofertas Activas</h4>
                     {currentListedOffers.map((offer) =>

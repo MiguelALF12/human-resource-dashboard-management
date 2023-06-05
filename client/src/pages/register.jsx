@@ -25,7 +25,7 @@ import { renameFile } from '../utilities/files';
 const Register = () => {
 
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const onSubmit = (user) => {
         createAplicant(user)
             .then((data) => {
@@ -80,7 +80,6 @@ const Register = () => {
                                         <Form.Label>Contraseña</Form.Label>
                                         <Form.Control type="password" placeholder="Contraseña" defaultValue="someDifficultPassword" {...register("contrasena", { required: true, maxLenght: 50 })} />
                                     </Form.Group>
-                                    {errors.contrasena && <p>Introduzca una contraseña menor a 50 caracteres</p>}
                                 </Col>
                             </Row>
                             <h3 className='mt-3'>Información personal</h3>

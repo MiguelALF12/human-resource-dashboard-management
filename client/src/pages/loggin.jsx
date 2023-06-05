@@ -23,7 +23,7 @@ const Loggin = () => {
         console.log(res);
         if (res.status === 'authenticated') {
             handleLoginAlert(false, "", "", "");
-            let redirection = "/" + res.type + `/${res.id}/${res.userName}`;
+            let redirection = `/${res.type}/${res.id}/${res.username}`;
             navigate(redirection, { replace: true });
         } else if (res.status === 'unauthenticated') {
             // alert("Usuario/contraseña incorrectos. Verifique!")

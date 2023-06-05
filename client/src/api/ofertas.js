@@ -9,3 +9,4 @@ export const getOffers = async () => {
         },
     }).then((res) => res.json());
 }
+

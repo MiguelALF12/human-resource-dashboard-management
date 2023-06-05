@@ -36,3 +36,18 @@ export const updateSeleccionadoState = async (seleccionId, newState) => {
 
     ).then((res) => res.json());
 }
+
+export const removeSeleccionado = async (selectionId) => {
+    console.log(selectionId);
+    return await fetch(
+        baseURL + selectionId + '/',
+        {
+            "method": 'DELETE',
+            "headers": {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }
+
+    ).then((res) => res.text());
+}

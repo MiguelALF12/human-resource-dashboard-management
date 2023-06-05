@@ -49,8 +49,8 @@ const AplicantFilesVerification = (props) => {
     }
     // console.log("Aplicante seleccionado", props.aplicant);
     const onSubmit = (userValidationPreHiring) => {
-        // Solo continuamos con la contratación si esta es directa
-        console.log("validación de usuario pre hiring: ", userValidationPreHiring);
+
+        console.log("eliminar seleccionados: ", userValidationPreHiring)
         if (!disableCheck[0] && props.aplicant.faseAplicante === "PRE_CONTRATACION" && userValidationPreHiring.hojaDeVidaCheck && userValidationPreHiring.cedulaCheck) {
             const formData = new FormData();
             for (const [key, value] of Object.entries(userValidationPreHiring)) {
@@ -63,6 +63,7 @@ const AplicantFilesVerification = (props) => {
                     }
                 }
             }
+            formData.append("idSeleccion", props.aplicant.idSeleccion)
             addDataIntoLocalStorage(formData);
             document.location.href = `${props.aplicant.id}/hiringProcess/`;
         } else {

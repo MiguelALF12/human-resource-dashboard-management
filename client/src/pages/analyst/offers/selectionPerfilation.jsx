@@ -29,14 +29,15 @@ const SelectionPerfilation = () => {
     const handleCloseChangeAplicantState = () => setChangeAplicantState(false);
 
     useEffect(() => {
-        const loadOffersApplications = async () => {
+        const loadOffersSelections = async () => {
             const selectedRes = await getSeleccionados();
             setSelectedAplicants(selectedRes);
         }
-        loadOffersApplications();
+        loadOffersSelections();
 
 
     }, []);
+
     const currentListedOffers = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
@@ -46,7 +47,7 @@ const SelectionPerfilation = () => {
 
     return (
         <>
-            <Row className="mx-3" id="preselectionSelectionContainer">
+            <Row className="preselectionSelectionContainer mx-3">
                 <Col xs={12} md={7} lg={7} className='border border-1 pt-3'>
                     <div className='d-flex justify-content-between'>
                         <h4>Aplicantes seleccionados a entrevistar/entrevistados</h4>

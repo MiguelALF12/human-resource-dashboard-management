@@ -34,7 +34,7 @@ export const getAplicant = async (identification) => {
             "headers": {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
         }
 
     ).then((res) => res.json());

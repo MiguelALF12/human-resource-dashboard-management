@@ -18,11 +18,13 @@ class EmpleadosViews(viewsets.ModelViewSet):
     def create(self, request):
         print("=========== empleados.create() ===========\n")
         aplicantToEmployee = Aplicantes.objects.get(id=request.data["id"]).as_object
+        print("(objeto en modelo Aplicante) Aplicante a ser contratado ", aplicantToEmployee, "\n\n")
         aplicantToEmployee["estado"] = "ACTIVO"
+        aplicantToEmployee["resultadosEntrevista"] = request.data["resultadosEntrevista"]
         serializer = self.get_serializer(data=aplicantToEmployee)
         print("(Serializable) Aplicante contratado: ", serializer.initial_data)
         if serializer.is_valid(raise_exception=True):
-            self.perform_create(serializer) # Save the serilized data into BD 
+            serializer.save()
             print("Nuevo empleado registrado!\n")
-        headers = self.get_success_headers(serializer.data) # Obtiene headers necesarios de formato de aceptación de petición
-        return Response(data={}, status=status.HTTP_201_CREATED, headers=headers)
+        newEmployeeId = Empleados.objects.get(cedula=aplicantToEmployee["cedula"]).id
+        return Response(data={"id":newEmployeeId}, status=status.HTTP_201_CREATED)

@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form'
 import Calendar from 'react-calendar'
 
 import 'react-calendar/dist/Calendar.css';
-
+import { addDataIntoLocalStorage } from '../../../utilities/components';
 import { createSeleccionado } from '../../../api/seleccionados';
 
 const MedicalAppointment = (props) => {
@@ -64,12 +64,13 @@ const MedicalAppointment = (props) => {
         let selectedAplicant = {};
         selectedAplicant.idAplicacion = aplicationId;
         selectedAplicant.faseAplicante = "SELECCION";
-
-        console.log("Nuevo seleccionado: ", selectedAplicant)
+        const formData = new FormData();
+        formData.append("idAplicacion", aplicationId)
         if (disableCheck[1]) { //Si usuario es seleccionado (check a la caja Sí)
             createSeleccionado(selectedAplicant).then((data) => {
                 alert("Aplicante seleccionado con exito!")
             }).catch((err) => { console.log(err) });
+            addDataIntoLocalStorage(formData);
         }
     }
 

@@ -53,8 +53,7 @@ const Academics = () => {
         if (newAcademicsInfo.listening === "Seleccionar") {
             newAcademicsInfo.listening = user.listening;
         }
-        // { "escolaridad": "PROFESIONAL", "titulo": "Ingeniero de Sistemas y Computación telemática", "certificaciones": "Ninguna", "manejoIngles": true, "speaking": "ALTA", "writing": "MEDIA", "listening": "ALTA" }
-        // { "certificaciones": "Ninguna", "escolaridad": "PROFESIONAL", "listening": "ALTA", "speaking": "ALTA", "titulo": "Ingeniero de Sistemas y Computación telemática", "writing": "MEDIA" }
+
         if (compareTwoObjects(newAcademicsInfo, {
             escolaridad: user.escolaridad,
             titulo: user.titulo,

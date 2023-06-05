@@ -33,13 +33,11 @@ export function compareTwoObjects(newInfo, fetchedInfo) {
 
 // addDataIntoLocalStorage ---------------------------------------------
 export const addDataIntoLocalStorage = (formData) => {
-    // console.log("Información a guardar en local storage: ")
     for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
     }
     //Saving every other info different than files
     for (const entry of formData.entries()) {
-        // console.log("Info to load on localStorage: ", entry);
         if (entry[1] instanceof File) {
             const reader = new FileReader();
             reader.readAsDataURL(entry[1]);
@@ -67,7 +65,9 @@ export const getDataFromLocalStorage = () => {
         otrosCheck: localStorage.getItem("otrosCheck"),
         resultadosEntrevista: localStorage.getItem("resultadosEntrevista"),
         // RESULTADOS_ENTREVISTA: (async () => await createFileFromURL(localStorage.getItem("RESULTADOS_ENTREVISTA"), "RESULTADOS_ENTREVISTA"))(),
-        RESULTADOS_ENTREVISTA: localStorage.getItem("RESULTADOS_ENTREVISTA")
+        RESULTADOS_ENTREVISTA: localStorage.getItem("RESULTADOS_ENTREVISTA"),
+        idSeleccion: localStorage.getItem("idSeleccion"),
+        idAplicacion: localStorage.getItem("idAplicacion"),
     }
     return preHiringData;
 }
@@ -85,7 +85,27 @@ export const getLenghtOfFormData = (formData) => {
 }
 
 // ---------------------------------------------------------------
-/**
- * Se puede utilizar un localstorage para que permanezca el texto necesario, por otra parte, los resultados de entrevista pueden ser subidos al aplicante sin necesidad que dependan de ser empleado, esto como manera dee retroalimentar al aplicante en cada aoferta.
- * en resumen, subir los resultados de entrevista a otros en server, y la otra información que perdure para la contratación, ya que es necesaria para esta parte solamente.  \  
- */
+
+//
+export const filteredOffers = (offers, filterOption, searchText) => {
+    offers.filter((offer) => {
+        if (filterOption !== '') {
+            console.log("filterOption ", filterOption)
+            switch (filterOption) {
+                case 'Nombre':
+                    return offer.nombre.toLowerCase().includes(searchText.toLowerCase());
+                case 'Salario':
+                    return parseFloat(offer.salario) >= parseFloat(searchText);
+                case 'Experiencia':
+                    return parseInt(offer.experienciaAnos) <= parseInt(searchText);
+                case 'Vacantes':
+                    return parseInt(offer.vacantes) >= parseInt(searchText);
+                default:
+                    return true;
+            }
+        } else {
+            return [];
+        }
+    });
+}
+//

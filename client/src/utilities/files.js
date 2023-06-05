@@ -106,14 +106,11 @@ async function createFileFromURL(url, fileName) {
         .then(blobFile => new File([blobFile], fileName, { type: blobFile.type }))
         .then((file) => {
             let documentsLinks = [];
-            console.log(file)
-            console.log("on promise: ", createLink(file))
             documentsLinks.push(createLink(file));
             documentsLinks.forEach(appendLinks);
         });
 }
 export const loadFilesFromLocalStorage = (filesRelated) => {
-    console.log("to handle links: ", filesRelated) // [formdata, url]
     let documentsLinks = [];
     // Handle formData (social afiliation documents)
     for (const entry of filesRelated[0].entries()) {
@@ -124,11 +121,8 @@ export const loadFilesFromLocalStorage = (filesRelated) => {
     }
     documentsLinks.forEach(appendLinks);
     (async () => await createFileFromURL(localStorage.getItem("RESULTADOS_ENTREVISTA"), "RESULTADOS_ENTREVISTA"))()
+}
 
-    // documentsLinks.forEach(function (link) {
-    //     if (!document.getElementById(link.id).hasChildNodes()) {
-    //         document.getElementById(link.id).appendChild(link);
-    //     }
-    // });
-
+export const freeLocalStorage = () => {
+    localStorage.clear();
 }

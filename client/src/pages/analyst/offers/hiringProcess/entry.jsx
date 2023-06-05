@@ -22,7 +22,7 @@ const Entry = (props) => {
     const { user } = useLoaderData();
     const [optionToShow, setOptionToShow] = useState("");
     const [socialSecurityFiles, setSocialSecurityFiles] = useState({});
-    const handleSocialSecurityFiles = (addedFiles) => { setSocialSecurityFiles(addedFiles); console.log("addedFiles ", addedFiles) }
+    const handleSocialSecurityFiles = (addedFiles) => { setSocialSecurityFiles(addedFiles); }
 
     let preHiringInfo = getDataFromLocalStorage();
 

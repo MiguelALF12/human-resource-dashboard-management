@@ -118,13 +118,13 @@ const router = createBrowserRouter([
       },
       {
         path: "nomina",
-        element: <Nomina />,
-        children: [
-          {
-            path: "afiliacionSeguridadSocial",
-            element: <AfiliacionSeguridadSocial />
-          },
-        ]
+        element: <Nomina />
+        // children: [
+        //   {
+        //     path: "afiliacionSeguridadSocial",
+        //     element: <AfiliacionSeguridadSocial />
+        //   },
+        // ]
       },
       {
         path: "inteligencianegocio",

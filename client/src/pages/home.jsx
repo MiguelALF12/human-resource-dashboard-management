@@ -12,20 +12,19 @@ import { getAplicant } from '../api/aplicantes';
 
 
 export const userLoader = async ({ params }) => {
-    const user = await getAplicant(params.id);
-    return { user }
+    if (typeof (params.id) !== "undefined") {
+        const user = await getAplicant(params.id);
+        return { user }
+    }
 }
 
 
 function Home(props) {
     let location = useLocation();
     const user = useLoaderData();
-    console.log("Ruta actual despues de iniciar sesión: ", location.pathname);
-    console.log(user);
-
     return (
         <Container fluid id="homeContainer">
-            <Header session={props.haveUser} />
+            <Header session={props.haveUser} user={user} />
             {location.pathname.includes('myAplications') || location.pathname.includes('profile') ?
                 <Outlet /> : <BodyInfo />}
             <Footer />
