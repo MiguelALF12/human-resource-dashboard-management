@@ -12,13 +12,12 @@ import Button from 'react-bootstrap/Button'
 import "../../../styles/profileConfiguration.css";
 
 import { getAplicantDocuments, updateDocs } from "../../../api/documentos";
-import { updateAplicant } from "../../../api/aplicantes";
-import { renameFile, cleanFileName } from "../../../utilities/files";
+import { partialUpdateAplicant } from "../../../api/aplicantes";
+import { renameFile, loadReturnedAplicantDocs } from "../../../utilities/files";
 import { compareTwoWithCriteria, compareTwoObjects } from "../../../utilities/components";
-import JSZip from "jszip";
 
 const Personals = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const { user } = useRouteLoaderData("userSessionHome");
 
     const handleSelectOptions = () => {
@@ -35,43 +34,7 @@ const Personals = () => {
     useEffect(() => {
         async function getDocuments() {
             const res = await getAplicantDocuments(user.id);
-
-            const zip = new JSZip();
-            zip.loadAsync(res)
-                .then(function (zip) {
-                    // Obtener la lista de nombres de archivo
-                    const fileNames = Object.keys(zip.files);
-
-                    // Generar enlaces de descarga para cada archivo
-                    const downloadLinks = fileNames.map(function (fileName) {
-                        const file = zip.files[fileName];
-                        file.name = file.name.replace("Users/miguellopez/Desktop/UNIVERSIDAD/Projects/SW-Recursos-humanos/server/media/aplicants/", "")
-                        // Crear un objeto Blob a partir del contenido del archivo
-                        return file.async('blob')
-                            .then(function (fileData) {
-                                // Crear un enlace de descarga
-                                const link = document.createElement('a');
-                                link.href = URL.createObjectURL(fileData);
-                                link.download = file.name;
-                                link.textContent = file.name;
-                                link.id = cleanFileName(file.name.split('-')[1].split('.')[0].toLowerCase()) + "Viewer";
-                                return link;
-                            });
-                    });
-
-                    // Agregar los enlaces al DOM
-                    Promise.all(downloadLinks)
-                        .then(function (links) {
-                            links.forEach(function (link) {
-                                if (!document.getElementById(link.id).hasChildNodes()) {
-                                    document.getElementById(link.id).appendChild(link);
-                                }
-                            });
-                        });
-                })
-                .catch(function (error) {
-                    console.error('Error al cargar el archivo ZIP:', error);
-                });
+            loadReturnedAplicantDocs(res);
         };
         handleSelectOptions();
         getDocuments()
@@ -79,17 +42,15 @@ const Personals = () => {
     })
 
     const onSubmit = (newOffersInfo) => {
-        console.log("Nueva información: ", newOffersInfo);
         const formData = new FormData();
         for (const [documentType, file] of Object.entries(newOffersInfo.files)) {
-            // console.log(documentType, file);
             if (file.length === 1) {
                 formData.append(documentType, renameFile(documentType, file[0]));
             }
         }
         updateDocs(user.id, formData)
             .then((data) => {
-                console.log(data);
+                console.log("se cambió ", data);
             })
             .catch((err) => { console.log(err); });
 
@@ -101,13 +62,12 @@ const Personals = () => {
             newOffersInfo.trabajarHorasExtra = user.trabajarHorasExtra;
         }
         if (compareTwoObjects(newOffersInfo, { experienciaLaboral: user.experienciaLaboral, dispuestoTraslado: user.dispuestoTraslado, trabajarHorasExtra: user.trabajarHorasExtra })) {
-            updateAplicant(user.id, newOffersInfo)
+            partialUpdateAplicant(user.id, newOffersInfo)
                 .then((data) => {
                     console.log(data);
                 })
                 .catch((err) => { console.log(err); });
-        } else {
-            console.log("Información de oferta no alterada.")
+            // navigate(0);
         }
 
     }

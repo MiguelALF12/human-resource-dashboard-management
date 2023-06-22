@@ -5,7 +5,7 @@ from django.db import models
 
 class TipoActividad(models.Model):
     
-    INDUCCION = "CEDULA"
+    INDUCCION = "INDUCCION"
     REINDUCCION = "REINDUCCION"
     ENTRENAMIENTO = "ENTRENAMIENTO" 
     CAPACITACION = "CAPACITACION"

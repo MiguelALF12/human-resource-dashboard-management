@@ -27,7 +27,7 @@ import SelectionPerfilation from './pages/analyst/offers/selectionPerfilation';
 import Entry from './pages/analyst/offers/hiringProcess/entry';
 import { aplicantLoader } from './pages/analyst/offers/hiringProcess/entry';
 import Nomina from './pages/analyst/nomina/nomina';
-import AfiliacionSeguridadSocial from './pages/analyst/nomina/afiliacionSeguridadSocial';
+// import AfiliacionSeguridadSocial from './pages/analyst/nomina/afiliacionSeguridadSocial';
 import InteligenciaNegocio from './pages/analyst/inteligenciaNegocio/inteligenciaNegocio';
 import ErrorPage from './pages/error';
 
@@ -37,10 +37,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <Home haveUser={false} />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "offer/:id",
-    element: <OfferDetails />
+    children: [
+      {
+        path: "offer/:id",
+        element: <OfferDetails />
+      }
+    ]
   },
   {
     path: "/loggin",
@@ -85,7 +87,11 @@ const router = createBrowserRouter([
             element: <DeleteAccount />
           }
         ]
-      }
+      },
+      {
+        path: "offer/:id",
+        element: <OfferDetails />
+      },
     ]
   },
   {

@@ -13,14 +13,13 @@ import { authenticateUser } from '../api/aplicantes';
 
 const Loggin = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const [loginAlert, setLoginAlert] = useState([false, "", "", ""]);
 
     const handleLoginAlert = (show, id, variant, message) => setLoginAlert([show, id, variant, message]);
 
     const onSubmit = async (credentials) => {
         const res = await authenticateUser(credentials);
-        console.log(res);
         if (res.status === 'authenticated') {
             handleLoginAlert(false, "", "", "");
             let redirection = `/${res.type}/${res.id}/${res.username}`;

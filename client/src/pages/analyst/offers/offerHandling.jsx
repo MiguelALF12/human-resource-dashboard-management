@@ -8,14 +8,24 @@ import '../../../styles/offers.css';
 import OffersTable from "./offersTable";
 import FilterOfferHandler from "./filterOfferHandler";
 import Pagination from "../../../components/pagination";
+import CreateOffer from "./createOffer";
+import EditOffer from "./editOffer";
 
-import { getOffers } from "../../../api/ofertas";
+import { getOffers, updateOffer } from "../../../api/ofertas";
 
 let PageSize = 5;
 
 const OffersHandling = () => {
     const [offers, setOffers] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
+    const [showOfferForm, setShowOfferForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [clickedOfferAndAction, setClickedOfferAndAction] = useState("0");
+    const handleClickedOfferAndAction = (offerId) => { setClickedOfferAndAction(offerId); handleShowEditForm(); }
+    const handleCloseOfferForm = () => { setShowOfferForm(false); }
+    const handleShowOfferForm = () => setShowOfferForm(true);
+    const handleCloseEditForm = () => { setShowEditForm(false); }
+    const handleShowEditForm = () => setShowEditForm(true);
 
     const currentListedOffers = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
@@ -49,12 +59,16 @@ const OffersHandling = () => {
                     />
 
                 </div>
-                <OffersTable offers={currentListedOffers} />
+                <OffersTable offers={currentListedOffers} actionAndClickedOffer={handleClickedOfferAndAction} />
                 <div>
-                    <Button>Registrar nueva oferta</Button>
+                    <Button onClick={handleShowOfferForm}>Registrar nueva oferta</Button>
                 </div>
             </Col>
         </Row>
+        <CreateOffer show={showOfferForm} close={handleCloseOfferForm} />
+        {console.log(clickedOfferAndAction === "0", offers[parseInt(clickedOfferAndAction.split('-')[1])], clickedOfferAndAction)}
+        {/* <EditOffer actionAndOffer={clickedOfferAndAction === "0" ? "undefined" : offers[parseInt(clickedOfferAndAction.split('-')[1])]}
+            show={showEditForm} close={handleCloseEditForm} /> */}
     </>)
 };
 

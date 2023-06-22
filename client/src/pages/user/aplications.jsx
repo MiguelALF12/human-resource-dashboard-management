@@ -1,48 +1,43 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import { useRouteLoaderData } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
+import Aplication from './components/aplication';
 
-import Offer from './components/aplication'
-import '../../styles/userAplications.css'
+import "../../styles/bodyInfo.css";
 
+import { getAplicationsByAplicantId } from '../../api/aplicaciones';
+import { getSeleccionados } from '../../api/seleccionados';
+import { searchAplicationIn } from '../../utilities/components';
 
-/* #TODO: Anexar comunicación con endpoint
- * #TODO: Crear comoponente de busqueda
- */
 
 const Aplications = () => {
+    const [aplications, setAplications] = useState([]);
+    const { user } = useRouteLoaderData("userSessionHome");
+
+
+    useEffect(() => {
+        const loadAplications = async () => {
+            const currentAplications = await getAplicationsByAplicantId(user.id);
+            const selectedAplications = await getSeleccionados();
+            searchAplicationIn(currentAplications, selectedAplications);
+            setAplications(currentAplications);
+        };
+        loadAplications()
+    }, [user]);
+    console.log(aplications);
     return (
         <Row id="bodyInfoContainer">
-            <h2>Mis aplicaiones</h2>
-            <Col className="m-auto" xs={12} md={9}>
-                {/* <Row>
-                    <Col id="filterArea">
-                        <h2>Ofertas de trabajo activas</h2>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Busqueda por filtro</Form.Label>
-                            <Form.Select>
-                                <option>item 1</option>
-                                <option>item 2</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                </Row> */}
+            <Col className="mx-auto my-5" xs={12} md={9}>
                 <Row>
-                    <Col className="mt-2">
-                        <span>Resultados de la busqueda: kjlk</span>
+                    <Col className='mb-4'>
+                        <h2 className='text-center'>Mis aplicaciones</h2>
+                    </Col></Row>
+                <Row>
+                    <Col className="d-flex flex-wrap justify-content-center">
+                        {aplications.map((aplication) => <Aplication aplication={aplication} />)}
                     </Col>
-                    <Col xs={12} md={12} className="d-flex justify-content-center g-5">
-                        <Offer />
-                        <Offer />
-                        <Offer />
-                    </Col>
-                    <Col xs={12} md={12} className="d-flex justify-content-center g-5">
-                        <Offer />
-                        <Offer />
-                        <Offer />
-                    </Col>
-                    {/* <Outlet /> */}
                 </Row>
             </Col>
         </Row>

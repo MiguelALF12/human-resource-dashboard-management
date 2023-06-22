@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import { freeLocalStorage, renameFile, loadFilesFromLocalStorage } from "../../../../utilities/files";
 import { removeSeleccionado } from "../../../../api/seleccionados";
 import { removeAplication } from "../../../../api/aplicaciones";
-import { updateAplicant } from "../../../../api/aplicantes";
+import { partialUpdateAplicant } from "../../../../api/aplicantes";
 import { createEmpleado } from "../../../../api/empleados";
 import { createEmpleadoSocialAfiliationDocuments } from "../../../../api/documentos";
 import { createContract } from "../../../../api/contratos";
@@ -60,7 +60,7 @@ const Hiring = (props) => {
             console.warn(err);
         });
         removeSeleccionado(props.preHiringInfo.idSeleccion).then((data) => { console.log("Seleccion eliminada con exito!", data) });
-        updateAplicant(props.aplicant.id, { contratado: true }).then((data) => { console.log("Estado de aplicante actualizado", data) });
+        partialUpdateAplicant(props.aplicant.id, { contratado: true }).then((data) => { console.log("Estado de aplicante actualizado", data) });
         removeAplication(props.preHiringInfo.idAplicacion)
         freeLocalStorage()
         navigate(-1);

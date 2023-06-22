@@ -13,8 +13,8 @@ class EmpleadosEnActividades(models.Model):
     ]
     idActividad = models.ForeignKey(Actividades, on_delete=models.CASCADE)
     idEmpleado = models.ForeignKey(Empleados, on_delete=models.CASCADE)
-    resultadoEvaluativo = models.CharField(max_length=12, choices=ESTADO_ACTIVIDAD)
+    resultadoEvaluativo = models.CharField(max_length=12, choices=ESTADO_ACTIVIDAD, blank=True)
     observaciones = models.TextField()
 
     def __str__(self) -> str:
-        return str(self.id) + " " + self.idActividad + " " + str(self.idEmpleado) + " " + self.resultadoEvaluativo
+        return str(self.id) + " " + str(self.idActividad) + " " + str(self.idEmpleado)

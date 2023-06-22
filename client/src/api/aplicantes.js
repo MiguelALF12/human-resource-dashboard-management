@@ -20,6 +20,7 @@ export const authenticateUser = async (credentials) => {
         baseURL + "authenticate/", {
         "method": 'POST',
         "headers": {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         "body": JSON.stringify(credentials)
@@ -40,7 +41,7 @@ export const getAplicant = async (identification) => {
     ).then((res) => res.json());
 }
 
-export const updateAplicant = async (identification, userNewInfo) => {
+export const partialUpdateAplicant = async (identification, userNewInfo) => {
     return await fetch(
         baseURL + identification + '/',
         {

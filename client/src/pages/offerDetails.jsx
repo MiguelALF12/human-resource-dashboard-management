@@ -1,52 +1,91 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import Header from "../components/header";
-import Footer from "../components/footer";
+
+import { getOfferById } from '../api/ofertas';
+import { createAplication } from '../api/aplicaciones';
 
 
 import "../styles/bodyInfo.css";
+
 const OfferDetails = () => {
-    return (<>
-        <Header />
+    const [offerDetails, setOfferDetails] = useState({})
+    const location = useLocation();
+    const navigate = useNavigate();
+    let pathAsArr = location.pathname.split("/");
+    let offerId = pathAsArr[pathAsArr.length - 1]
+
+    const handleAplication = () => {
+        let redirection;
+        if (pathAsArr.length > 3) {
+            createAplication({
+                idAplicante: pathAsArr[2],
+                idOferta: offerId
+            }).then((data) => {
+                console.log(data);
+                if (data.aplicationExists === true) {
+                    alert("USTED Ya ha aplicado a esta oferta!")
+                } else {
+                    navigate(-1)
+                }
+            });
+
+        } else {
+            // No user Logged
+            redirection = '/loggin';
+            navigate(redirection, { replace: true });
+
+        }
+    }
+    useEffect(() => {
+        const loadOffer = async () => {
+            let res = await getOfferById(offerId);
+            setOfferDetails(res);
+        }
+        loadOffer();
+    }, [location]);
+
+    return (
         <Row id="bodyInfoContainer">
             <Col className="mx-auto my-5" xs={12} md={6}>
-                <h2 className="text-center p-3">Nombre del puesto</h2>
+                <h2 className="text-center p-3">{offerDetails.nombre}</h2>
                 <div className="d-flex flex-xs-wrap">
                     <div className="flex-fill px-5">
-                        <h4>Descripción</h4>
+                        <h4>Descripción del puesto</h4>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula, a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan, blandit sed diam.
+                            {offerDetails.descripcion}
                         </p>
                     </div>
                     <div className="flex-fill text-nowrap px-5">
                         <h4>Detalles</h4>
                         <div className="flex-row pt-2">
                             <div className="py-2">
-                                <h6>Something important</h6>
-                                <span className="text-muted">&emsp;Something important&ensp;</span>
+                                <h6>Salario</h6>
+                                <span className="text-muted">&emsp;{offerDetails.salario}&ensp;</span>
                             </div>
                             <div className="py-2">
-                                <h6>Something important</h6>
-                                <span className="text-muted">&emsp;Something important&ensp;</span>
+                                <h6>Experiencia requerida</h6>
+                                <span className="text-muted">&emsp;{offerDetails.experienciaAnos}&ensp;</span>
                             </div>
                             <div className="py-2">
-                                <h6 >Something important</h6>
-                                <span className="text-muted">&emsp;Something important&ensp;</span>
+                                <h6>Vacantes disponibles</h6>
+                                <span className="text-muted">&emsp;{offerDetails.vacantes}&ensp;</span>
                             </div>
-
+                            <div className="py-2">
+                                <h6 >Fecha de inicio</h6>
+                                <span className="text-muted">&emsp;{offerDetails.fechaInicio}&ensp;</span>
+                            </div>
                         </div>
 
 
                     </div>
                 </div>
-                <Button variant="primary" className="mt-3">Aplicar a oferta</Button>
-
+                <Button variant="primary" className="mt-3" onClick={handleAplication}>Aplicar a oferta</Button>
             </Col>
         </Row>
-        <Footer />
-    </>
     )
 };
 

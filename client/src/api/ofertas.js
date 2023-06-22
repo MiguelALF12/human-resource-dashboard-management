@@ -10,3 +10,35 @@ export const getOffers = async () => {
     }).then((res) => res.json());
 }
 
+export const createOffers = async (newOffer) => {
+    return await fetch(baseURL, {
+        "method": 'POST',
+        "headers": {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        "body": JSON.stringify(newOffer)
+    }).then((res) => res.json());
+}
+
+export const updateOffer = async (offerId, newOfferInfo) => {
+    return await fetch(baseURL + offerId, {
+        "method": 'PUT',
+        "headers": {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        "body": JSON.stringify(newOfferInfo)
+    }).then((res) => res.json());
+}
+
+export const getOfferById = async (offerId) => {
+    return await fetch(
+        baseURL + offerId, {
+        'method': 'GET',
+        "headers": {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    }).then((res) => res.json());
+};

@@ -8,22 +8,16 @@ import Pagination from './pagination.jsx';
 import FilterOffers from './filterOffers.jsx';
 import "../styles/bodyInfo.css";
 
-import { filteredOffers } from '../utilities/components.js';
+// import { filteredOffers } from '../utilities/components.js';
 import { getOffers } from '../api/ofertas.js';
 
 let PageSize = 6;
 
+
 const BodyInfo = () => {
     const [offers, setOffers] = useState([]);
+    const [offersFromQuery, setOffersFromQuery] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    // const [searchResults, setSearchResults] = useState([]);
-    const [searchText, setSearchText] = useState('');
-    const [filterOption, setFilterOption] = useState('');
-    const handleSearchText = (searchText) => {
-        setSearchText(searchText);
-
-    }
-    const handleFilterOption = (filter) => { setFilterOption(filter); }
 
     useEffect(() => {
         const loadOffers = async () => {
@@ -34,10 +28,15 @@ const BodyInfo = () => {
     }, []);
 
     const currentListedOffers = useMemo(() => {
+
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        return offers.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, offers]);
+        if (offersFromQuery.length > 0) {
+            return offersFromQuery.slice(firstPageIndex, lastPageIndex);
+        } else {
+            return offers.slice(firstPageIndex, lastPageIndex);
+        }
+    }, [currentPage, offers, offersFromQuery]);
 
 
     return (
@@ -45,8 +44,7 @@ const BodyInfo = () => {
             <Col className="m-auto" xs={12} md={9}>
                 <Row>
                     <Col id="filterArea">
-                        <FilterOffers offers={offers}
-                            searchText={handleSearchText} filterOption={handleFilterOption} />
+                        <FilterOffers offers={offers} offersFromQuery={setOffersFromQuery} />
                     </Col>
                 </Row>
                 <Row>
@@ -61,7 +59,7 @@ const BodyInfo = () => {
                         <Pagination
                             className="pagination-bar"
                             currentPage={currentPage}
-                            totalCount={offers.length}
+                            totalCount={offersFromQuery.length > 0 ? offersFromQuery.length : offers.length}
                             pageSize={PageSize}
                             onPageChange={page => setCurrentPage(page)}
                         />

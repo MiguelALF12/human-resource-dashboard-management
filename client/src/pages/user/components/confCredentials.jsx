@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData, useNavigate } from "react-router-dom";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Image from 'react-bootstrap/Image';
@@ -9,12 +9,13 @@ import Button from 'react-bootstrap/Button'
 
 import "../../../styles/profileConfiguration.css";
 
-import { updateAplicant } from "../../../api/aplicantes";
+import { partialUpdateAplicant } from "../../../api/aplicantes";
 import { compareTwoObjects } from "../../../utilities/components";
 
 const Credentials = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const { user } = useRouteLoaderData("userSessionHome");
+    const navigate = useNavigate()
 
     const onSubmit = (newCredentialsInfo) => {
 
@@ -25,13 +26,10 @@ const Credentials = () => {
                 contrasena: user.contrasena
 
             })) {
-            updateAplicant(user.id, newCredentialsInfo)
-                .then((data) => {
-                    console.log(data);
-                })
-                .catch((err) => { console.log(err); });
+            partialUpdateAplicant(user.id, newCredentialsInfo).catch((err) => { console.log(err); });
+            navigate(0);
         } else {
-            console.log("Información personal no alterada.")
+            alert("Información personal no alterada.")
         }
     }
 

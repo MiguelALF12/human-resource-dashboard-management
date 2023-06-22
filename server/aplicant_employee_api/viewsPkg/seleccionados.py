@@ -15,14 +15,12 @@ class SeleccionadosViews (viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser,JSONParser)
 
     def list(self, request):
-        print("=========== seleccionados.list() ===========\n")
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(data=queryset, many=True)
         serializer.is_valid()
         detailedSelectedAplicants = [] #{"AplicationId": {Aplicante.as_object}}
         for selection in self.get_queryset():
             aplicant = selection.idAplicacion.idAplicante.as_object
-            print("Aplicante seleccionado: ", aplicant)
             aplicant["idSeleccion"] = selection.id
             aplicant["faseAplicante"] = selection.faseAplicante
             aplicant["nombreOferta"] = selection.idAplicacion.idOferta.nombre
@@ -30,7 +28,6 @@ class SeleccionadosViews (viewsets.ModelViewSet):
             aplicant["fechaInicioOferta"] = selection.idAplicacion.idOferta.fechaInicio
             aplicant["experienciaAnosOferta"] = selection.idAplicacion.idOferta.experienciaAnos
             aplicant["salarioOferta"] = selection.idAplicacion.idOferta.salario
-
             detailedSelectedAplicants.append(aplicant) 
         
         return Response(data=detailedSelectedAplicants , status=status.HTTP_200_OK)

@@ -1,7 +1,7 @@
 
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRouteLoaderData } from "react-router-dom";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Form from 'react-bootstrap/Form';
@@ -9,13 +9,13 @@ import Button from 'react-bootstrap/Button'
 
 import "../../../styles/profileConfiguration.css";
 
-import { updateAplicant } from "../../../api/aplicantes";
+import { partialUpdateAplicant } from "../../../api/aplicantes";
 import { compareTwoWithCriteria, compareThreeWithCriteria, compareTwoObjects } from "../../../utilities/components";
 
 const Academics = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const { user } = useRouteLoaderData("userSessionHome");
-
+    const navigate = useNavigate();
 
     const handleSelectOptions = () => {
         let indexManejoIngles = compareTwoWithCriteria(user.manejoIngles, [true, false]);
@@ -64,13 +64,14 @@ const Academics = () => {
             listening: user.listening,
         })) {
 
-            updateAplicant(user.id, newAcademicsInfo)
+            partialUpdateAplicant(user.id, newAcademicsInfo)
                 .then((data) => {
                     console.log(data);
                 })
                 .catch((err) => { console.log(err); });
+            navigate(0);
         } else {
-            console.log("Información de academico no alterada.")
+            alert("Información personal no alterada.");
         }
     }
 

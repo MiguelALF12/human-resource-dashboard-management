@@ -16,15 +16,11 @@ class EmpleadosViews(viewsets.ModelViewSet):
     queryset = Empleados.objects.all()
 
     def create(self, request):
-        print("=========== empleados.create() ===========\n")
         aplicantToEmployee = Aplicantes.objects.get(id=request.data["id"]).as_object
-        print("(objeto en modelo Aplicante) Aplicante a ser contratado ", aplicantToEmployee, "\n\n")
         aplicantToEmployee["estado"] = "ACTIVO"
         aplicantToEmployee["resultadosEntrevista"] = request.data["resultadosEntrevista"]
         serializer = self.get_serializer(data=aplicantToEmployee)
-        print("(Serializable) Aplicante contratado: ", serializer.initial_data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            print("Nuevo empleado registrado!\n")
         newEmployeeId = Empleados.objects.get(cedula=aplicantToEmployee["cedula"]).id
         return Response(data={"id":newEmployeeId}, status=status.HTTP_201_CREATED)

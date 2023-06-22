@@ -87,25 +87,45 @@ export const getLenghtOfFormData = (formData) => {
 // ---------------------------------------------------------------
 
 //
-export const filteredOffers = (offers, filterOption, searchText) => {
-    offers.filter((offer) => {
-        if (filterOption !== '') {
-            console.log("filterOption ", filterOption)
-            switch (filterOption) {
-                case 'Nombre':
-                    return offer.nombre.toLowerCase().includes(searchText.toLowerCase());
-                case 'Salario':
-                    return parseFloat(offer.salario) >= parseFloat(searchText);
-                case 'Experiencia':
-                    return parseInt(offer.experienciaAnos) <= parseInt(searchText);
-                case 'Vacantes':
-                    return parseInt(offer.vacantes) >= parseInt(searchText);
+export const filterOffers = (offers, filterOptions) => {
+    return offers.filter((offer) => {
+        if (filterOptions.parameter !== 'Seleccione') {
+            switch (filterOptions.parameter) {
+                case 'nombre':
+                    return offer.nombre.toLowerCase().includes(filterOptions.pattern.toLowerCase());
+                case 'salario':
+                    return parseInt(offer.salario.replaceAll(".", '')) >= parseInt(filterOptions.pattern.replaceAll(".", ''));
+                case 'experiencia':
+                    return parseInt(offer.experienciaAnos) >= parseInt(filterOptions.pattern);
+                case 'vacantes':
+                    return parseInt(offer.vacantes) >= parseInt(filterOptions.pattern);
                 default:
                     return true;
             }
-        } else {
-            return [];
         }
     });
 }
 //
+
+
+export const includedOnUsersPaths = (currentPath) => {
+    let usersPaths = ["myAplications", "profile", "offer"];
+    for (let path of usersPaths) {
+        if (currentPath.includes(path)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export const searchAplicationIn = (currentAplications, selectedAplications) => {
+    for (let aplication of currentAplications) {
+        aplication.estadoFase = "En evaluación"
+        for (let selection of selectedAplications) {
+            if (aplication.id === selection.id) {
+                aplication.estadoFase = selection.faseAplicante;
+                break
+            }
+        }
+    };
+} 

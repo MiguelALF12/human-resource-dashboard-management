@@ -11,7 +11,7 @@ import Pagination from "../../../components/pagination";
 import NominaTable from './components/nominaTable';
 import FilterNominaHandler from './components/filterNominaHandler';
 
-import { getEmpleados } from '../../../api/empleados';
+import { listEmpleados } from '../../../api/empleados';
 
 let PageSize = 5;
 
@@ -27,7 +27,7 @@ const Nomina = () => {
 
     useEffect(() => {
         const loadOffers = async () => {
-            const employeesRes = await getEmpleados();
+            const employeesRes = await listEmpleados();
             setEmployees(employeesRes);
         }
         loadOffers();

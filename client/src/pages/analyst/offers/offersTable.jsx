@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 
 
 const OffersTable = (props) => {
-
     return (
         <Table striped bordered hover responsive="md">
             <thead>
@@ -24,7 +23,7 @@ const OffersTable = (props) => {
                 {props.offers.map((offer, index) => {
                     return (
                         //onClick={event => props.clickedAplicant(event.currentTarget.getAttribute("id"))}
-                        <tr key={"offer-" + index} id={"offer-" + index} >
+                        <tr key={"offer-" + index} id={"offerHandler-" + index} >
                             <td>{offer.id}</td>
                             <td>{offer.nombre}</td>
                             <td>{offer.descripcion}</td>
@@ -34,7 +33,9 @@ const OffersTable = (props) => {
                             <td>{offer.salario}</td>
                             <td>{offer.experienciaAnos}</td>
                             <td>
-                                <Button id="editOfferRecordBtn" size="sm" />
+                                <Button id="editOfferRecordBtn" size="sm" onClick={(event) => {
+                                    props.actionAndClickedOffer("offerHandler-" + index);
+                                }} />
                                 <Button id="deleteOfferRecordBtn" variant="danger" size="sm" />
                             </td>
                         </tr>

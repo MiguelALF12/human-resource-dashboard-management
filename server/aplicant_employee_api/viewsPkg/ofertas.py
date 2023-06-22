@@ -14,9 +14,7 @@ class OfertasViews (viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser,JSONParser)
 
     def list(self, request):
-        print("=========== ofertas.getOfertas() ===========\n")
         queryset = Ofertas.objects.exclude(estadoDisponibilidad="CERRADA")
-        print(queryset)
         querysetAsObj = self.filter_queryset(queryset)
         serializer = self.get_serializer(data=querysetAsObj, many=True)
         serializer.is_valid()

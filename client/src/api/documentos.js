@@ -24,6 +24,10 @@ export const getAplicantDocuments = async (userId) => {
 }
 
 export const updateDocs = async (userId, newDocs) => {
+    console.log("userID: ", userId)
+    for (const pair of newDocs.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+    }
     return await fetch(
         aplicantesBaseURL + userId + '/update_files/',
         {

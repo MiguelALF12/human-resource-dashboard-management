@@ -9,6 +9,7 @@ import '../styles/index.css'
 import { Outlet, useLocation, useLoaderData } from 'react-router-dom';
 
 import { getAplicant } from '../api/aplicantes';
+import { includedOnUsersPaths } from '../utilities/components';
 
 
 export const userLoader = async ({ params }) => {
@@ -22,10 +23,12 @@ export const userLoader = async ({ params }) => {
 function Home(props) {
     let location = useLocation();
     const user = useLoaderData();
+    console.log(user);
     return (
         <Container fluid id="homeContainer">
+            {/* user={typeof (user) != "undefined" ? user.user : undefined} */}
             <Header session={props.haveUser} user={user} />
-            {location.pathname.includes('myAplications') || location.pathname.includes('profile') ?
+            {includedOnUsersPaths(location.pathname) ?
                 <Outlet /> : <BodyInfo />}
             <Footer />
         </Container>
