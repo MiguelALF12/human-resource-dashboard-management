@@ -55,3 +55,18 @@ export const partialUpdateAplicant = async (identification, userNewInfo) => {
 
     ).then((res) => res.json());
 }
+
+export const partialUpdateAplicantCredentials = async (userNewCredentials) => {
+    return await fetch(
+        baseURL + 'update_user_credentials/',
+        {
+            "method": 'PATCH',
+            "headers": {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            "body": JSON.stringify(userNewCredentials)
+        }
+
+    ).then((res) => res.json());
+}

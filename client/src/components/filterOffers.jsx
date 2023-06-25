@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from 'react-hook-form'
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from "react-bootstrap/Button";
@@ -14,7 +14,6 @@ const FilterOffers = (props) => {
 
     const onSubmit = (searchQuery) => {
         const offerFromSearch = filterOffers(props.offers, searchQuery)
-        console.log("offer from search: ", offerFromSearch)
         props.offersFromQuery(offerFromSearch)
     }
 

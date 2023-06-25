@@ -1,10 +1,37 @@
-
-
-// confAcademics.js ---------------------------------------------
 /*
  * #TODO: Corregir compareTwoObjects() de manera tal que la comparasión sea más precisa y no detecta como verdadero "True" != true. 
     inlcuso para los casos en donde se ingresa texto y el unico cambio es un espacio
  */
+
+import { createAvatar } from '@dicebear/core';
+import { identicon } from '@dicebear/collection';
+
+export const htmlStrToElement = (userProfileImg) => {
+    // let container = document.getElementById("aplicantProfileImg");
+    // console.log(container.childNodes)
+    // if (container.childElementCount < 2) {
+    //     let userProfileImageNode = document.createRange().createContextualFragment(userProfileImg);
+    //     let aplicantProfileMenu = document.getElementById("aplicantProfileMenu")
+    //     console.log(aplicantProfileMenu.parentElement)
+    //     container.insertBefore(userProfileImageNode, aplicantProfileMenu);
+    // }
+    let userProfileImageNode = document.createRange().createContextualFragment(userProfileImg);
+    return userProfileImageNode;
+
+
+}
+
+export const assignProfileImg = (userSeed) => {
+    const avatar = createAvatar(identicon,
+        {
+            seed: userSeed,
+            backgroundColor: ["b6e3f4", "c0aede", "d1d4f9"],
+            size: 80
+        }
+    )
+    return avatar.toString();
+}
+
 export function compareTwoWithCriteria(first, criterias) {
     if (first === criterias[0]) {
         return 0;
@@ -29,9 +56,6 @@ export function compareTwoObjects(newInfo, fetchedInfo) {
     return JSON.stringify(newInfo) !== JSON.stringify(fetchedInfo) ? true : false
 }
 
-// -------------------------------------------------------------
-
-// addDataIntoLocalStorage ---------------------------------------------
 export const addDataIntoLocalStorage = (formData) => {
     for (const pair of formData.entries()) {
         console.log(pair[0], pair[1]);
@@ -50,7 +74,6 @@ export const addDataIntoLocalStorage = (formData) => {
     }
 };
 
-//getDataFromLocalStorage --------------------------------------------- 
 export const getDataFromLocalStorage = () => {
 
     let preHiringData = {
@@ -71,9 +94,6 @@ export const getDataFromLocalStorage = () => {
     }
     return preHiringData;
 }
-// ---------------------------------------------------------------
-
-// getLenghtOfFormData --------------------------------------------- 
 
 export const getLenghtOfFormData = (formData) => {
     let count = 0;
@@ -84,19 +104,20 @@ export const getLenghtOfFormData = (formData) => {
     return count;
 }
 
-// ---------------------------------------------------------------
-
-//
 export const filterOffers = (offers, filterOptions) => {
     return offers.filter((offer) => {
         if (filterOptions.parameter !== 'Seleccione') {
             switch (filterOptions.parameter) {
+                case 'id':
+                    return offer.id.toString() === filterOptions.pattern;
                 case 'nombre':
                     return offer.nombre.toLowerCase().includes(filterOptions.pattern.toLowerCase());
                 case 'salario':
                     return parseInt(offer.salario.replaceAll(".", '')) >= parseInt(filterOptions.pattern.replaceAll(".", ''));
                 case 'experiencia':
                     return parseInt(offer.experienciaAnos) >= parseInt(filterOptions.pattern);
+                case 'estado':
+                    return offer.estadoDisponibilidad.toLowerCase() === filterOptions.pattern.toLowerCase()
                 case 'vacantes':
                     return parseInt(offer.vacantes) >= parseInt(filterOptions.pattern);
                 default:

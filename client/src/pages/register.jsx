@@ -21,12 +21,14 @@ import "../styles/bodyInfo.css";
 import { createAplicant } from '../api/aplicantes';
 import { createDocuments } from '../api/documentos';
 import { renameFile } from '../utilities/files';
+import { assignProfileImg } from '../utilities/components';
 
 const Register = () => {
 
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
     const onSubmit = (user) => {
+        user.imagenPerfil = assignProfileImg(user.cedula);
         createAplicant(user)
             .then((data) => {
                 console.log("usuario creado: ", data);

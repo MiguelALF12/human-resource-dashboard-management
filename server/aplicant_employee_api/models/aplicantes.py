@@ -41,6 +41,7 @@ class Aplicantes(models.Model):
     dispuestoTraslado = models.BooleanField(default=True)
     trabajarHorasExtra = models.BooleanField(default=True)
     contratado = models.BooleanField(default=False)
+    imagenPerfil = models.TextField(default="")
 
     @property
     def as_object(self):

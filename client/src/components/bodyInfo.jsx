@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
 
 import Offer from './offer.jsx'
 import Pagination from './pagination.jsx';
@@ -22,7 +21,7 @@ const BodyInfo = () => {
     useEffect(() => {
         const loadOffers = async () => {
             let res = await getOffers();
-            setOffers(res);
+            setOffers(res.filter((offer) => offer.estadoDisponibilidad === "ABIERTA"));
         }
         loadOffers();
     }, []);

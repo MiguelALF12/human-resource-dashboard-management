@@ -39,7 +39,9 @@ class AplicantesViews (viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"])
     def authenticate(self, request):
+        # print(request.data)
         user = authenticate(username=request.data["cedula"], password=request.data["password"])
+        # print(User.objects.all()[2].password == request.data["password"])
         if user is not None:
             login(request, user)
             #Permissions
@@ -61,10 +63,15 @@ class AplicantesViews (viewsets.ModelViewSet):
     #         logout(request)
     #     return Response({}, status=status.HTTP_200_OK)
     
-    @action(detail=True, methods=["patch"])
+    @action(detail=False, methods=["patch"])
     def update_user_credentials(self, request):
-        userToUpdate = User.objects.get(username=request.data["oldUserName"])
-        userToUpdate.username = request["newUserName"]
-        userToUpdate.save
-        return
+        userToUpdate = User.objects.get(username=request.data["oldUsername"])
+        userToUpdate.username = request.data["cedula"]
+        userToUpdate.set_password(request.data["contrasena"])
+        userToUpdate.email = request.data["correo"]
+        userToUpdate.save()
+        return Response(data={}, status=status.HTTP_200_OK)
+    
+        
+        
         

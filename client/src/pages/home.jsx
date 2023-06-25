@@ -23,7 +23,6 @@ export const userLoader = async ({ params }) => {
 function Home(props) {
     let location = useLocation();
     const user = useLoaderData();
-    console.log(user);
     return (
         <Container fluid id="homeContainer">
             {/* user={typeof (user) != "undefined" ? user.user : undefined} */}

@@ -21,9 +21,9 @@ export const createOffers = async (newOffer) => {
     }).then((res) => res.json());
 }
 
-export const updateOffer = async (offerId, newOfferInfo) => {
-    return await fetch(baseURL + offerId, {
-        "method": 'PUT',
+export const partialUpdateOffer = async (offerId, newOfferInfo) => {
+    return await fetch(baseURL + offerId + "/", {
+        "method": 'PATCH',
         "headers": {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

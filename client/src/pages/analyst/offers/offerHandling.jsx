@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import '../../../styles/offers.css';
 
@@ -11,7 +10,7 @@ import Pagination from "../../../components/pagination";
 import CreateOffer from "./createOffer";
 import EditOffer from "./editOffer";
 
-import { getOffers, updateOffer } from "../../../api/ofertas";
+import { getOffers } from "../../../api/ofertas";
 
 let PageSize = 5;
 
@@ -20,18 +19,15 @@ const OffersHandling = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showOfferForm, setShowOfferForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
-    const [clickedOfferAndAction, setClickedOfferAndAction] = useState("0");
-    const handleClickedOfferAndAction = (offerId) => { setClickedOfferAndAction(offerId); handleShowEditForm(); }
+    const [clickedOffer, setClickedOffer] = useState("0");
+    const [offersFromQuery, setOffersFromQuery] = useState([]);
+    const [editedOffer, setEditedOffer] = useState(false);
+    const handleClickedOffer = (offerId) => { setClickedOffer(offerId); handleShowEditForm(); }
     const handleCloseOfferForm = () => { setShowOfferForm(false); }
     const handleShowOfferForm = () => setShowOfferForm(true);
     const handleCloseEditForm = () => { setShowEditForm(false); }
     const handleShowEditForm = () => setShowEditForm(true);
 
-    const currentListedOffers = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        return offers.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, offers]);
 
     useEffect(() => {
         const loadOffers = async () => {
@@ -39,13 +35,23 @@ const OffersHandling = () => {
             setOffers(offersRes);
         }
         loadOffers();
-    }, [])
+    }, [editedOffer])
+
+    const currentListedOffers = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        if (offersFromQuery.length > 0) {
+            return offersFromQuery.slice(firstPageIndex, lastPageIndex);
+        } else {
+            return offers.slice(firstPageIndex, lastPageIndex);
+        }
+    }, [currentPage, offers, offersFromQuery]);
 
     return (<>
         <Row className="preselectionSelectionContainer border border-1">
             <Col xs={12} md={4} lg={4} className="ps-4 border border-1">
                 <h3>Busqueda según filtros</h3>
-                <FilterOfferHandler />
+                <FilterOfferHandler offers={offers} offersFromQuery={setOffersFromQuery} />
             </Col>
             <Col xs={12} md={8} lg={8} className="border border-1">
                 <div className="d-flex justify-content-between align-items-center">
@@ -53,22 +59,22 @@ const OffersHandling = () => {
                     <Pagination
                         className="pagination-bar"
                         currentPage={currentPage}
-                        totalCount={offers.length}
+                        totalCount={offersFromQuery.length > 0 ? offersFromQuery.length : offers.length}
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
 
                 </div>
-                <OffersTable offers={currentListedOffers} actionAndClickedOffer={handleClickedOfferAndAction} />
+                <OffersTable offers={currentListedOffers} clickedOffer={handleClickedOffer} />
                 <div>
                     <Button onClick={handleShowOfferForm}>Registrar nueva oferta</Button>
                 </div>
             </Col>
         </Row>
         <CreateOffer show={showOfferForm} close={handleCloseOfferForm} />
-        {console.log(clickedOfferAndAction === "0", offers[parseInt(clickedOfferAndAction.split('-')[1])], clickedOfferAndAction)}
-        {/* <EditOffer actionAndOffer={clickedOfferAndAction === "0" ? "undefined" : offers[parseInt(clickedOfferAndAction.split('-')[1])]}
-            show={showEditForm} close={handleCloseEditForm} /> */}
+        {/* {console.log(clickedOffer === "0", offers[parseInt(clickedOffer.split('-')[1])], clickedOffer)} */}
+        <EditOffer clickedOffer={clickedOffer === "0" ? "undefined" : offers[parseInt(clickedOffer.split('-')[1]) - 1]}
+            show={showEditForm} close={handleCloseEditForm} editedOffer={setEditedOffer} />
     </>)
 };
 

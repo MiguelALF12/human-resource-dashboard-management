@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from 'react-bootstrap/Table';
 import Button from "react-bootstrap/Button";
 
@@ -20,10 +20,9 @@ const OffersTable = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {props.offers.map((offer, index) => {
+                {props.offers.map((offer) => {
                     return (
-                        //onClick={event => props.clickedAplicant(event.currentTarget.getAttribute("id"))}
-                        <tr key={"offer-" + index} id={"offerHandler-" + index} >
+                        <tr key={"offer-" + offer.id.toString()} id={"offerHandler-" + offer.id.toString()} >
                             <td>{offer.id}</td>
                             <td>{offer.nombre}</td>
                             <td>{offer.descripcion}</td>
@@ -33,8 +32,8 @@ const OffersTable = (props) => {
                             <td>{offer.salario}</td>
                             <td>{offer.experienciaAnos}</td>
                             <td>
-                                <Button id="editOfferRecordBtn" size="sm" onClick={(event) => {
-                                    props.actionAndClickedOffer("offerHandler-" + index);
+                                <Button id="editOfferRecordBtn" size="sm" onClick={() => {
+                                    props.clickedOffer("offerHandler-" + offer.id.toString());
                                 }} />
                                 <Button id="deleteOfferRecordBtn" variant="danger" size="sm" />
                             </td>

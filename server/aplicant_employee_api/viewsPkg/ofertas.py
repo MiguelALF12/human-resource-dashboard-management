@@ -13,9 +13,9 @@ class OfertasViews (viewsets.ModelViewSet):
     queryset = Ofertas.objects.all()  # Obtiene todos los registros
     parser_classes = (MultiPartParser, FormParser,JSONParser)
 
-    def list(self, request):
-        queryset = Ofertas.objects.exclude(estadoDisponibilidad="CERRADA")
-        querysetAsObj = self.filter_queryset(queryset)
-        serializer = self.get_serializer(data=querysetAsObj, many=True)
-        serializer.is_valid()
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    # def list(self, request):
+    #     queryset = Ofertas.objects.exclude(estadoDisponibilidad="CERRADA")
+    #     querysetAsObj = self.filter_queryset(queryset)
+    #     serializer = self.get_serializer(data=querysetAsObj, many=True)
+    #     serializer.is_valid()
+    #     return Response(data=serializer.data, status=status.HTTP_200_OK)
