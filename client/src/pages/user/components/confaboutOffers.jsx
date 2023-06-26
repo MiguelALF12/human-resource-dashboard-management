@@ -9,8 +9,6 @@ import Col from "react-bootstrap/Col"
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 
-import "../../../styles/profileConfiguration.css";
-
 import { getAplicantDocuments, updateDocs } from "../../../api/documentos";
 import { partialUpdateAplicant } from "../../../api/aplicantes";
 import { renameFile, loadReturnedAplicantDocs } from "../../../utilities/files";

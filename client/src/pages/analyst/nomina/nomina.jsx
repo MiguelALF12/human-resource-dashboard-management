@@ -1,13 +1,9 @@
-/**
- * #TODO: Definir operaciones por cada TAB (ofertas, nomina, inteligencia de neogio)
- */
 import React, { useState, useEffect, useMemo } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import '../../../styles/nomina.css'
 
-import Pagination from "../../../components/pagination";
+import Pagination from "../../home/components/pagination";
 import NominaTable from './components/nominaTable';
 import FilterNominaHandler from './components/filterNominaHandler';
 

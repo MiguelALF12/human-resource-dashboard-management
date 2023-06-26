@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image'
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import About from '../pages/about.jsx'
+import About from '../about'
 
-import { htmlStrToElement } from '../utilities/components.js';
+import { htmlStrToElement } from '../../../utilities/components';
 
 const Header = (props) => {
     const [showAbout, setShowAbout] = useState(false);
@@ -26,7 +24,7 @@ const Header = (props) => {
                 container.insertBefore(profileImgElem, aplicantProfileMenuElem);
             }
         }
-    }, [])
+    }, [props]);
     return (
         <Navbar expand="md">
             <Container fluid>

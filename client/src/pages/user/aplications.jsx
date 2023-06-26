@@ -5,8 +5,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Aplication from './components/aplication';
 
-import "../../styles/bodyInfo.css";
-
 import { getAplicationsByAplicantId } from '../../api/aplicaciones';
 import { getSeleccionados } from '../../api/seleccionados';
 import { searchAplicationIn } from '../../utilities/components';

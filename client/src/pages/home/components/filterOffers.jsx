@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { filterOffers } from "../utilities/components";
+import { filterOffers } from "../../../utilities/components";
 
 const FilterOffers = (props) => {
 

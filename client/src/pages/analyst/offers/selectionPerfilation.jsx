@@ -5,10 +5,7 @@ import Button from "react-bootstrap/Button";
 import SelectedAplicantsTable from './selectedAplicantsTable';
 import AplicantFilesVerification from './aplicantFilesVerification';
 import ChangeAplicantStateConfirmation from './changeAplicantStateConfirmation';
-// import InterviewAndPsicologicalTest from './interviewAndPsicologicalTest'
-import Pagination from '../../../components/pagination';
-
-import '../../../styles/offers.css';
+import Pagination from '../../home/components/pagination';
 
 import { getSeleccionados } from '../../../api/seleccionados';
 

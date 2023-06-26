@@ -1,21 +1,13 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import Header from "../../components/header"
-import Footer from "../../components/footer"
+import Header from "../home/components/header"
+import Footer from "../home/components/footer"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/col";
 import MenuNomina from "./nomina/nomina";
 import MenuInteligenciaNegocio from "./inteligenciaNegocio/inteligenciaNegocio";
 import ListGroup from 'react-bootstrap/ListGroup';
 
-
-// import { getAplicant } from '../api/aplicantes';
-
-
-// export const userLoader = async ({ params }) => {
-//     const user = await getAplicant(params.id);
-//     return { user }
-// }
 
 const AnalystHome = () => {
 

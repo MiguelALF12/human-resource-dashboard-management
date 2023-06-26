@@ -8,10 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 
 // pages
-import Home, { userLoader } from './pages/home';
-import Loggin from './pages/loggin'
-import Register from './pages/register'
-import OfferDetails from './pages/offerDetails';
+import Home, { userLoader } from './pages/home/home';
+import Loggin from './pages/home/loggin'
+import Register from './pages/home/register'
+import OfferDetails from './pages/home/offerDetails';
 import Aplications from "./pages/user/aplications"
 import Profile from "./pages/user/profile"
 import Credentials from "./pages/user/components/confCredentials.jsx"
@@ -27,9 +27,8 @@ import SelectionPerfilation from './pages/analyst/offers/selectionPerfilation';
 import Entry from './pages/analyst/offers/hiringProcess/entry';
 import { aplicantLoader } from './pages/analyst/offers/hiringProcess/entry';
 import Nomina from './pages/analyst/nomina/nomina';
-// import AfiliacionSeguridadSocial from './pages/analyst/nomina/afiliacionSeguridadSocial';
 import InteligenciaNegocio from './pages/analyst/inteligenciaNegocio/inteligenciaNegocio';
-import ErrorPage from './pages/error';
+import ErrorPage from './pages/home/error';
 
 
 const router = createBrowserRouter([

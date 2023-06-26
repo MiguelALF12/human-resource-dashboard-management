@@ -5,14 +5,13 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Ass from "./ass";
 import Hiring from "./hiring";
-import '../../../../styles/offers.css';
 import { getSeleccionados } from "../../../../api/seleccionados";
 import { getDataFromLocalStorage, getLenghtOfFormData } from "../../../../utilities/components";
 
 export const aplicantLoader = async ({ params }) => {
     const selectedUsers = await getSeleccionados();
     for (let user of selectedUsers) {
-        if (user.id == params.id) {
+        if (user.id.toString() === params.id.toString()) {
             return { user };
         }
     }

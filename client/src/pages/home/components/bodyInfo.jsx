@@ -5,10 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Offer from './offer.jsx'
 import Pagination from './pagination.jsx';
 import FilterOffers from './filterOffers.jsx';
-import "../styles/bodyInfo.css";
-
-// import { filteredOffers } from '../utilities/components.js';
-import { getOffers } from '../api/ofertas.js';
+import { getOffers } from '../../../api/ofertas.js';
 
 let PageSize = 6;
 

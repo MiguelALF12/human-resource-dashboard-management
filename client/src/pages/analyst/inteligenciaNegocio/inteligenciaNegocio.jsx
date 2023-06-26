@@ -2,11 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import '../../../styles/inteligenciaNegocios.css'
 
 import FilterActivities from "./filterActivities";
 import CreateActivity from "./createActivity";
-import Pagination from "../../../components/pagination";
+import Pagination from "../../home/components/pagination";
 
 let PageSize = 5;
 

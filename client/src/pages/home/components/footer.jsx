@@ -2,7 +2,6 @@ import Row from 'react-bootstrap/Row';
 import React from 'react';
 import Col from 'react-bootstrap/Col';
 
-import '../styles/footer.css';
 const Footer = () => {
     return (
         <Row className="border border-1" id="footer">

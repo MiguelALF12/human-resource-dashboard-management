@@ -3,8 +3,6 @@ import { Link, Outlet } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Col from 'react-bootstrap/Col';
 
-import '../../../styles/offers.css'
-
 const Offers = () => {
     // console.log(document.getElementById("offersTabs").classList);
     return (

@@ -5,18 +5,24 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-import { getOfferById } from '../api/ofertas';
-import { createAplication } from '../api/aplicaciones';
+import { getOfferById } from '../../api/ofertas';
+import { createAplication } from '../../api/aplicaciones';
 
-
-import "../styles/bodyInfo.css";
 
 const OfferDetails = () => {
     const [offerDetails, setOfferDetails] = useState({})
     const location = useLocation();
     const navigate = useNavigate();
     let pathAsArr = location.pathname.split("/");
-    let offerId = pathAsArr[pathAsArr.length - 1]
+    let offerId = pathAsArr[pathAsArr.length - 1];
+
+    useEffect(() => {
+        const loadOffer = async () => {
+            let res = await getOfferById(offerId);
+            setOfferDetails(res);
+        }
+        loadOffer();
+    }, [offerId]);
 
     const handleAplication = () => {
         let redirection;
@@ -40,14 +46,6 @@ const OfferDetails = () => {
 
         }
     }
-    useEffect(() => {
-        const loadOffer = async () => {
-            let res = await getOfferById(offerId);
-            setOfferDetails(res);
-        }
-        loadOffer();
-    }, [location]);
-
     return (
         <Row id="bodyInfoContainer">
             <Col className="mx-auto my-5" xs={12} md={6}>

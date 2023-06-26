@@ -1,15 +1,15 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Header from "../components/header";
-import BodyInfo from "../components/bodyInfo";
-import Footer from "../components/footer";
+import Header from "./components/header";
+import BodyInfo from "./components/bodyInfo";
+import Footer from "./components/footer";
 
-import '../styles/index.css'
+import '../../styles/index.css'
 
 import { Outlet, useLocation, useLoaderData } from 'react-router-dom';
 
-import { getAplicant } from '../api/aplicantes';
-import { includedOnUsersPaths } from '../utilities/components';
+import { getAplicant } from '../../api/aplicantes';
+import { includedOnUsersPaths } from '../../utilities/components';
 
 
 export const userLoader = async ({ params }) => {

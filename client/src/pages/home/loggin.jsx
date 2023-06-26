@@ -5,11 +5,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import AlertMessage from '../components/alertMessage';
+import AlertMessage from './components/alertMessage';
 
-import '../styles/loggin.css'
-
-import { authenticateUser } from '../api/aplicantes';
+import { authenticateUser } from '../../api/aplicantes';
 
 const Loggin = () => {
     const navigate = useNavigate();

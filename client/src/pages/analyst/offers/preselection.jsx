@@ -8,8 +8,7 @@ import Button from "react-bootstrap/Button";
 import ActiveOffer from './activeOffer';
 import AplicantsTable from "./aplicantsTable";
 import AplicantInformation from './aplicantInfo';
-import Pagination from '../../../components/pagination';
-import '../../../styles/offers.css';
+import Pagination from '../../home/components/pagination';
 import MedicalAppointment from './medicalAppointment';
 
 import { getOffers } from '../../../api/ofertas';

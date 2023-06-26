@@ -2,11 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import '../../../styles/offers.css';
 
 import OffersTable from "./offersTable";
 import FilterOfferHandler from "./filterOfferHandler";
-import Pagination from "../../../components/pagination";
+import Pagination from "../../home/components/pagination";
 import CreateOffer from "./createOffer";
 import EditOffer from "./editOffer";
 

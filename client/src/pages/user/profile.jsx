@@ -5,8 +5,6 @@ import OptionsMenu from './components/optionsMenu'
 
 import { Outlet } from "react-router-dom";
 
-import '../../styles/profileConfiguration.css';
-
 const Profile = () => {
     return (
         <Row id="configOptionArea">

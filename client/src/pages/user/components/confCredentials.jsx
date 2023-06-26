@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRouteLoaderData, useNavigate } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
-
-import "../../../styles/profileConfiguration.css";
 
 import { partialUpdateAplicantCredentials, partialUpdateAplicant } from "../../../api/aplicantes";
 import { compareTwoObjects } from "../../../utilities/components";
@@ -16,7 +13,7 @@ import { htmlStrToElement } from "../../../utilities/components";
 const Credentials = () => {
     const { register, handleSubmit } = useForm();
     const { user } = useRouteLoaderData("userSessionHome");
-    const navigate = useNavigate()
+
     useEffect(() => {
         let profileImgElem = htmlStrToElement(user.imagenPerfil);
         let container = document.getElementById("aplicantImgOnConf");
@@ -47,7 +44,6 @@ const Credentials = () => {
             alert("Información personal no alterada.")
         }
     }
-
 
     return <Row className="formConfigContainer border border-1">
         <Col className="text-center my-auto" xs={12} md={3} lg={3} id="aplicantImgOnConf">

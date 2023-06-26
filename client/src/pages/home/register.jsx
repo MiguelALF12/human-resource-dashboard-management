@@ -14,14 +14,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
-import Header from '../components/header';
-import Footer from '../components/footer';
-import "../styles/bodyInfo.css";
+import Header from './components/header';
+import Footer from './components/footer';
 
-import { createAplicant } from '../api/aplicantes';
-import { createDocuments } from '../api/documentos';
-import { renameFile } from '../utilities/files';
-import { assignProfileImg } from '../utilities/components';
+import { createAplicant } from '../../api/aplicantes';
+import { createDocuments } from '../../api/documentos';
+import { renameFile } from '../../utilities/files';
+import { assignProfileImg } from '../../utilities/components';
 
 const Register = () => {
 

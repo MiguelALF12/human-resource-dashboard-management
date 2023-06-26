@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom'
-import '../styles/offer.css';
 
 /**
  * #TODO: Cargar condicionalmente los detalles de oferta para usuario que aplicó y para que un usuario aplique 
