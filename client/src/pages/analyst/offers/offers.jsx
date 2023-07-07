@@ -4,7 +4,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Col from 'react-bootstrap/Col';
 
 const Offers = () => {
-    // console.log(document.getElementById("offersTabs").classList);
     return (
         <>
             <Col id="offersTabs">

@@ -9,6 +9,7 @@ import Calendar from 'react-calendar'
 
 import 'react-calendar/dist/Calendar.css';
 import { partialUpdateOffer } from '../../../api/ofertas';
+import { nullOfferObj } from '../../../utilities/components';
 
 const EditOffer = (props) => {
     const { handleSubmit, formState: { errors } } = useForm();
@@ -45,86 +46,95 @@ const EditOffer = (props) => {
             newOffer[offerProp] = offerInputs[offerProp].value;
         }
         partialUpdateOffer(newOffer.id, newOffer).then((data) => {
-            props.editedOffer(true);
+            props.editedDeletedOffer();
         }).catch((err) => { console.log(err) });
         // #TODO: Como podemos cerrar el modal desde aquí una vez enviada la actualización? document.getElementById("updateOfferBtn").addEventListener("click", props.close)
         alert("Actualización realizada correctamente!");
 
 
+
     }
 
     return (
-        <Modal show={props.show} onHide={props.close} size="lg">
-            <Modal.Header closeButton>
-                <Modal.Title>Edicion de ofertas</Modal.Title>
-            </Modal.Header>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <Modal.Body>
-                    <Row className='px-5'>
-                        <Col>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Nombre</Form.Label>
-                                <Form.Control type="text" defaultValue={props.clickedOffer.nombre} id="nombre" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Descripcion</Form.Label>
-                                <Form.Control type="textarea" rows={4} defaultValue={props.clickedOffer.descripcion} id="descripcion" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Vacantes</Form.Label>
-                                <Form.Control type="text" defaultValue={props.clickedOffer.vacantes} id="vacantes" />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Salario</Form.Label>
-                                <Form.Control type="text" defaultValue={props.clickedOffer.salario} id="salario" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Experiencia en años</Form.Label>
-                                <Form.Control type="number" defaultValue={props.clickedOffer.experienciaAnos} id="experienciaAnos" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Estado</Form.Label>
-                                <Form.Select aria-label="Default select example" defaultValue={props.clickedOffer.estadoDisponibilidad} id="estadoDisponibilidad">
-                                    <option>Seleccionar</option>
-                                    <option id="estadoDisponibilidadAbierto" value="ABIERTA">ABIERTA</option>
-                                    <option id="estadoDisponibilidadCerrado" value="CERRADA">CERRADA</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={12} md={12} lg={12} className="px-4">
-                            <div className="d-flex flex-row justify-content-around">
-                                <div className='d-flex flex-column justify-content-center'>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Fecha de inicio</Form.Label>
-                                        <Form.Control type="text" defaultValue={props.clickedOffer.fechaInicio} id="fechaInicio" />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Identificador</Form.Label>
-                                        <Form.Control type="number" readOnly defaultValue={props.clickedOffer.id} id="id" />
-                                    </Form.Group>
-                                </div>
-                                <div>
-                                    <Calendar value={value} onChange={handleDate} />
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
+        <>
+            {(() => {
+                if (typeof props.clickedOffer != "undefined") {
+                    return (
+                        <Modal show={props.show} onHide={props.close} size="lg">
+                            <Modal.Header closeButton>
+                                <Modal.Title>Edicion de ofertas</Modal.Title>
+                            </Modal.Header>
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <Modal.Body>
+                                    <Row className='px-5'>
+                                        <Col>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Nombre</Form.Label>
+                                                <Form.Control type="text" defaultValue={props.clickedOffer.nombre} id="nombre" />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Descripcion</Form.Label>
+                                                <Form.Control type="textarea" rows={4} defaultValue={props.clickedOffer.descripcion} id="descripcion" />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Vacantes</Form.Label>
+                                                <Form.Control type="text" defaultValue={props.clickedOffer.vacantes} id="vacantes" />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Salario</Form.Label>
+                                                <Form.Control type="text" defaultValue={props.clickedOffer.salario} id="salario" />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Experiencia en años</Form.Label>
+                                                <Form.Control type="number" defaultValue={props.clickedOffer.experienciaAnos} id="experienciaAnos" />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Estado</Form.Label>
+                                                <Form.Select aria-label="Default select example" defaultValue={props.clickedOffer.estadoDisponibilidad} id="estadoDisponibilidad">
+                                                    <option>Seleccionar</option>
+                                                    <option id="estadoDisponibilidadAbierto" value="ABIERTA">ABIERTA</option>
+                                                    <option id="estadoDisponibilidadCerrado" value="CERRADA">CERRADA</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={12} md={12} lg={12} className="px-4">
+                                            <div className="d-flex flex-row justify-content-around">
+                                                <div className='d-flex flex-column justify-content-center'>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Fecha de inicio</Form.Label>
+                                                        <Form.Control type="text" defaultValue={props.clickedOffer.fechaInicio} id="fechaInicio" />
+                                                    </Form.Group>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Identificador</Form.Label>
+                                                        <Form.Control type="number" readOnly defaultValue={props.clickedOffer.id} id="id" />
+                                                    </Form.Group>
+                                                </div>
+                                                <div>
+                                                    <Calendar value={value} onChange={handleDate} />
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    </Row>
 
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={props.close}>
-                        Cancelar
-                    </Button>
-                    <Button type="submit" variant="primary" id="updateOfferBtn">
-                        Aceptar
-                    </Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={props.close}>
+                                        Cancelar
+                                    </Button>
+                                    <Button type="submit" variant="primary" id="updateOfferBtn">
+                                        Aceptar
+                                    </Button>
+                                </Modal.Footer>
+                            </Form>
+                        </Modal>
+                    )
+                }
+            })()}
+        </>
 
     );
 }

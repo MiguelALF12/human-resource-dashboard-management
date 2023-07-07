@@ -33,9 +33,12 @@ const OffersTable = (props) => {
                             <td>{offer.experienciaAnos}</td>
                             <td>
                                 <Button id="editOfferRecordBtn" size="sm" onClick={() => {
-                                    props.clickedOffer("offerHandler-" + offer.id.toString());
+                                    props.clickedOffer("offerHandler-" + offer.id.toString() + "-edit");
                                 }} />
-                                <Button id="deleteOfferRecordBtn" variant="danger" size="sm" />
+                                <Button id="deleteOfferRecordBtn" variant="danger" size="sm"
+                                    onClick={() => {
+                                        props.clickedOffer("offerHandler-" + offer.id.toString() + "-delete");
+                                    }} />
                             </td>
                         </tr>
                     )

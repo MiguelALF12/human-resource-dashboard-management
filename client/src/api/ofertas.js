@@ -42,3 +42,13 @@ export const getOfferById = async (offerId) => {
         }
     }).then((res) => res.json());
 };
+
+export const deleteOffer = async (offerId) => {
+    return await fetch(
+        baseURL + offerId, {
+        'method': 'DELETE',
+        "headers": {
+            'Content-Type': 'application/json',
+        }
+    }).then((res) => res.text());
+}

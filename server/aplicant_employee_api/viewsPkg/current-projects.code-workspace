@@ -7,5 +7,10 @@
 			"path": "../../../../../../SELFSTUDY-WORK/PROYECTS/EDX/Project-02/wiki"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.autopep8"
+		},
+		"python.formatting.provider": "none"
+	}
 }

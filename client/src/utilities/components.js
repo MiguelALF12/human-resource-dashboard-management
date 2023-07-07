@@ -6,6 +6,19 @@
 import { createAvatar } from '@dicebear/core';
 import { identicon } from '@dicebear/collection';
 
+export const nullOfferObj = {
+    "id": null,
+    "nombre": null,
+    "descripcion": null,
+    "estadoDisponibilidad": null,
+    "vacantes": null,
+    "fechaInicio": null,
+    "salario": null,
+    "experienciaAnos": null
+}
+
+
+
 export const htmlStrToElement = (userProfileImg) => {
     // let container = document.getElementById("aplicantProfileImg");
     // console.log(container.childNodes)
