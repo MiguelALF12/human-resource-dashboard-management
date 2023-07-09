@@ -6,39 +6,39 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { filterOffers } from "../../../utilities/components";
+import { filterRecords } from "../../../utilities/components";
 
 const FilterOffers = (props) => {
 
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (searchQuery) => {
-        const offerFromSearch = filterOffers(props.offers, searchQuery)
+        const offerFromSearch = filterRecords(props.offers, searchQuery)
         props.offersFromQuery(offerFromSearch)
     }
 
     return (<>
-        <h2 className="text-center py-4"> Ofertas de trabajo activas</h2>
+        <h2 className="text-center mt-3"> Ofertas de trabajo activas</h2>
         <InputGroup className="my-3">
             <Form className="w-100" onSubmit={handleSubmit(onSubmit)}>
                 <Row className="mb-3">
-                    <Col md={8} lg={8}>
+                    <Col className="px-4 my-1" xs={12} md={6} lg={6}>
                         <Form.Control placeholder="Caracteristica de filtrado" defaultValue="" {...register("pattern")} />
                     </Col>
-                    <Col md={4} lg={4}>
+                    <Col className="px-4 my-1" xs={8} md={4} lg={4}>
                         <Form.Select {...register("parameter")}>
                             <option>Seleccione</option>
-                            <option value="nombre">Nombre</option>
+                            s 2 my-1 <option value="nombre">Nombre</option>
                             <option value="salario">Salario</option>
                             <option value="experiencia">Experiencia</option>
                             <option value="vacantes">Vacantes</option>
                         </Form.Select>
                     </Col>
-                </Row>
-                <Row>
-                    <Col>
+                    <Col className="d-flex px-4 my-1" xs={4} md={2} lg={2}>
                         <Button type="submit"> Buscar </Button>
                     </Col>
+                </Row>
+                <Row>
                 </Row>
             </Form>
 

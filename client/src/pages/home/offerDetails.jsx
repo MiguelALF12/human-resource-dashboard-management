@@ -25,7 +25,6 @@ const OfferDetails = () => {
     }, [offerId]);
 
     const handleAplication = () => {
-        let redirection;
         if (pathAsArr.length > 3) {
             createAplication({
                 idAplicante: pathAsArr[2],
@@ -41,7 +40,7 @@ const OfferDetails = () => {
 
         } else {
             // No user Logged
-            redirection = '/loggin';
+            let redirection = '/loggin';
             navigate(redirection, { replace: true });
 
         }

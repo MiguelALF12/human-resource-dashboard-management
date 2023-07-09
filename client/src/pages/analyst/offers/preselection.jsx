@@ -9,7 +9,7 @@ import ActiveOffer from './activeOffer';
 import AplicantsTable from "./aplicantsTable";
 import AplicantInformation from './aplicantInfo';
 import Pagination from '../../home/components/pagination';
-import MedicalAppointment from './medicalAppointment';
+import MedicalInterviewAppointment from './medicalAppointment';
 
 import { getOffers } from '../../../api/ofertas';
 import { getAplications } from '../../../api/aplicaciones';
@@ -23,14 +23,14 @@ const Preselection = () => {
     const [clickedOffer, setClickedOffer] = useState("0");
     const [clickedAplicant, setClickedAplicant] = useState("0");
     const [currentPage, setCurrentPage] = useState(1);
-    const [showMedicalAppointment, setShowMedicalAppointment] = useState(false);
+    const [showMedicalInterviewAppointment, setShowMedicalInterviewAppointment] = useState(false);
     const handleClickedOffer = (offerId) => { setClickedOffer(offerId); }
     const handleClickedAplicant = (aplicantPositionInAplications) => { setClickedAplicant(aplicantPositionInAplications); };
-    const handleCloseMedicalAppointment = () => setShowMedicalAppointment(false);
-    const handleShowMedicalAppointment = () => {
+    const handleCloseMedicalInterviewAppointment = () => setShowMedicalInterviewAppointment(false);
+    const handleShowMedicalInterviewAppointment = () => {
         if (clickedAplicant.includes("aplicant-")) {
             // console.log(clickedAplicant)
-            setShowMedicalAppointment(true);
+            setShowMedicalInterviewAppointment(true);
         };
     }
 
@@ -46,7 +46,7 @@ const Preselection = () => {
 
 
     }, []);
-
+    console.log(aplications)
 
     const currentListedOffers = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
@@ -93,11 +93,11 @@ const Preselection = () => {
                 <Col xs={12} md={5}></Col>
                 <Col xs={12} md={4}>
                     <div className='text-center'>
-                        <Button onClick={handleShowMedicalAppointment}>Pasar a siguiente fase</Button>
+                        <Button onClick={handleShowMedicalInterviewAppointment}>Pasar a siguiente fase</Button>
                     </div>
                 </Col>
             </Row >
-            <MedicalAppointment show={showMedicalAppointment} close={handleCloseMedicalAppointment}
+            <MedicalInterviewAppointment show={showMedicalInterviewAppointment} close={handleCloseMedicalInterviewAppointment}
                 // aplicant=[aplicant.id, aplicant.correo, offer.id, aplication.id]
                 aplicant={clickedAplicant === "0" ? "" :
                     [aplications[0][parseInt(clickedOffer.split('-')[1])][parseInt(clickedAplicant.split('-')[1])].id,

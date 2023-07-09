@@ -5,7 +5,6 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 const AplicantsTable = (props) => {
-    // console.log("aplicants table: props.aplication ", props.aplication, " Igual a algo?", typeof (props.aplication) == "object" ? "Yes" : "No")
     return (
         <Table striped bordered hover>
             <thead>

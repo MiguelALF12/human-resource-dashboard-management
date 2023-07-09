@@ -132,7 +132,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # connection with multiple backends
-CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://192.168.0.15:3000']
 
 # Uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

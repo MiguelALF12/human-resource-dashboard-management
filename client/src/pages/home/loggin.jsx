@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import AlertMessage from './components/alertMessage';
-
 import { authenticateUser } from '../../api/aplicantes';
 
 const Loggin = () => {
@@ -15,7 +14,6 @@ const Loggin = () => {
     const [loginAlert, setLoginAlert] = useState([false, "", "", ""]);
 
     const handleLoginAlert = (show, id, variant, message) => setLoginAlert([show, id, variant, message]);
-
     const onSubmit = async (credentials) => {
         const res = await authenticateUser(credentials);
         if (res.status === 'authenticated') {
@@ -32,14 +30,12 @@ const Loggin = () => {
         console.log(e)
         // Al enviar el form con errores y mostrar e, se muestra el objeto de campos, con los campos que presentan error.
     }
-    return (<>
+    return (<div id="logginContainer">
         <AlertMessage show={loginAlert[0]} id={loginAlert[1]} variant={loginAlert[2]} message={loginAlert[3]} />
-
-
         <div id="logginAreaDiv">
             <Row className="mt-5 shadow" id="logginArea">
                 <Col xs={12} md={6} className="bg-primary">
-                    {/* <Img src="..." class="rounded placeholder col-12" alt="..." fluid /> */}
+
                 </Col>
                 <Col xs={12} md={6} className="bg-white">
 
@@ -69,7 +65,7 @@ const Loggin = () => {
                 </Col>
             </Row>
         </div>
-    </>
+    </div>
     )
 };
 export default Loggin;

@@ -6,8 +6,8 @@
 */
 
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 
 import Row from 'react-bootstrap/Row';
@@ -26,25 +26,60 @@ const Register = () => {
 
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
-    const onSubmit = (user) => {
-        user.imagenPerfil = assignProfileImg(user.cedula);
-        createAplicant(user)
-            .then((data) => {
-                console.log("usuario creado: ", data);
-            })
-            .catch((err) => { console.log(err); });
+    const [disableSelectors, setDisableSelectors] = useState(true);
 
-        const formData = new FormData();
-        formData.append("cedula", user.cedula);
-        for (let key in user.files) {
-            // console.log(key, renameFile(key, user.files[key][0]));
-            formData.append(key, renameFile(key, user.files[key][0]));
+    const handleCheck = () => {
+        //Can this be written with useCallback?
+        const aplicantAndEnglish = document.getElementById("aplicantKnowsEnglish").checked
+        if (aplicantAndEnglish) {
+            setDisableSelectors(false);
+        } else {
+            setDisableSelectors(true);
         }
-        createDocuments(formData)
-            .then((data) => { console.log("Documentos subidos!", data); })
-            .catch((err) => { console.log(err); });
+
     }
 
+
+    const onSubmit = (user) => {
+        user.imagenPerfil = assignProfileImg(user.cedula);
+        if (disableSelectors) {
+            user.speaking = "NINGUNA"
+            user.listening = "NINGUNA"
+            user.writing = "NINGUNA"
+        } else {
+            user.speaking = document.getElementById("UserEnglishSecondLangSpeaking").value;
+            user.listening = document.getElementById("UserEnglishSecondLangWriting").value;
+            user.writing = document.getElementById("UserEnglishSecondLangListening").value;
+        }
+        createAplicant(user)
+            .then(() => {
+                console.log("usuario creado");
+
+                const formData = new FormData();
+                formData.append("cedula", user.cedula);
+                for (let key in user.files) {
+                    // console.log(key, renameFile(key, user.files[key][0]));
+                    formData.append(key, renameFile(key, user.files[key][0]));
+                }
+                return createDocuments(formData)
+            }).then(() => {
+                console.log("Documentos subidos!")
+            })
+            .catch(err => console.warn(err));
+
+        // const formData = new FormData();
+        // formData.append("cedula", user.cedula);
+        // for (let key in user.files) {
+        //     // console.log(key, renameFile(key, user.files[key][0]));
+        //     formData.append(key, renameFile(key, user.files[key][0]));
+        // }
+        // createDocuments(formData)
+        //     .then((data) => { console.log("Documentos subidos!", data); })
+        //     .catch((err) => { console.log(err); });
+        let redirection = '/';
+        navigate(redirection, { replace: true });
+
+    }
     const onError = (e) => {
         alert("Tiene errores en su registro. Reviselo!")
         console.log(e)
@@ -122,8 +157,9 @@ const Register = () => {
                             <Row>
                                 <Form.Group as={Col} controlId="formGroupUserEscolarity">
                                     <Form.Label>Nivel de escolaridad actual</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="PROFESIONAL" {...register("escolaridad", { required: true })}>
+                                    <Form.Select aria-label="Default select example" defaultValue="NINGUNA" {...register("escolaridad", { required: true })}>
                                         <option>Seleccionar</option>
+                                        <option value="NINGUNA"> Ninguna</option>
                                         <option value="PRIMARIA"> Primaria</option>
                                         <option value="BACHILLER"> Bachiller</option>
                                         <option value="TECNICO"> Técnico</option>
@@ -142,41 +178,42 @@ const Register = () => {
                             </Form.Group>
                             <Form.Group controlId="formGroupUserEnglishSecondLang">
                                 <Form.Label >Manejo del idioma ingles</Form.Label>
-                                <Form.Select aria-label="Default select example" defaultValue="False" {...register("manejoIngles")}>
-                                    <option>Seleccionar</option>
-                                    <option value="True">Si</option>
-                                    <option value="False">No</option>
-                                </Form.Select>
+                                <Form.Check type='checkbox' id="aplicantKnowsEnglish" label="Si" {...register("manejoIngles")} onChange={handleCheck} />
                             </Form.Group>
                             <Row className='my-4'>
-                                {/* #TODO: Configurar habilitado/deshabilitado */}
-                                <Form.Group as={Col} controlId="formGroupUserEnglishSecondLangSpeaking">
-                                    <Form.Label>Nivel de speaking</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="BAJA" {...register("speaking")}>
-                                        <option>Seleccionar</option>
-                                        <option value="BAJA">BAJA</option>
-                                        <option value="MEDIA">MEDIA</option>
-                                        <option value="ALTA">ALTA</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                <Form.Group as={Col} controlId="UserEnglishSecondLangWritingWriting">
-                                    <Form.Label>Nivel de writing</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="BAJA" {...register("writing")}>
-                                        <option>Seleccionar</option>
-                                        <option value="BAJA">BAJA</option>
-                                        <option value="MEDIA">MEDIA</option>
-                                        <option value="ALTA">ALTA</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                <Form.Group as={Col} controlId="UserEnglishSecondLangWritingListening">
-                                    <Form.Label>Nivel de listening</Form.Label>
-                                    <Form.Select aria-label="Default select example" defaultValue="BAJA" {...register("listening")}>
-                                        <option>Seleccionar</option>
-                                        <option value="BAJA">BAJA</option>
-                                        <option value="MEDIA">MEDIA</option>
-                                        <option value="ALTA">ALTA</option>
-                                    </Form.Select>
-                                </Form.Group>
+                                <Col xs={12} sm={12} md={4} lg={4}>
+                                    <Form.Group controlId="UserEnglishSecondLangSpeaking">
+                                        <Form.Label>Nivel de speaking</Form.Label>
+                                        <Form.Select defaultValue="BAJA" disabled={disableSelectors}>
+                                            <option>Seleccione</option>
+                                            <option value="BAJA">BAJA</option>
+                                            <option value="MEDIA">MEDIA</option>
+                                            <option value="ALTA">ALTA</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={12} sm={12} md={4} lg={4}>
+                                    <Form.Group controlId="UserEnglishSecondLangWriting">
+                                        <Form.Label>Nivel de writing</Form.Label>
+                                        <Form.Select defaultValue="BAJA" disabled={disableSelectors}>
+                                            <option>Seleccione</option>
+                                            <option value="BAJA">BAJA</option>
+                                            <option value="MEDIA">MEDIA</option>
+                                            <option value="ALTA">ALTA</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={12} sm={12} md={4} lg={4}>
+                                    <Form.Group controlId="UserEnglishSecondLangListening">
+                                        <Form.Label>Nivel de listening</Form.Label>
+                                        <Form.Select defaultValue="BAJA" disabled={disableSelectors}>
+                                            <option>Seleccione</option>
+                                            <option value="BAJA">BAJA</option>
+                                            <option value="MEDIA">MEDIA</option>
+                                            <option value="ALTA">ALTA</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Col>
                             </Row>
                             <h3 className='mt-3'>Información de aplicación</h3>
                             <Row className='my-3'>
@@ -211,7 +248,7 @@ const Register = () => {
                                     7-"CERTIFICADO_PENSION"
                                     8-"BENEFICIOS"
                                     9-"OTROS" */}
-                                <Col>
+                                <Col xs={12}>
                                     <Form.Group controlId="formFileCedula" className="mb-3">
                                         <Form.Label>Cedula ampliada al 150% </Form.Label>
                                         <Form.Control type="file" size="sm" {...register("files.CEDULA", { required: true })} />
@@ -225,7 +262,7 @@ const Register = () => {
                                         <Form.Control type="file" size="sm" {...register("files.HOJA_DE_VIDA", { required: true })} />
                                     </Form.Group>
                                 </Col>
-                                <Col>
+                                <Col xs={12}>
                                     <Form.Group controlId="formFileCertifications" className="mb-3">
                                         <Form.Label>Certificados de educación </Form.Label>
                                         <Form.Control type="file" size="sm" {...register("files.CERTIFICADOS_EDUCACION", { required: true })} />
@@ -239,7 +276,7 @@ const Register = () => {
                                         <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_EPS", { required: true })} />
                                     </Form.Group>
                                 </Col>
-                                <Col>
+                                <Col xs={12}>
                                     <Form.Group controlId="formFilePension" className="mb-3">
                                         <Form.Label>Certificado de pensión</Form.Label>
                                         <Form.Control type="file" size="sm" {...register("files.CERTIFICADO_PENSION", { required: true })} />
@@ -255,9 +292,8 @@ const Register = () => {
                                 </Col>
                             </Row>
                             <Form.Group className="mt-4">
-                                <Form.Check
-                                    label="Agree to terms and conditions"
-                                />
+                                <Form.Check label="Acepta nuestros términos y condiciones" />
+                                <Link className="ms-4" to="#">Visualizar</Link>
                             </Form.Group>
                             <div className='py-5 w-50 mx-auto'>
                                 <Button type="submit" className='mx-3'>Cancelar</Button>

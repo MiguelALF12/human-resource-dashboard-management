@@ -6,11 +6,8 @@ import { deleteOffer } from "../../../api/ofertas";
 import { nullOfferObj } from '../../../utilities/components';
 
 const DeleteOffer = (props) => {
-    console.log(props)
     const onSubmit = () => {
-        console.log("removing offer -> ", props.clickedOffer.id);
         deleteOffer(props.clickedOffer.id).then((data) => {
-            console.log("response: ", data);
             props.editedDeletedOffer();
         }).catch((err) => { console.log(err) });
         alert("Eliminación realizada correctamente!");

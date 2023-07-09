@@ -29,7 +29,7 @@ class AplicantesViews (viewsets.ModelViewSet):
             self.perform_create(serializer)
         try:
             serializerData = serializer.initial_data
-            user = User.objects.create_user(serializerData['cedula'], serializerData['correo'], serializerData['contrasena'])
+            User.objects.create_user(serializerData['cedula'], serializerData['correo'], serializerData['contrasena'])
             headers = self.get_success_headers(serializer.data) # Obtiene headers necesarios de formato de aceptación de petición
             return Response(data={}, status=status.HTTP_201_CREATED, headers=headers)
         except MultipleObjectsReturned:

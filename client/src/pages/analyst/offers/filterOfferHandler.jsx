@@ -6,13 +6,13 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { filterOffers } from "../../../utilities/components";
+import { filterRecords } from "../../../utilities/components";
 
 const FilterOfferHandler = (props) => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (searchQuery) => {
-        const offerFromSearch = filterOffers(props.offers, searchQuery)
+        const offerFromSearch = filterRecords(props.offers, searchQuery)
         props.offersFromQuery(offerFromSearch)
 
     }

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form'
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
 import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import InterviewAndPsicologicalTest from './interviewAndPsicologicalTest'
+
+
 import { getAplicantDocuments } from "../../../api/documentos";
+import { removeSeleccionado } from "../../../api/seleccionados";
 import { loadReturnedAplicantDocs } from "../../../utilities/files";
 import { renameFile } from "../../../utilities/files";
 import { addDataIntoLocalStorage } from "../../../utilities/components";
@@ -19,7 +20,6 @@ export let userInfoPreHiring;
 
 const AplicantFilesVerification = (props) => {
     const navigate = useNavigate();
-    const location = useLocation();
     const { register, handleSubmit } = useForm();
     const [disableCheck, setDisableCheck] = useState([false, false]);
     const handleCheck = () => {
@@ -50,8 +50,9 @@ const AplicantFilesVerification = (props) => {
     // console.log("Aplicante seleccionado", props.aplicant);
     const onSubmit = (userValidationPreHiring) => {
 
-        console.log("eliminar seleccionados: ", userValidationPreHiring)
-        if (!disableCheck[0] && props.aplicant.faseAplicante === "PRE_CONTRATACION" && userValidationPreHiring.hojaDeVidaCheck && userValidationPreHiring.cedulaCheck) {
+        if (!disableCheck[0] && props.aplicant.faseAplicante === "PRE_CONTRATACION" && userValidationPreHiring.hojaDeVidaCheck && userValidationPreHiring.cedulaCheck &&
+            userValidationPreHiring.certificadoEducacionCheck && userValidationPreHiring.libretaMilitarCheck && userValidationPreHiring.cartaExperienciaLaboralCheck
+            && userValidationPreHiring.certificadoEpsCheck) {
             const formData = new FormData();
             for (const [key, value] of Object.entries(userValidationPreHiring)) {
                 // console.log(key, value);
@@ -65,17 +66,27 @@ const AplicantFilesVerification = (props) => {
             }
             formData.append("idSeleccion", props.aplicant.idSeleccion)
             addDataIntoLocalStorage(formData);
+            // #TODO: Por que no hice un navigate({})?
             document.location.href = `${props.aplicant.id}/hiringProcess/`;
         } else {
             // Queda la duda de que hacer cuando la contratación es indirecta.
-            alert("El aplicante no puede pasar al siguiente proceso. La contratación debe ser DIRECTA, su estado debe ser PRE-CONTRATACION y tanto los documentos de HOJA DE VIDA como CEDULA deben ser validos (check).")
+            alert("El aplicante no puede pasar al siguiente proceso. La contratación debe ser DIRECTA, su estado debe ser PRE-CONTRATACION y tanto los documentos de HOJA DE VIDA, CEDULA, CERTIFICADO DE EDUCACION, LIBRETA MILITAR, CARTA DE EXPERIENCIA LABORAL, Y CERTIFICADO DE EPS deben ser validos (check).")
             refreshPage();
         }
 
     }
+
+    const onDeleteSelecction = () => {
+        removeSeleccionado(props.aplicant.idSeleccion).then((data) => {
+            console.log(data);
+        })
+        alert("Aplicante eliminado con exito. Esta acción también elimina las aplicaciones asociadas a esta.")
+        refreshPage();
+    }
     return (<>
-        <Row>
-            {/* 1-"CEDULA" ✔
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            <Row>
+                {/* 1-"CEDULA" ✔
                                     2-"LIBRETA_MILITAR"✔
                                     3-"HOJA_DE_VIDA" ✔
                                     4-"CERTIFICADOS_EDUCACION"✔
@@ -84,92 +95,86 @@ const AplicantFilesVerification = (props) => {
                                     7-"CERTIFICADO_PENSION"
                                     8-"BENEFICIOS"
                                     9-"OTROS" */}
-            {/* Foto y documentos principales*/}
-            <Col className="d-flex pt-2 px-3">
-                <Image src="https://placehold.co/140x200" rounded fluid />
-                <Stack gap={2} className="ps-4">
+                {/* Foto y documentos principales*/}
+                <Col md={5} className="d-flex flex-column py-2 px-3">
                     <h5>Principales</h5>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Hoja de vida</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("hojaDeVidaCheck")} />
-                        </Stack>
-                        <div id="hoja_de_vidaViewer"></div>
-                    </div>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Cedula</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("cedulaCheck")} />
-                        </Stack>
-                        <div id="cedulaViewer"></div>
-                    </div>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Certificado de educación</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("certificadoEducacionCheck")} />
-                        </Stack>
-                        <div id="certificados_educacionViewer"></div>
-                    </div>
-                </Stack>
-            </Col>
-        </Row >
-        <Row>
-            {/* otros documentos*/}
-            <Col className="d-flex flex-column py-2 px-3">
-                <h5>Otros documentos</h5>
-                <Stack gap={3}>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Libreta militar</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("isAplicantSelectedYes")} />
-                        </Stack>
-                        <div id="libreta_militarViewer"></div>
-                    </div>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Cartas experiencia laboral</strong></h6>
-                            <Form.Check required type={'checkbox'} {...register("cartaExperienciaLaboralCheck")} />
-                        </Stack>
-                        <div id="cartas_experiencia_laboralViewer"></div>
-                    </div>
+                    <Stack gap={2}>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Hoja de vida</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("hojaDeVidaCheck")} />
+                            </Stack>
+                            <div id="hoja_de_vidaViewer"></div>
+                        </div>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Cedula</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("cedulaCheck")} />
+                            </Stack>
+                            <div id="cedulaViewer"></div>
+                        </div>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Certificado de educación</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("certificadoEducacionCheck")} />
+                            </Stack>
+                            <div id="certificados_educacionViewer"></div>
+                        </div>
+                    </Stack>
+                    <h5 className="pt-4">Otros documentos</h5>
+                    <Stack gap={2}>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Libreta militar</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("libretaMilitarCheck")} />
+                            </Stack>
+                            <div id="libreta_militarViewer"></div>
+                        </div>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Cartas experiencia laboral</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("cartaExperienciaLaboralCheck")} />
+                            </Stack>
+                            <div id="cartas_experiencia_laboralViewer"></div>
+                        </div>
 
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Certificado EPS</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("certificadoEpsCheck")} />
-                        </Stack>
-                        <div id="certificado_epsViewer"></div>
-                    </div>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Certificado pensión</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("certificadoPensionCheck")} />
-                        </Stack>
-                        <div id="certificado_pensionViewer"></div>
-                    </div>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Beneficios</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("beneficiosCheck")} />
-                        </Stack>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Certificado EPS</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("certificadoEpsCheck")} />
+                            </Stack>
+                            <div id="certificado_epsViewer"></div>
+                        </div>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Certificado pensión</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("certificadoPensionCheck")} />
+                            </Stack>
+                            <div id="certificado_pensionViewer"></div>
+                        </div>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Beneficios</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("beneficiosCheck")} />
+                            </Stack>
 
-                        <div id="beneficiosViewer"></div>
-                    </div>
-                    <div>
-                        <Stack direction="horizontal" gap={3}>
-                            <h6><strong>Otros</strong></h6>
-                            <Form.Check type={'checkbox'} {...register("otrosCheck")} />
-                        </Stack>
-                        <div id="otrosViewer"></div>
-                    </div>
-                </Stack>
-            </Col>
-            <Col className="d-flex flex-column py-2 border border-1">
-                <h5>Resultados de entrevista</h5>
-                <Form onSubmit={handleSubmit(onSubmit)}>
+                            <div id="beneficiosViewer"></div>
+                        </div>
+                        <div>
+                            <Stack direction="horizontal" gap={3}>
+                                <h6><strong>Otros</strong></h6>
+                                <Form.Check type={'checkbox'} {...register("otrosCheck")} />
+                            </Stack>
+                            <div id="otrosViewer"></div>
+                        </div>
+                    </Stack>
+                </Col>
+                <Col md={7} className="d-flex flex-column py-2 border border-1">
+                    <h5>Resultados de entrevista</h5>
+
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Digite de manera resumida los resultados de la entrevista:</Form.Label>
-                        <Form.Control as="textarea" rows={4} required {...register("resultadosEntrevista", { required: true })} />
+                        <Form.Control as="textarea" rows={7} required {...register("resultadosEntrevista", { required: true })} />
                     </Form.Group>
                     <Form.Group controlId="formFileHojaDeVida" className="mb-3">
                         <Form.Label>Resultados de entrevista</Form.Label>
@@ -189,13 +194,11 @@ const AplicantFilesVerification = (props) => {
                             </Stack>
                         </Stack>
                     </Form.Group>
-                    <Button type="submit" variant="success" className='mx-3'>Contratar</Button>
-                    <Button type="submit" variant="danger" className='mx-3'>Dar de baja</Button>
-                </Form>
-            </Col>
-
-        </Row>
-        {/* <div className='flex-fill'><InterviewAndPsicologicalTest /></div> */}
+                    <Button type="submit" variant="success" className='mx-5 my-2'>Contratar</Button>
+                    <Button variant="danger" className='mx-5 my-2' onClick={onDeleteSelecction}>Dar de baja</Button>
+                </Col>
+            </Row >
+        </Form>
     </>)
 };
 

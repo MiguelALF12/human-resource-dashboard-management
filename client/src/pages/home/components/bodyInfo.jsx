@@ -28,6 +28,9 @@ const BodyInfo = () => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
         if (offersFromQuery.length > 0) {
+            if (firstPageIndex > offersFromQuery.length) {
+                setCurrentPage(1);
+            }
             return offersFromQuery.slice(firstPageIndex, lastPageIndex);
         } else {
             return offers.slice(firstPageIndex, lastPageIndex);
@@ -44,8 +47,8 @@ const BodyInfo = () => {
                     </Col>
                 </Row>
                 <Row>
-
-                    <Col className="mt-2">
+                    <hr />
+                    <Col className="m-2">
                         <span>Resultados de la busqueda: {currentListedOffers.length}</span>
                     </Col>
                     <Col xs={12} md={12} className="d-flex flex-wrap justify-content-center g-5">
@@ -60,8 +63,6 @@ const BodyInfo = () => {
                             onPageChange={page => setCurrentPage(page)}
                         />
                     </Col>
-
-
                 </Row>
             </Col>
         </Row>

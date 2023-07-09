@@ -16,11 +16,12 @@ class Empleados(models.Model):
     cedula = models.CharField(max_length=12, blank=False, default="0")
     correo = models.CharField(max_length=100)
     numCelular = models.CharField(max_length=20)
-    numTelefono = models.CharField(max_length=12)
+    numTelefono = models.CharField(max_length=12, blank=True, default="")
     ciudad = models.CharField(max_length=15)
-    direccion = models.TextField(default=True)
+    direccion = models.TextField(default="")
     estado = models.CharField(max_length=30, choices=ESTADO_EMPLEADO)
-    resultadosEntrevista = models.TextField(blank=True) 
+    resultadosEntrevista = models.TextField()
     
     def __str__(self) -> str:
         return str(self.id) + " " + self.cedula + self.nombre
+ 

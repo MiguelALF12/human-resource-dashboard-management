@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/MiguelALF12/humanResourceManagement#readme",
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "react-router-dom": "^6.10.0"
   },
   "dependencies": {

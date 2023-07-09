@@ -16,6 +16,7 @@ class ContratosViews(viewsets.ModelViewSet):
     queryset = Contratos.objects.all()
 
     def create(self, request):
+        print("contrato: ", request.data)
         employee = Empleados.objects.get(cedula= request.data["cedula"])
         employeeDocs = DocumentosEmpleados.objects.filter(idEmpleado=employee.id,idTipo=9)
         contractFile = ""

@@ -54,9 +54,12 @@ export function loadReturnedAplicantDocs(res) {
             // Generar enlaces de descarga para cada archivo
             const downloadLinks = fileNames.map(function (fileName) {
                 const file = zip.files[fileName];
-                if (file.name.includes("Users/miguellopez/Desktop/UNIVERSIDAD/Projects/SW-Recursos-humanos/server/media/aplicants/")) {
-                    file.name = file.name.replace("Users/miguellopez/Desktop/UNIVERSIDAD/Projects/SW-Recursos-humanos/server/media/aplicants/", "")
-                }
+                console.log(file.name.split('/'))
+                // if (file.name.includes("Users/miguellopez/Desktop/UNIVERSIDAD/Projects/SW-Recursos-humanos/server/media/aplicants/")) {
+                //     file.name = file.name.replace("Users/miguellopez/Desktop/UNIVERSIDAD/Projects/SW-Recursos-humanos/server/media/aplicants/", "")
+                // }
+                let splitedFileName = file.name.split('/')
+                file.name = splitedFileName[splitedFileName.length - 1]
                 // Crear un objeto Blob a partir del contenido del archivo
                 return file.async('blob')
                     .then(function (fileData) {
@@ -64,7 +67,7 @@ export function loadReturnedAplicantDocs(res) {
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(fileData);
                         link.download = file.name;
-                        link.textContent = file.name;
+                        link.textContent = "Visualizar archivo";
                         link.id = cleanFileName(file.name.split('-')[1].split('.')[0].toLowerCase()) + "Viewer";
                         return link;
                     });

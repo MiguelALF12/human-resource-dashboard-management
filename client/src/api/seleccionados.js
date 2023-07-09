@@ -38,7 +38,6 @@ export const updateSeleccionadoState = async (seleccionId, newState) => {
 }
 
 export const removeSeleccionado = async (selectionId) => {
-    console.log(selectionId);
     return await fetch(
         baseURL + selectionId + '/',
         {

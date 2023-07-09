@@ -1,7 +1,7 @@
 /**?
  * solo se muestran empleados activos. PAra busquedas de empleados retirados ,se hace como filtro en la parte de busqueda. para ampliar información de documentos, se selecciona un aplicante.
  */
-import React, { useState } from "react";
+import React from "react";
 import Table from 'react-bootstrap/Table';
 import Button from "react-bootstrap/Button";
 
@@ -15,8 +15,7 @@ const NominaTable = (props) => {
                 <th>Cedula</th>
                 <th>Correo</th>
                 <th>Numero celular</th>
-                <th>Ciudad</th>
-                <th>Direccion</th>
+                <th>Cargo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -44,11 +43,9 @@ const NominaTable = (props) => {
                         <td>{employee.cedula}</td>
                         <td>{employee.correo}</td>
                         <td>{employee.numCelular}</td>
-                        <td>{employee.ciudad}</td>
-                        <td>{employee.direccion}</td>
-                        <td>
-                            <Button id="editEmployeeRecordBtn" size="sm" />
-                            <Button id="deleteEmployeeRecordBtn" variant="danger" size="sm" />
+                        <td>{employee.cargo}</td>
+                        <td className="text-center">
+                            <Button id="manageEmployeeRecordBtn" size="sm" />
                         </td>
                     </tr>
                 )

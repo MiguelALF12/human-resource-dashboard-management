@@ -37,53 +37,53 @@ const Ass = (props) => {
         props.files(formData);
         alert("Puede continuar a la fase de contratación!");
     }
+
     return (
         <Row className="py-5 ps-2">
             <Col className="scrollableAssArea">
                 <h1>AFILIACIÓN A SEGURIDAD A SOCIAL.</h1>
-                <p>Este proceso debe considerar lo siguiente:
-                    <ul>
-                        <li>
-                            Debe realizarse mínimo un día antes del ingreso de un colaborador.
-                        </li>
-                        <li>
-                            Se debe de hacer afiliación a los servicios de ARL (Aseguradora de riesgos laborales),
-                            Caja de compensación familiar y EPS (Entidad Prestadora de Salud).
-                        </li>
-                        <li>
-                            Para toda aplicación de un colaborador se necesita:
-                            <ul>
-                                <li>
-                                    Documento de identidad
-                                </li>
-                                <li>
-                                    Nombre completo
-                                </li>
-                                <li>
-                                    Cargo
-                                </li>
-                                <li>
-                                    Salario
-                                </li>
-                            </ul>
-                            En caso de que dicha <strong>información no se despliegue en pantalla</strong>, notificar inmediatamente al equipo técnico.
-                        </li>
-                    </ul>
-                </p>
-                <hr class="border border-2 opacity-50" />
-                <p>
+                <span>Este proceso debe considerar lo siguiente:</span>
+                <ul>
+                    <li>
+                        Debe realizarse mínimo un día antes del ingreso de un colaborador.
+                    </li>
+                    <li>
+                        Se debe de hacer afiliación a los servicios de ARL (Aseguradora de riesgos laborales),
+                        Caja de compensación familiar y EPS (Entidad Prestadora de Salud).
+                    </li>
+                    <li>
+                        Para toda aplicación de un colaborador se necesita:
+                        <ul>
+                            <li>
+                                Documento de identidad
+                            </li>
+                            <li>
+                                Nombre completo
+                            </li>
+                            <li>
+                                Cargo
+                            </li>
+                            <li>
+                                Salario
+                            </li>
+                        </ul>
+                        En caso de que dicha <strong>información no se despliegue en pantalla</strong>, notificar inmediatamente al equipo técnico.
+                    </li>
+                </ul>
+                <hr className="border border-2 opacity-50" />
+                <span>
                     El usuario al cual se le asignará sus respectivas afiliaciones sociales es:
-                    <br />
-                    <br />
-                    <div className="d-flex justify-content-center">
-                        <div className="d-flex flex-column">
-                            <div><strong>Documento de identidad:</strong> {props.aplicant.cedula}</div>
-                            <div><strong>Nombre completo:</strong> {props.aplicant.nombre}</div>
-                            <div><strong>Cargo:</strong> {props.aplicant.nombreOferta}</div>
-                            <div><strong>Salario:</strong> {props.aplicant.salarioOferta}</div>
-                        </div>
+                </span>
+                <br />
+                <br />
+                <div className="d-flex justify-content-center">
+                    <div className="d-flex flex-column">
+                        <div><strong>Documento de identidad:</strong> {props.aplicant.cedula}</div>
+                        <div><strong>Nombre completo:</strong> {props.aplicant.nombre}</div>
+                        <div><strong>Cargo:</strong> {props.aplicant.nombreOferta}</div>
+                        <div><strong>Salario:</strong> {props.aplicant.salarioOferta}</div>
                     </div>
-                </p>
+                </div>
                 <h2>1. Afiliación en ARL (Aseguradora de Riesgos Laborales)</h2>
                 <span>Se debe ingresar al siguiente link: <a href="www.axacolpatria.co">axacolpatria.co</a><br /></span>
                 <span><strong>Usuario:</strong> LOCALIZA.SAS</span><br />
@@ -93,28 +93,28 @@ const Ass = (props) => {
                     Una vez finalizado el resgitro, debe descargar el comprobante de afiliación. Este lo necesitará mas adelante para anexarlo a los documentos del colaborador.
                 </p>
                 <h2>2. Afiliación en Caja de Compensación Familiar</h2>
-                <p>Se tienen dos opciones de caja de compensación:<br />
-                    <ul style={{ textIndent: "10px" }}>
-                        <li>Confamiliar</li>
-                        <li>Cajasan</li>
-                    </ul>
-                </p>
+                <span>Se tienen dos opciones de caja de compensación:</span><br />
+                <ul style={{ textIndent: "10px" }}>
+                    <li>Confamiliar</li>
+                    <li>Cajasan</li>
+                </ul>
                 <span>El proceso para cada una de ellas es diferente: </span><br /><br />
 
                 <h3 style={{ textIndent: "20px" }}>a. Confamiliar</h3>
                 <span>Se debe ingresar al siguiente link: <a href=" www.comfamiliar.com">confamiliar.com</a><br /></span>
                 <span><strong>Usuario:</strong> 900619003</span><br />
                 <span><strong>Contraseña:</strong></span><br /><br />
+                <span>
+                    Ingresando a travez de <strong>Servicios en línea</strong> - <strong>Afiliación de trabajadores</strong>, usted deberá registrar:</span>
+                <ul style={{ textIndent: "30px" }}>
+                    <li>Afiliaciones y retiros</li>
+                    <li>Afiliación de trabajadores y beneficiarios</li>
+                    <li>Iniciar el proceso de afiliación</li>
+                    <li>Ingresar todos los datos del colaborador y de los beneficiarios si aplica</li>
+                    <li>Tener cedula escaneada de colaborador (En caso de los beneficiarios: Si es esposa o pareja certificado de matrimonio o extra juicio, si es hijo registro civil, tarjeta de identidad y certificado de estudio a mayores de 11 años)</li>
+                    <li>Terminar proceso de afiliación</li>
+                </ul>
                 <p>
-                    Ingresando a travez de <strong>Servicios en línea</strong> - <strong>Afiliación de trabajadores</strong>, usted deberá registrar:
-                    <ul style={{ textIndent: "30px" }}>
-                        <li>Afiliaciones y retiros</li>
-                        <li>Afiliación de trabajadores y beneficiarios</li>
-                        <li>Iniciar el proceso de afiliación</li>
-                        <li>Ingresar todos los datos del colaborador y de los beneficiarios si aplica</li>
-                        <li>Tener cedula escaneada de colaborador (En caso de los beneficiarios: Si es esposa o pareja certificado de matrimonio o extra juicio, si es hijo registro civil, tarjeta de identidad y certificado de estudio a mayores de 11 años)</li>
-                        <li>Terminar proceso de afiliación</li>
-                    </ul>
                     IMPORTANTE:  Una vez finalizado el resgitro, debe descargar el comprobante de afiliación. Este lo necesitará mas adelante para anexarlo a los documentos del colaborador.
                     Para obtenerlo dirigase a <strong>Afiliaciones y retiros</strong> - <strong>Constancia de afiliación a trabajadores</strong>
                 </p>
@@ -123,23 +123,23 @@ const Ass = (props) => {
                 <span>Se debe ingresar al siguiente link: <a href="www.cajasan.com">cajasan.com</a><br /> </span>
                 <span><strong>Usuario:</strong> NI900619003</span><br />
                 <span><strong>Contraseña:</strong></span><br /><br />
-                <p>
-                    Ingresando a traves de <strong>Empresas</strong> - <strong>En linea empresas</strong> - <strong>Afiliación de un trabajador</strong> e iniciando sesión, usted deberá:<br />
-                    <ul style={{ textIndent: "30px" }}>
-                        <li>Ingresar todos los datos del colaborador y los beneficios (si aplica).</li>
-                        <li>Tener cedula escaneada de colaborador (En caso de los beneficiarios: Si es esposa o pareja certificado de matrimonio o extra juicio, si es hijo registro civil, tarjeta de identidad y certificado de estudio a mayores de 11 años).</li>
-                        <li>Terminar con el proceso de afiliación conforme lo que se le solicite en la página.</li>
-                    </ul>
-                    IMPORTANTE:  Una vez finalizado el resgitro, debe descargar el comprobante de afiliación. Este lo necesitará mas adelante para anexarlo a los documentos del colaborador.
-                </p>
+                <span>
+                    Ingresando a traves de <strong>Empresas</strong> - <strong>En linea empresas</strong> - <strong>Afiliación de un trabajador</strong> e iniciando sesión, usted deberá:<br /></span>
+                <ul style={{ textIndent: "30px" }}>
+                    <li>Ingresar todos los datos del colaborador y los beneficios (si aplica).</li>
+                    <li>Tener cedula escaneada de colaborador (En caso de los beneficiarios: Si es esposa o pareja certificado de matrimonio o extra juicio, si es hijo registro civil, tarjeta de identidad y certificado de estudio a mayores de 11 años).</li>
+                    <li>Terminar con el proceso de afiliación conforme lo que se le solicite en la página.</li>
+                </ul>
+                <span>IMPORTANTE:  Una vez finalizado el resgitro, debe descargar el comprobante de afiliación. Este lo necesitará mas adelante para anexarlo a los documentos del colaborador.</span>
+
                 <h2>3. Afiliación en EPS (Entidad Prestadora de Salud)</h2>
-                <p>Se tienen tres opciones de caja de compensación:<br />
-                    <ul style={{ textIndent: "10px" }}>
-                        <li>SOS</li>
-                        <li>SURA</li>
-                        <li>COOMEVA- SANITAS- NUEVA EPS</li>
-                    </ul>
-                </p>
+                <span>Se tienen tres opciones de caja de compensación:</span>
+                <br />
+                <ul style={{ textIndent: "10px" }}>
+                    <li>SOS</li>
+                    <li>SURA</li>
+                    <li>COOMEVA- SANITAS- NUEVA EPS</li>
+                </ul>
                 <span>El proceso para cada una de ellas es diferente: </span><br /><br />
                 <h3 style={{ textIndent: "20px" }}>a. SOS</h3>
                 <span>La afiliación se realiza con la asesora que va hasta la oficina.</span>
@@ -157,37 +157,35 @@ const Ass = (props) => {
                     Al hacer click en el correo, se le cargará en pantalla un borrador autogenerado para enviar a este correo, con los datos del aplicante seleccionado.
                     IMPORTANTE:  Una vez finalizado el resgitro, debe descargar el comprobante de afiliación. Este lo necesitará mas adelante para anexarlo a los documentos del colaborador.
                 </p>
-                <hr class="border border-2 opacity-50" />
-                <p>
-                    Una vez realizado el registro según el tipo de afiliación social, y obtenido el comprobante de afiliación, usted deberá subir dichos documentos en los campos que siguen a continuación: <br />
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <Row className="py-5">
+                <hr className="border border-2 opacity-50" />
 
-                            <Col>
-                                <Form.Group controlId="formFileCertifications" className="mb-3">
-                                    <Form.Label>Comprobante ARL<br /></Form.Label>
-                                    <Form.Control type="file" size="sm" {...register("files.ARL", { required: true })} />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group controlId="formFileCertifications" className="mb-3">
-                                    <Form.Label>Comprobante Caja de Compensación Familiar</Form.Label>
-                                    <Form.Control type="file" size="sm" {...register("files.CAJA_COMPENSACION", { required: true })} />
-                                </Form.Group>
-                            </Col>
-                            <Col><Form.Group controlId="formFileCertifications" className="mb-3">
-                                <Form.Label>Comprobante EPS<br /></Form.Label>
-                                <Form.Control type="file" size="sm" {...register("files.EPS", { required: true })} />
+                <span>    Una vez realizado el registro según el tipo de afiliación social, y obtenido el comprobante de afiliación, usted deberá subir dichos documentos en los campos que siguen a continuación: </span> <br />
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Row className="py-5">
+
+                        <Col>
+                            <Form.Group controlId="formFileCertifications" className="mb-3">
+                                <Form.Label>Comprobante ARL<br /></Form.Label>
+                                <Form.Control type="file" size="sm" {...register("files.ARL", { required: true })} />
                             </Form.Group>
-                            </Col>
-                            <Col xs={12} md={12} lg={12} className="d-flex justify-content-between">
-                                <span>IMPORTANTE: Si no suministra los comprobantes no podrá continuar.</span>
-                                <Button type="submit">Enviar</Button>
-                            </Col>
-                        </Row>
-                    </Form>
-                </p>
-
+                        </Col>
+                        <Col>
+                            <Form.Group controlId="formFileCertifications" className="mb-3">
+                                <Form.Label>Comprobante Caja de Compensación Familiar</Form.Label>
+                                <Form.Control type="file" size="sm" {...register("files.CAJA_COMPENSACION", { required: true })} />
+                            </Form.Group>
+                        </Col>
+                        <Col><Form.Group controlId="formFileCertifications" className="mb-3">
+                            <Form.Label>Comprobante EPS<br /></Form.Label>
+                            <Form.Control type="file" size="sm" {...register("files.EPS", { required: true })} />
+                        </Form.Group>
+                        </Col>
+                        <Col xs={12} md={12} lg={12} className="d-flex justify-content-between">
+                            <span>IMPORTANTE: Si no suministra los comprobantes no podrá continuar.</span>
+                            <Button type="submit">Enviar</Button>
+                        </Col>
+                    </Row>
+                </Form>
             </Col>
         </Row >
     )

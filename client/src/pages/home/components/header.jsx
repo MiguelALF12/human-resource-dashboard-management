@@ -32,9 +32,9 @@ const Header = (props) => {
                     let homePath;
                     if (props.session === true) {
                         if (typeof (props.user) !== "undefined") {
-                            //Aplicante loggeado
                             homePath = `/user/${props.user.user.id}/${props.user.user.cedula}`;
                             return (
+                                //Aplicante loggeado
                                 <>
                                     <Navbar.Brand href={homePath}>
                                         <Image src="https://plchldr.co/i/85x65?&bg=1111111&fc=ffffff&text=placeholderLogo" fluid rounded />
@@ -67,9 +67,6 @@ const Header = (props) => {
                                                     </Dropdown.Item>
                                                     <Dropdown.Item>
                                                         <Link to="/">Salir</Link></Dropdown.Item>
-                                                    {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </div>
@@ -91,54 +88,60 @@ const Header = (props) => {
 
                                                 <Dropdown.Item>
                                                     <Link to="/">Salir</Link></Dropdown.Item>
-                                                {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </Navbar.Collapse>
                                 </>
-                                // <>
-                                //     <Col className="d-flex justify-content-end">
-                                //         <DropdownButton id="dropdown-basic-button" title="Bienvenido usuario">
-                                //             <Dropdown.Item>
-                                //                 {/* #TODO: Make logout action */}
-                                //                 <Link to="/">Salir</Link></Dropdown.Item>
-                                //         </DropdownButton>
-                                //         {/* <Image src='../styles/img/user.png' alt="user photo" fluid roundedCircle /> */}
-                                //     </Col>
-                                // </>)
-
                             )
                         }
                     } else {
                         //No one logged
                         homePath = '/';
                         return (
-                            <>
-                                <Col xs={12} md={6} >
-                                    <Nav as="ul">
-                                        <Nav.Item as="li">
-                                            <Nav.Link href={homePath}>
+                            // <>
+                            //     <Col xs={12} sm={12} md={6} >
+                            //         <Nav as="ul">
+                            //             <Nav.Item as="li">
+                            //                 <Nav.Link href={homePath}>
+                            //                     <Image src="https://plchldr.co/i/85x65?&bg=1111111&fc=ffffff&text=placeholderLogo" fluid rounded />
+                            //                 </Nav.Link>
+                            //             </Nav.Item>
+                            //             <Nav.Item as="li" className="my-auto">
+                            //                 <Nav.Link eventKey="link-1" onClick={handleShowAbout}>Sobre nosotros</Nav.Link>
+                            //                 <About show={showAbout} handleClose={handleCloseAbout} />
+                            //             </Nav.Item>
+                            //             <Nav.Item as="li" className="my-auto">
+                            //                 <Nav.Link eventKey="link-2" href={homePath}>
+                            //                     Ver ofertas
+                            //                 </Nav.Link>
+                            //             </Nav.Item>
+                            //         </Nav>
+                            //     </Col>
+                            //     <Col className="text-end my-auto" xs={12} sm={12} md={6} >
+                            //         <Link to="/registro" className="mx-2">Registrarse</Link>
+                            //         <Link to="/loggin" className="mx-2">Ingresar</Link>
+                            //     </Col>
+                            // </>
 
-                                                <Image src="https://plchldr.co/i/85x65?&bg=1111111&fc=ffffff&text=placeholderLogo" fluid rounded />
-                                            </Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item as="li" className="my-auto">
-                                            <Nav.Link eventKey="link-1" onClick={handleShowAbout}>Sobre nosotros</Nav.Link>
-                                            <About show={showAbout} handleClose={handleCloseAbout} />
-                                        </Nav.Item>
-                                        <Nav.Item as="li" className="my-auto">
-                                            <Nav.Link eventKey="link-2" href={homePath}>
-                                                Ver ofertas
-                                            </Nav.Link>
-                                        </Nav.Item>
+                            <>
+                                <Navbar.Brand href={homePath}>
+                                    <Image src="https://plchldr.co/i/85x65?&bg=1111111&fc=ffffff&text=placeholderLogo" fluid rounded />
+                                </Navbar.Brand>
+                                <Navbar.Toggle />
+                                <Navbar.Collapse className="justify-content-end">
+                                    <Nav className="me-auto">
+                                        <Nav.Link onClick={handleShowAbout}>Sobre nosotros</Nav.Link>
+                                        <About show={showAbout} handleClose={handleCloseAbout} />
+                                        <Nav.Link href={homePath}>
+                                            Ver ofertas
+                                        </Nav.Link>
                                     </Nav>
-                                </Col>
-                                <Col className="text-end my-auto" xs={12} md={6} >
-                                    <Link to="/registro" className="mx-2">Registrarse</Link>
-                                    <Link to="/loggin" className="mx-2">Ingresar</Link>
-                                </Col>
+                                    <Navbar.Text>
+                                        <Link to="/registro" className="me-2">Registrarse</Link>
+                                        <span>|</span>
+                                        <Link to="/loggin" className="mx-2">Ingresar</Link>
+                                    </Navbar.Text>
+                                </Navbar.Collapse>
                             </>
                         )
                     }

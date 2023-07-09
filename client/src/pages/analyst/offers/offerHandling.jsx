@@ -11,7 +11,6 @@ import EditOffer from "./editOffer";
 import DeleteOffer from "./removeOffer";
 
 import { getOffers } from "../../../api/ofertas";
-import { nullOfferObj } from "../../../utilities/components";
 
 let PageSize = 5;
 
@@ -58,9 +57,12 @@ const OffersHandling = () => {
     }, [editedDeletedOffer])
 
     const currentListedOffers = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
+        let firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
         if (offersFromQuery.length > 0) {
+            if (firstPageIndex > offersFromQuery.length) {
+                setCurrentPage(1);
+            }
             return offersFromQuery.slice(firstPageIndex, lastPageIndex);
         } else {
             return offers.slice(firstPageIndex, lastPageIndex);
