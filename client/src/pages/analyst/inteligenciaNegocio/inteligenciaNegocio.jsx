@@ -4,20 +4,19 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 import FilterActivities from "./filterActivities";
+import ActivitiesTable from "./actvitiesTable";
 import CreateActivity from "./createActivity";
 import Pagination from "../../home/components/pagination";
 
 let PageSize = 5;
 
 const BusineesInteligence = () => {
-    const [activities, setActvities] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
+    const [activities, setActivities] = useState([])
+    // const [currentPage, setCurrentPage] = useState(1);
     const [showActivityForm, setShowActivityForm] = useState(false);
     const [clickedActivity, setClickedActivity] = useState("0");
 
     const handleClickedActivity = (offerId) => setClickedActivity(offerId);
-    const handleCloseActivityForm = () => setShowActivityForm(false);
-    const handleShowActivityForm = () => setShowActivityForm(true);
 
     // const currentListedOffers = useMemo(() => {
     //     const firstPageIndex = (currentPage - 1) * PageSize;
@@ -25,13 +24,13 @@ const BusineesInteligence = () => {
     //     return offers.slice(firstPageIndex, lastPageIndex);
     // }, [currentPage, offers]);
 
-    // useEffect(() => {
-    //     const loadOffers = async () => {
-    //         const offersRes = await getOffers();
-    //         setOffers(offersRes);
-    //     }
-    //     loadOffers();
-    // }, [])
+    useEffect(() => {
+        const loadActivities = async () => {
+            // const offersRes = await getOffers();
+            // setOffers(offersRes);
+        }
+        loadActivities();
+    }, [])
 
     return (<>
         <Row className="inteligenciaNegocioContainer border border-1">
@@ -49,16 +48,14 @@ const BusineesInteligence = () => {
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     /> */}
-
                 </div>
-
-
+                <ActivitiesTable activities={activities} clickedActivity={handleClickedActivity} />
                 <div>
-                    <Button>Registrar nueva oferta</Button>
+                    <Button onClick={() => setShowActivityForm(true)}>Registrar nueva Actividad</Button>
                 </div>
             </Col>
         </Row>
-        <CreateActivity />
+        <CreateActivity show={showActivityForm} close={() => setShowActivityForm(false)} />
 
     </>)
 };

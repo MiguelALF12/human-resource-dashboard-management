@@ -15,6 +15,7 @@ const EditOffer = (props) => {
     const { handleSubmit, formState: { errors } } = useForm();
     const [value, onChange] = useState(new Date());
     const [offerInputs, setOfferInputs] = useState({});
+
     useEffect(() => {
         let offerInputNodes = {};
         const inputs = [document.getElementById("nombre"),

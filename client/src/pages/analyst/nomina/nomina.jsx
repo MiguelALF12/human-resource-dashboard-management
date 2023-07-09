@@ -6,18 +6,33 @@ import Button from 'react-bootstrap/Button';
 import Pagination from "../../home/components/pagination";
 import NominaTable from './components/nominaTable';
 import FilterNominaHandler from './components/filterNominaHandler';
+import ManageEmployee from './manageEmployee';
 
 import { listEmpleados } from '../../../api/empleados';
 import { listContract } from '../../../api/contratos';
 import { getEmployeeRole } from '../../../utilities/components';
 
-let PageSize = 5;
+let PageSize = 2;
 
 const Nomina = () => {
     const [employees, setEmployees] = useState([])
     const [contracts, setContracts] = useState([]);
     const [employeesFromQuery, setEmployeesFromQuery] = useState([]);
+    const [showManageEmployee, setShowManageEmployee] = useState(false);
+    const [clickedEmployee, setClickedEmployee] = useState("0");
     const [currentPage, setCurrentPage] = useState(1);
+    const handleClickedEmployee = (employee) => {
+        let employeeId = parseInt(employee.split('-')[1])
+        let employeeAndcontract = [employees.find(employee => employee.id === employeeId), contracts.find(contract => contract.idEmpleado === employeeId)]
+        setClickedEmployee(employeeAndcontract);
+        setShowManageEmployee(true)
+        // console.log("Oferta clickeada: ", offerId);
+        // if (offerId.includes("edit")) {
+        //     handleShowEditForm();
+        // } else if (offerId.includes("delete")) {
+        //     handleShowDeleteModal();
+        // }
+    }
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -67,12 +82,15 @@ const Nomina = () => {
                             />
 
                         </div>
-                        <NominaTable employees={currentListedOffers} />
+                        <NominaTable employees={currentListedOffers} clickedEmployee={handleClickedEmployee} />
                         <div>
                             <Button>Otra opción importante</Button>
                         </div>
                     </Col>
                 </Row>
+                {/* clickedOffer === "0" ? "undefined" : offers[parseInt(clickedOffer.split('-')[1]) - 1] */}
+                <ManageEmployee clickedEmployee={clickedEmployee === "0" ? "undefined" : clickedEmployee}
+                    show={showManageEmployee} close={() => setShowManageEmployee(false)} />
             </>
         </>
     )

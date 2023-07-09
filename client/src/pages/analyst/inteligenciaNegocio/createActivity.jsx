@@ -13,7 +13,7 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 
 const CreateActivity = (props) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, formState: { errors } } = useForm();
     const [value, onChange] = useState(new Date());
 
     const handleDate = (newDate) => {

@@ -20,7 +20,7 @@ const OffersTable = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {props.offers.map((offer) => {
+                {props.offers.lenth > 0 ? props.offers.map((offer) => {
                     return (
                         <tr key={"offer-" + offer.id.toString()} id={"offerHandler-" + offer.id.toString()} >
                             <td>{offer.id}</td>
@@ -42,7 +42,7 @@ const OffersTable = (props) => {
                             </td>
                         </tr>
                     )
-                })}
+                }) : <tr>No hay registros disponibles</tr>}
             </tbody>
         </Table>
     )

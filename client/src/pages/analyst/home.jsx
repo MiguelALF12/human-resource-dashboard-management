@@ -4,8 +4,6 @@ import Header from "../home/components/header"
 import Footer from "../home/components/footer"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/col";
-import MenuNomina from "./nomina/nomina";
-import MenuInteligenciaNegocio from "./inteligenciaNegocio/inteligenciaNegocio";
 import ListGroup from 'react-bootstrap/ListGroup';
 
 

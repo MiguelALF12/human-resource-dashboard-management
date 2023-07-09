@@ -20,7 +20,7 @@ const NominaTable = (props) => {
             </tr>
         </thead>
         <tbody>
-            {props.employees.map((employee, index) => {
+            {props.employees.length > 0 ? props.employees.map((employee, index) => {
                 return (
                     /**?
                      *  "id": 1,
@@ -45,11 +45,13 @@ const NominaTable = (props) => {
                         <td>{employee.numCelular}</td>
                         <td>{employee.cargo}</td>
                         <td className="text-center">
-                            <Button id="manageEmployeeRecordBtn" size="sm" />
+                            <Button id="manageEmployeeRecordBtn" size="sm" onClick={() => {
+                                props.clickedEmployee("employeeHandler-" + employee.id.toString());
+                            }} />
                         </td>
                     </tr>
                 )
-            })}
+            }) : <tr>No hay registros disponibles</tr>}
         </tbody>
     </Table>)
 };
