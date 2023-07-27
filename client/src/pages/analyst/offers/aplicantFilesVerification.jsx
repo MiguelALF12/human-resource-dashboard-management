@@ -66,7 +66,6 @@ const AplicantFilesVerification = (props) => {
             }
             formData.append("idSeleccion", props.aplicant.idSeleccion)
             addDataIntoLocalStorage(formData);
-            // #TODO: Por que no hice un navigate({})?
             document.location.href = `${props.aplicant.id}/hiringProcess/`;
         } else {
             // Queda la duda de que hacer cuando la contratación es indirecta.

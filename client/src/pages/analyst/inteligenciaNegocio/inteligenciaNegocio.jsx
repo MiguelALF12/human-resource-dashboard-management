@@ -4,32 +4,42 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 import FilterActivities from "./filterActivities";
-import ActivitiesTable from "./actvitiesTable";
+import ActivitiesTable from "./activitiesTable";
 import CreateActivity from "./createActivity";
 import Pagination from "../../home/components/pagination";
 
-let PageSize = 5;
+import { listActivities } from "../../../api/actividades";
+let PageSize = 2;
 
-const BusineesInteligence = () => {
+const BusinessInteligence = () => {
     const [activities, setActivities] = useState([])
-    // const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [showActivityForm, setShowActivityForm] = useState(false);
     const [clickedActivity, setClickedActivity] = useState("0");
 
     const handleClickedActivity = (offerId) => setClickedActivity(offerId);
 
-    // const currentListedOffers = useMemo(() => {
-    //     const firstPageIndex = (currentPage - 1) * PageSize;
-    //     const lastPageIndex = firstPageIndex + PageSize;
-    //     return offers.slice(firstPageIndex, lastPageIndex);
-    // }, [currentPage, offers]);
+    const currentListedActivities = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        // if (offersFromQuery.length > 0) {
+        //     if (firstPageIndex > offersFromQuery.length) {
+        //         setCurrentPage(1);
+        //     }
+        //     return offersFromQuery.slice(firstPageIndex, lastPageIndex);
+        // } else {
+        //     return offers.slice(firstPageIndex, lastPageIndex);
+        // }
+        return activities.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, activities]);
 
     useEffect(() => {
         const loadActivities = async () => {
-            // const offersRes = await getOffers();
-            // setOffers(offersRes);
+            const activitiesRes = await listActivities();
+            setActivities(activitiesRes);
         }
         loadActivities();
+
     }, [])
 
     return (<>
@@ -40,18 +50,19 @@ const BusineesInteligence = () => {
             </Col>
             <Col xs={12} md={8} lg={8} className="border border-1">
                 <div className="d-flex justify-content-between align-items-center">
-                    <h3>Ofertas registradas </h3>
-                    {/* <Pagination
+                    <h3>Actividades registradas </h3>
+                    <Pagination
                         className="pagination-bar"
                         currentPage={currentPage}
-                        totalCount={offers.length}
+                        totalCount={activities.length}
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
-                    /> */}
+                    />
                 </div>
-                <ActivitiesTable activities={activities} clickedActivity={handleClickedActivity} />
+                <ActivitiesTable activities={currentListedActivities} clickedActivity={handleClickedActivity} />
                 <div>
                     <Button onClick={() => setShowActivityForm(true)}>Registrar nueva Actividad</Button>
+
                 </div>
             </Col>
         </Row>
@@ -60,4 +71,4 @@ const BusineesInteligence = () => {
     </>)
 };
 
-export default BusineesInteligence;
+export default BusinessInteligence;

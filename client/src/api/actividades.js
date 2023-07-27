@@ -4,9 +4,10 @@
  */
 
 const activitiesURL = "http://localhost:8000/analyst_api/api/v1/actividades/";
-const employessInActivitiesURL = "http://localhost:8000//analyst_api/api/v1/empleadoenactividades/"
+const employessInActivitiesURL = "http://localhost:8000/analyst_api/api/v1/empleadoenactividades/"
 
 export const createActivity = async (newActivity) => {
+    console.log(newActivity)
     return await fetch(activitiesURL, {
         "method": 'POST',
         "headers": {
@@ -46,16 +47,21 @@ export const updateActivity = async (activityId, newSpecs) => {
 } //Metemos put o patch?
 
 
-export const createEmployeeInActivity = async (AddedEmployeeInActivity) => {
+
+
+export const createEmployeeInActivity = async (addedEmployeeInActivity) => {
+    console.log(addedEmployeeInActivity)
     return await fetch(employessInActivitiesURL, {
         "method": 'POST',
         "headers": {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-        "body": JSON.stringify(AddedEmployeeInActivity)
+        "body": JSON.stringify(addedEmployeeInActivity)
     }).then((res) => res.json());
 }
+
+
 export const deleteEmployeeInActivity = async (employeeInActivityId) => {
     return await fetch(employessInActivitiesURL + employeeInActivityId + "/", {
         "method": 'DELETE',

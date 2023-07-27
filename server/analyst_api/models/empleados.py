@@ -24,4 +24,19 @@ class Empleados(models.Model):
     
     def __str__(self) -> str:
         return str(self.id) + " " + self.cedula + self.nombre
- 
+    @property
+    def as_object(self):
+        employee_as_object = {
+            "id":self.id,
+            "nombre": self.nombre,
+            "apellido": self.apellido,
+            "cedula": self.cedula,
+            "correo": self.correo,
+            "numCelular": self.numCelular,
+            "numTelefono": self.numTelefono,
+            "ciudad": self.ciudad,
+            "direccion": self.direccion,
+            "estado": self.estado,
+            "resultadosEntrevista": self.resultadosEntrevista
+        }
+        return employee_as_object

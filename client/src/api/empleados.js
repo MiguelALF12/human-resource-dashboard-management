@@ -29,6 +29,20 @@ export const listEmpleados = async () => {
     ).then((res) => res.json());
 }
 
+export const list_employee_with_role = async () => {
+    return await fetch(
+        employeesURL + "list_employee_with_role/",
+        {
+            "method": 'GET',
+            "headers": {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }
+
+    ).then((res) => res.json());
+}
+
 
 export const updateEmployee = async (employeeId, newSpecs) => {
     return await fetch(employeesURL + newSpecs + "/", {

@@ -1,0 +1,235 @@
+Table Aplicantes {
+  id integer [primary key]
+  nombre varchar
+  apellido varchar
+  cedula varchar
+  correo varchar
+  contrasena varchar
+  numCelular varchar
+  numTelefono varchar
+  ciudad varchar
+  direccion varchar
+  escolaridad varchar
+  manejoIngles bool
+  speaking varchar
+  writing varchar
+  listening varchar
+  experienciaLaboral integer
+  dispuestoTraslado bool
+  trabajarHorasExtra bool
+  contratado bool [default: False]
+  certificaciones varchar
+  titulo varchar
+  
+  Note: "Se almacena solo la información del usuario captada en el \
+  formulario de registro, no hay llaves foraneas"
+}
+
+Table DocumentosAplicantes {
+  id integer [primary key]
+  idAplicante integer [ref: > Aplicantes.id]
+  idTipo integer [ref: > TipoDocumentoAp.id]
+  archivo blob
+
+  Note: "Una tabla separada para los documentos de los aplicantes \
+  en caso tal de que no queden seleccionados pero sigan registrados. \
+  Se almacenan Cedula, libreta militar, Hoja de vida, Certificados de educacion
+  certificados de formacion, cartas de experiencia laboral, certificado de EPS, 
+  certifcado de pension, documentos de beneficiario"
+}
+
+Table TipoDocumentoAp {
+  id integer [primary key]
+  tipo varchar
+}
+
+Table Aplicaciones {
+  id integer [primary key]
+  idAplicante integer [ref: > Aplicantes.id]
+  idOferta integer [ref: > Ofertas.id]
+
+  Note: "Maneja la relación aplicantes-ofertas"
+}
+
+Table Seleccionados {
+  id integer [primary key]
+  idAplicacion integer [ref: > Aplicaciones.id]
+  estadoAplicante varchar
+  fase varchar
+}
+
+
+Table Ofertas {
+  id integer [primary key]
+  nombre varchar
+  descripcion varchar
+  estadoDisponibilidad varchar
+  vacantes integer
+  fechaInicio timestamp
+  salario varchar
+  experienciaAnos integer
+
+  Note: "Se describe cada oferta"
+}
+
+
+
+
+// Empleados
+
+Table Empleados {
+  id integer [pk] 
+  nombre varchar
+  apellido varchar
+  correo varchar
+  cedula varchar
+  numCelular varchar
+  numTelefono varchar
+  ciudad varchar
+  direccion varchar
+  estado varchar
+  rol varchar
+  descripcionRol varchar
+  resultadosEntrevista varchar
+
+  Note: "Al describir al empleado, es necesario conocer su estado (contratado, retirado)"
+}
+
+Table TipoDocumentoEm {
+  id integer [primary key]
+  tipo varchar
+}
+
+Table DocumentosEmpleados {
+  id integer [primary key]
+  idEmpleado integer [ref: > Empleados.id]
+  idTipo integer [ref: > TipoDocumentoEm.id]
+  archivo blob
+
+  Note: "Una tabla separada para los documentos de los aplicantes \
+  en caso tal de que no queden seleccionados pero sigan registrados. \
+  Se almacenan Cedula, libreta militar, Hoja de vida, Certificados de educacion
+  certificados de formacion, cartas de experiencia laboral, certificado de EPS, 
+  certifcado de pension, documentos de beneficiario"
+}
+
+Table Contratos{
+  id integer [pk]
+  fechaInicio timestamp
+  tipoContrato integer [ref: > TipoContrato.id]
+  salario varchar
+  cargo varchar
+  descripcionCargo varchar
+  idEmpleado integer [ref: - Empleados.id]
+  idContrato integer [ref: - DocumentosEmpleados.id]
+}
+
+Table TipoContrato {
+  id integer [primary key]
+  tipo varchar
+}
+
+Table PrestacionesPorContrato {
+  id integer [pk]
+  idContrato integer [ref: > Contratos.id]
+  idPrestacionSocial integer [ref: > PrestacionSocial.id]
+
+  Note: "Mediante esta tabla, podremos acceder a las difertenes prestaciones sociales para difertens liquidaciones"
+}
+
+Table PrestacionSocial {
+  id integer [pk]
+  nombre varchar
+  descripion varchar
+  valor varchar
+}
+
+Table Retiros {
+  id integer [pk]
+  fecha timestamp
+  descripcion varchar
+  entregaDeImplementos bool
+  idContrato integer [ref: - Contratos.id]
+
+  Note: "Se almacenan retiros de cada contrato \
+  Cada contrato tiene exactamente un solo retiro."
+}
+
+Table Examen {
+  id integer [pk]
+  fecha timestamp
+  descripcion varchar
+  observaciones varchar
+  idRetiro integer [ref: - Retiros.id]
+
+  Note: "Se realiza un solo examen de retiro por cada retiro."
+}
+
+Table Liquidaciones {
+  id integer [pk]
+  fecha_inicio timestamp
+  fecha_fin timestamp
+  fecha_pago timestamp
+  hora timestamp
+  idEmpleado integer [ref: > Empleados.id]
+  valor varchar
+  tipoLiquidacion integer [ref: > TipoLiquidacion.id]
+
+  Note: "Se almacena la liquidación como operación, es decir, \
+   la especificación de la liquidacion se hará en la tabla de EmpeladosLiquidados, por ejemplo:
+   
+    - Si la liquidación es de Nomina o aportes sociales, se crea un solo registro en Liquidaciones concerniente al periodo de nomina por liquidasr
+      , luego en la tabla EmpleadosLiquidados se deben insertar filas con cada id de empleado liquidado en ese periodo de nomina
+    - Si la liquidación es de contrato, funciona de manera similar, pero solo para ese contrato
+    "
+}
+
+Table TipoLiquidacion {
+  id integer [pk]
+  tipo varchar
+  Note: "Los tipos serán: \
+  - Nomina: Todos los empleados
+  - Prestaciones sociales: Todos los empleados
+  - Contrato: Uno o mas empleados."
+}
+
+
+Table Actividades {
+  id integer [pk]
+  tipoActividad integer [ref: > TipoActividad.id]
+  nombre varchar
+  descripcion varchar
+  fecha_inicio timestamp
+  fecha_fin timestamp
+
+  Note: "Todas las actividades son similares, y se tendrá un \
+  funcionamiento similar al de liquidaciones, donde aquí se registra la acción general, y para 
+  cada empleado se registra en una tabla a parte que es EmpleadosEnActividades"
+}
+
+
+Table EmpleadosEnActividades {
+  id integer [pk]
+  idActividad integer [ref: > Actividades.id]
+  idEmpleado integer [ref: > Empleados.id]
+  asistencia bool
+  resultadoEvaluativo bool  
+  Note: "Las actividades de entrenamiento y Capacitación tendrán un resultadoEvaluativo, 
+  es decir, un archivo que indique su evaluación"
+}
+
+
+Table TipoActividad {
+  id integer [pk]
+  tipo varchar
+  Note: "Los tipos serán: \
+  - Inducción
+  - Reinducción
+  - Entrenamiento
+  - Capacitación"
+}
+
+
+
+
+

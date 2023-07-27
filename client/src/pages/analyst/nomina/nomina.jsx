@@ -8,9 +8,8 @@ import NominaTable from './components/nominaTable';
 import FilterNominaHandler from './components/filterNominaHandler';
 import ManageEmployee from './manageEmployee';
 
-import { listEmpleados } from '../../../api/empleados';
+import { list_employee_with_role } from '../../../api/empleados';
 import { listContract } from '../../../api/contratos';
-import { getEmployeeRole } from '../../../utilities/components';
 
 let PageSize = 2;
 
@@ -36,9 +35,9 @@ const Nomina = () => {
 
     useEffect(() => {
         const loadEmployees = async () => {
-            const employeesRes = await listEmpleados();
+            const employeesRes = await list_employee_with_role();
             const contractsRes = await listContract();
-            getEmployeeRole(employeesRes, contractsRes);
+            // getEmployeeRole(employeesRes, contractsRes);
             setContracts(contractsRes);
             setEmployees(employeesRes);
         }

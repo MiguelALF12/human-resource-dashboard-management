@@ -52,7 +52,6 @@ const OffersHandling = () => {
             setOffers(offersRes);
         }
         loadOffers();
-        // console.log(clickedOffer, editedDeletedOffer);
         handleFalseEditedDeletedOffer();
     }, [editedDeletedOffer])
 

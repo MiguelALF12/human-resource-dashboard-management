@@ -31,4 +31,5 @@ class ContratosViews(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=newOffer)
         if serializer.is_valid(raise_exception=True):
             serializer.save() # Save the serilized data into BD 
-        return Response(data={}, status=status.HTTP_201_CREATED)
+            return Response(data={}, status=status.HTTP_201_CREATED)
+        return Response(data={}, status=status.HTTP_400_BAD_REQUEST)

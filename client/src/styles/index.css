@@ -237,3 +237,60 @@ div>h6 {
   background-color: #cbcbcf;
   ;
 }
+
+
+/* ---------------------------------------- */
+
+#activityDatesBtn {
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: .375rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+
+/* AddedToactivityUser ---------------------------------------- */
+
+.pill-container {
+  display: inline-block;
+  position: relative;
+  background-color: rgb(251, 229, 140);
+  color: black;
+  border-radius: .375rem;
+  border: #a3a4a5 1px;
+  margin: 5px 7px;
+}
+
+#pill {
+  height: 20px;
+  width: 30px;
+  padding: 5px 12px;
+  cursor: pointer;
+
+}
+
+#pill-btn {
+  height: 10px;
+  width: 10px;
+  /* border-radius: 10px;
+  background-color: #212529; */
+  position: absolute;
+  right: -8px;
+  top: -8px;
+}
+
+/* selectDate ---------------------------------------- */
+#cleanDatesBuisnessInteligence {
+  background-image: url("img/icons8-clean-24.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  border: 1px solid #ced4da;
+}

@@ -7,6 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from ..serializers.empleados import EmpleadosSerialiazer
 from ..models.empleados import Empleados
+from ..models.contratos import Contratos
 from aplicant_employee_api.models import Aplicantes
 
 
@@ -24,3 +25,13 @@ class EmpleadosViews(viewsets.ModelViewSet):
             serializer.save()
         newEmployeeId = Empleados.objects.get(cedula=aplicantToEmployee["cedula"]).id
         return Response(data={"id":newEmployeeId}, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False)
+    def list_employee_with_role(self, request):
+        employees = Empleados.objects.all()
+        employeesWithRole = []
+        for employee in employees:
+            employeeAsObject = employee.as_object
+            employeeAsObject["cargo"] = Contratos.objects.get(idEmpleado=employee.id).cargo
+            employeesWithRole.append(employeeAsObject)
+        return Response(data=employeesWithRole, status=status.HTTP_200_OK)
