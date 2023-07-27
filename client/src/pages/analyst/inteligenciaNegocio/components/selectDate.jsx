@@ -69,7 +69,7 @@ const SelectDate = (props) => {
             }
         >
             <Button size="lg" id="activityDatesBtn">
-                {formattedDateForLargeBtn === "" ? "Escoge un rango de fechas" : formattedDateForLargeBtn}
+                {formattedDateForLargeBtn === "" ? "Seleccionar" : formattedDateForLargeBtn}
             </Button>
         </OverlayTrigger>
     )

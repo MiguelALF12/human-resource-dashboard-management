@@ -1,7 +1,7 @@
 /**
  * #TODO: useState para bloquear checkbox (Si bloquea No y al contrario)
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
@@ -13,16 +13,19 @@ import Button from 'react-bootstrap/Button';
 import SelectDate from './components/selectDate';
 import AddedToActivityUser from './components/addedToActivityUser';
 import NominaTableJustSelection from './components/nominaTableJustSelection';
+import Pagination from '../../home/components/pagination';
 import 'react-calendar/dist/Calendar.css';
 
 import { list_employee_with_role } from '../../../api/empleados';
 import { createActivity, createEmployeeInActivity } from '../../../api/actividades';
 import { listContract } from '../../../api/contratos';
 
+let PageSize = 3;
 
 const CreateActivity = (props) => {
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
     const [activityDateRange, setActivityDateRange] = useState(["", ""]);
     const [employees, setEmployees] = useState([])
     const [clickedEmployee, setClickedEmployee] = useState({});
@@ -31,6 +34,7 @@ const CreateActivity = (props) => {
     const refreshPage = () => {
         navigate(0);
     }
+
     useEffect(() => {
         let clickedEmployeeAlreadySelected = selectedEmployees.length > 0 ? selectedEmployees.find((selectedEmployee) => selectedEmployee.idEmpleado === clickedEmployee.idEmpleado) : undefined,
             currentSelectedEmployees;
@@ -60,6 +64,20 @@ const CreateActivity = (props) => {
             // console.log("Node after: ", removedSelectedEmployeeNode);
         }
     }, [clickedEmployee, employees, selectedEmployees, removedSelectedEmployee]);
+
+    const currentListedEmployes = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        // if (offersFromQuery.length > 0) {
+        //     if (firstPageIndex > offersFromQuery.length) {
+        //         setCurrentPage(1);
+        //     }
+        //     return offersFromQuery.slice(firstPageIndex, lastPageIndex);
+        // } else {
+        //     return offers.slice(firstPageIndex, lastPageIndex);
+        // }
+        return employees.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, employees]);
 
     const onSubmit = (activity) => {
         if (activity.tipoActividad !== "Seleccionar" && activityDateRange.reduce((accumulate, currentValue) => accumulate += currentValue.length, 0) > 0 && selectedEmployees.length > 0) {
@@ -101,10 +119,6 @@ const CreateActivity = (props) => {
                                 <Form.Label>Nombre</Form.Label>
                                 <Form.Control type="text" {...register("nombre")} required />
                             </Form.Group>
-                            <Form.Group className="mb-3" controlId="formActivityDescription">
-                                <Form.Label>Descripcion</Form.Label>
-                                <Form.Control type="textarea" rows={4} {...register("descripcion")} required />
-                            </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group className="mb-3" controlId="formActivityState">
@@ -117,16 +131,33 @@ const CreateActivity = (props) => {
                                     <option id="tipoActividadCapacitación" value="CAPACITACION">CAPACITACION</option>
                                 </Form.Select>
                             </Form.Group>
-                            <label>Fechas</label>
+                        </Col>
+                        <Col>
+                            <label>Rango de fechas</label>
                             <div className="d-grid mt-1">
                                 <SelectDate activityDateRange={setActivityDateRange} />
                             </div>
                         </Col>
                     </Row>
                     <Row className='px-5'>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formActivityDescription">
+                                <Form.Label>Descripcion</Form.Label>
+                                <Form.Control type="textarea" rows={6} {...register("descripcion")} required />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row className='px-5'>
                         <h3>Definir los participantes</h3>
                         <Col xs={12} md={7} lg={7} className="px-4">
-                            <NominaTableJustSelection employees={employees} clickedEmployee={setClickedEmployee} />
+                            <NominaTableJustSelection employees={currentListedEmployes} clickedEmployee={setClickedEmployee} />
+                            <Pagination
+                                className="pagination-bar"
+                                currentPage={currentPage}
+                                totalCount={employees.length}
+                                pageSize={PageSize}
+                                onPageChange={page => setCurrentPage(page)}
+                            />
                         </Col>
                         <Col xs={12} md={5} lg={5} className="px-4" id="slectedEmployeesPills">
                             {selectedEmployees.length > 0 ? selectedEmployees.map((selectedEmployee) => <AddedToActivityUser selectedEmployee={selectedEmployee} removeSelectedEmployee={setRemovedSelectedEmployee} />) : <span>No hay empleados seleccionados</span>}
