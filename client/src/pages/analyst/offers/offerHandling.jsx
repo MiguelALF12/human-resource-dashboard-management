@@ -40,7 +40,6 @@ const OffersHandling = () => {
     const handleShowDeleteModal = () => setShowDeleteModal(true);
     const handleTrueEditedDeletedOffer = () => {
         setEditedDeletedOffer(true);
-        // setClickedOffer("0");
     }
     const handleFalseEditedDeletedOffer = () => {
         setEditedDeletedOffer(false);

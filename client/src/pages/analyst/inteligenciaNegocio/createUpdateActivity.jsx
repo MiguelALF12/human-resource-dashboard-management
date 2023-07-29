@@ -19,7 +19,6 @@ import 'react-calendar/dist/Calendar.css';
 
 // import { list_employee_with_role } from '../../../api/empleados';
 import { createActivity, createEmployeeInActivity } from '../../../api/actividades';
-import { listContract } from '../../../api/contratos';
 
 let PageSize = 3;
 
@@ -58,7 +57,7 @@ const CreateUpdateActivity = (props) => {
                 currentSelectedEmployees = [...selectedEmployees];
                 currentSelectedEmployees.push(clickedEmployee);
                 setSelectedEmployees(currentSelectedEmployees);
-                addEmployeeNode(clickedEmployee, "selectedEmployeesPills", setRemovedSelectedEmployee)
+                addEmployeeNode(clickedEmployee, "selectedEmployeesPills", setRemovedSelectedEmployee);
                 setClickedEmployee({});
                 // setRemovedSelectedEmployee({});
             }

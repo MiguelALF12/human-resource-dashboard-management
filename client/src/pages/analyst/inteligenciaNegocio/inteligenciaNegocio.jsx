@@ -7,6 +7,7 @@ import FilterActivities from "./filterActivities";
 import ActivitiesTable from "./activitiesTable";
 import CreateUpdateActivity from "./createUpdateActivity";
 import Pagination from "../../home/components/pagination";
+import DeleteActivity from "./components/deleteActivity";
 
 import { listActivities, listEmployeeInActivity } from "../../../api/actividades";
 import { list_employee_with_role } from '../../../api/empleados';
@@ -19,8 +20,10 @@ const BusinessInteligence = () => {
     const [employeesInActivity, setEmployeesInActivity] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [showActivityForm, setShowActivityForm] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [activitiesFromQuery, setActivitiesFromQuery] = useState([]);
     const [clickedActivity, setClickedActivity] = useState("create");
+    const [editedDeletedActivity, setEditedDeletedActivity] = useState(false);
 
     const handleClickedActivity = (activityId) => {
         console.log(activityId)
@@ -29,23 +32,10 @@ const BusinessInteligence = () => {
         if (activityId.includes("edit")) {
             setShowActivityForm(true);
         } else if (activityId.includes("delete")) {
-            // handleShowDeleteModal();
+            setShowDeleteModal(true)
             // later
         }
     }
-
-    const currentListedActivities = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
-        if (activitiesFromQuery.length > 0) {
-            if (firstPageIndex > activitiesFromQuery.length) {
-                setCurrentPage(1);
-            }
-            return activitiesFromQuery.slice(firstPageIndex, lastPageIndex);
-        } else {
-            return activities.slice(firstPageIndex, lastPageIndex);
-        }
-    }, [currentPage, activities, activitiesFromQuery]);
 
     useEffect(() => {
         const loadActivities = async () => {
@@ -62,10 +52,24 @@ const BusinessInteligence = () => {
         }
         loadEmployees();
         loadActivities();
-
+        setEditedDeletedActivity(false);
         loadEmployeesInActivity();
 
-    }, [])
+    }, [editedDeletedActivity]);
+
+
+    const currentListedActivities = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        if (activitiesFromQuery.length > 0) {
+            if (firstPageIndex > activitiesFromQuery.length) {
+                setCurrentPage(1);
+            }
+            return activitiesFromQuery.slice(firstPageIndex, lastPageIndex);
+        } else {
+            return activities.slice(firstPageIndex, lastPageIndex);
+        }
+    }, [currentPage, activities, activitiesFromQuery]);
 
     return (<>
         <Row className="inteligenciaNegocioContainer border border-1">
@@ -92,7 +96,9 @@ const BusinessInteligence = () => {
             </Col>
         </Row>
         <CreateUpdateActivity show={showActivityForm} close={() => setShowActivityForm(false)} employees={employees} clickedActivityToUpdate={[clickedActivity, activities.find(activity => activity.id === parseInt(clickedActivity.split('-')[1]))]} employeesInActivity={clickedActivity.includes("edit") ? employeesInActivity : "undefined"} />
-
+        <DeleteActivity clickedActivity={clickedActivity.includes("delete") ? activities.find(activity => activity.id === parseInt(clickedActivity.split('-')[1])) : "undefined"}
+            // editedDeletedOffer={handleTrueEditedDeletedOffer}
+            show={showDeleteModal} close={() => setShowDeleteModal(false)} editedDeletedActivity={() => setEditedDeletedActivity(true)} />
     </>)
 };
 

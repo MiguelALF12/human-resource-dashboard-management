@@ -24,7 +24,7 @@ export const deleteActivity = async (activityId) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-    }).then((res) => res.json());
+    }).then((res) => res.text());
 }
 export const listActivities = async () => {
     return await fetch(activitiesURL, {
