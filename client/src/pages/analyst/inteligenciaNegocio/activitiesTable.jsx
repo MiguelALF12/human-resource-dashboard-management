@@ -26,10 +26,10 @@ const ActivitiesTable = (props) => {
                             <td>{activity.fecha_inicio}</td>
                             <td>{activity.fecha_fin}</td>
                             <td>
-                                <Button id="editActivityRecordBtn" size="sm" onClick={() => {
+                                <Button id="editOfferRecordBtn" size="sm" onClick={() => {
                                     props.clickedActivity("activityHandler-" + activity.id.toString() + "-edit");
                                 }} />
-                                <Button id="deleteActivityRecordBtn" variant="danger" size="sm"
+                                <Button id="deleteOfferRecordBtn" variant="danger" size="sm"
                                     onClick={() => {
                                         props.clickedActivity("activityHandler-" + activity.id.toString() + "-delete");
                                     }} />

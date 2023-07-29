@@ -96,8 +96,9 @@ export const getLenghtOfFormData = (formData) => {
     return count;
 }
 
-export const filterRecords = (records, filterOptions) => {
-    return records.filter((record) => {
+export const filterRecords = (records, filterOptions, elements = []) => {
+
+    return records.filter((record, index) => {
         if (filterOptions.parameter !== 'Seleccione') {
             switch (filterOptions.parameter) {
                 case 'id':
@@ -113,15 +114,27 @@ export const filterRecords = (records, filterOptions) => {
                 case 'vacantes':
                     return parseInt(record.vacantes) >= parseInt(filterOptions.pattern);
                 case 'nombreEmpleado':
-                    console.log(record, filterOptions.pattern);
-                    console.log(record, record.nombre.toLowerCase() === filterOptions.pattern.toLowerCase() || record.nombre.toLowerCase().includes(filterOptions.pattern.toLowerCase()))
+                    // console.log(record, filterOptions.pattern);
+                    // console.log(record, record.nombre.toLowerCase() === filterOptions.pattern.toLowerCase() || record.nombre.toLowerCase().includes(filterOptions.pattern.toLowerCase()))
                     return record.nombre.toLowerCase() === filterOptions.pattern.toLowerCase() || record.nombre.toLowerCase().includes(filterOptions.pattern.toLowerCase());
                 case 'apellidoEmpleado':
                     return record.apellido.toLowerCase() === filterOptions.pattern.toLowerCase() || record.apellido.toLowerCase().includes(filterOptions.pattern.toLowerCase());
                 case 'cedula':
                     return record.cedula === filterOptions.pattern || record.cedula.includes(filterOptions.pattern);
+                case 'cedulaEnActividad':
+                    return elements[record.id].find((element) => {
+                        if (element.cedula === filterOptions.pattern || element.cedula.includes(filterOptions.pattern)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
                 case 'cargoEmpleado':
                     return record.cargo.toLowerCase() === filterOptions.pattern.toLowerCase() || record.cargo.toLowerCase().includes(filterOptions.pattern.toLowerCase());;
+                case 'fechaInicio':
+                    return record.fecha_inicio === filterOptions.pattern || record.fecha_inicio.includes(filterOptions.pattern);
+                case 'fechaFin':
+                    return record.fecha_fin === filterOptions.pattern || record.fecha_fin.includes(filterOptions.pattern);
                 default:
                     return true;
             }
@@ -163,4 +176,46 @@ export const getEmployeeRole = (employees, contracts) => {
         }
 
     }
+}
+
+
+export const addEmployeeNode = (selectedEmployee, areaToAppend, callBackProperty) => {
+    /*
+     <div id={`selectedEmployee-${selectedEmployeeId}`} className={`border border-1 pill-container`}>
+            <span id="pill">{props.selectedEmployee.nombre}</span>
+            <CloseButton id="pill-btn" onClick={() => {
+                props.removeSelectedEmployee(selectedEmployeeId);
+                document.getElementById(`selectedEmployee-${selectedEmployeeId}`).classList.toggle("d-none");;
+                // event.target.parentElement.classList.toggle("d-none");
+                // console.log(event.target.parentElement);
+            }} />
+        </div> 
+     */
+    let selectedEmployeeId = selectedEmployee.hasOwnProperty("idEmpleado") === true ? selectedEmployee.idEmpleado : selectedEmployee.id
+    const pillContainer = document.createElement("div");
+    const pill = document.createElement("span");
+    const pillBtn = document.createElement("span");
+    const pillsContainer = document.getElementById(areaToAppend);
+    pillContainer.setAttribute("id", `selectedEmployee-${selectedEmployeeId}`);
+    pillContainer.classList.add("border", "border-1", "pill-container");
+
+    pill.classList.add("pill");
+    pill.textContent = selectedEmployee.nombre;
+
+    pillBtn.classList.add("pill-btn");
+    pillBtn.textContent = "X"
+    pillBtn.addEventListener("click", () => {
+        console.log("Click on ", selectedEmployeeId)
+        callBackProperty(selectedEmployeeId);
+    });
+    pillContainer.appendChild(pill);
+    pillContainer.appendChild(pillBtn);
+    console.log(pillsContainer);
+
+    pillsContainer.appendChild(pillContainer);
+
+}
+export const deleteEmployeeNode = (parentNodeId, element) => {
+    const parent = document.getElementById(parentNodeId);
+    parent.removeChild(element);
 }

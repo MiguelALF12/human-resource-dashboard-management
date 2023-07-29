@@ -268,7 +268,7 @@ div>h6 {
   margin: 5px 7px;
 }
 
-#pill {
+.pill {
   height: 20px;
   width: 30px;
   padding: 5px 12px;
@@ -276,14 +276,16 @@ div>h6 {
 
 }
 
-#pill-btn {
+.pill-btn {
   height: 10px;
   width: 10px;
+  font-size: large;
   /* border-radius: 10px;
   background-color: #212529; */
   position: absolute;
-  right: -8px;
-  top: -8px;
+  right: -3px;
+  top: -10px;
+  cursor: pointer;
 }
 
 /* selectDate ---------------------------------------- */

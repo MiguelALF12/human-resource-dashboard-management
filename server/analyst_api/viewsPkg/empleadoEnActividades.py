@@ -19,3 +19,18 @@ class EmpleadoEnActividadesViews(viewsets.ModelViewSet):
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         return Response(data={},status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request):
+        detailedActivityWithUsers = {}
+        """"
+            idActividad
+            idEmpleado
+            resultadoEvaluativo
+            observaciones
+        """
+        for employee in self.get_queryset():
+            if employee.idActividad.id in detailedActivityWithUsers.keys():
+                detailedActivityWithUsers[employee.idActividad.id].append(employee.idEmpleado.as_object)
+            else:
+                detailedActivityWithUsers[employee.idActividad.id] = [employee.idEmpleado.as_object]
+        return Response(data=detailedActivityWithUsers , status=status.HTTP_200_OK)

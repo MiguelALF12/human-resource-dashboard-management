@@ -1,7 +1,7 @@
 /**
  * #TODO: useState para bloquear checkbox (Si bloquea No y al contrario)
  */
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
@@ -11,23 +11,25 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 
 import SelectDate from './components/selectDate';
-import AddedToActivityUser from './components/addedToActivityUser';
+// import AddedToActivityUser from './components/addedToActivityUser';
 import NominaTableJustSelection from './components/nominaTableJustSelection';
 import Pagination from '../../home/components/pagination';
+import { addEmployeeNode, deleteEmployeeNode } from '../../../utilities/components';
 import 'react-calendar/dist/Calendar.css';
 
-import { list_employee_with_role } from '../../../api/empleados';
+// import { list_employee_with_role } from '../../../api/empleados';
 import { createActivity, createEmployeeInActivity } from '../../../api/actividades';
 import { listContract } from '../../../api/contratos';
 
 let PageSize = 3;
 
-const CreateActivity = (props) => {
+const CreateUpdateActivity = (props) => {
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
+    let alreadyUploadValuesToUpdate = useRef(false);
+    // const [cancelBtnPressed, setCancelBtnPressed] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
     const [activityDateRange, setActivityDateRange] = useState(["", ""]);
-    const [employees, setEmployees] = useState([])
     const [clickedEmployee, setClickedEmployee] = useState({});
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [removedSelectedEmployee, setRemovedSelectedEmployee] = useState(0);
@@ -37,13 +39,18 @@ const CreateActivity = (props) => {
 
     useEffect(() => {
         let clickedEmployeeAlreadySelected = selectedEmployees.length > 0 ? selectedEmployees.find((selectedEmployee) => selectedEmployee.idEmpleado === clickedEmployee.idEmpleado) : undefined,
-            currentSelectedEmployees;
+            currentSelectedEmployees, selectedEmployeeId;
+        // console.log("current values: ", alreadyUploadValuesToUpdate, cancelBtnPressed)
+        if (props.clickedActivityToUpdate[0].includes("edit") && alreadyUploadValuesToUpdate.current === false) {
+            alreadyUploadValuesToUpdate.current = true;
+            document.getElementById("formActivityName").value = props.clickedActivityToUpdate[1].nombre;
+            document.getElementById("formActivityDescription").value = props.clickedActivityToUpdate[1].descripcion;
+            setSelectedEmployees(props.employeesInActivity[props.clickedActivityToUpdate[1].id]);
+            props.employeesInActivity[props.clickedActivityToUpdate[1].id].forEach(element => {
+                addEmployeeNode(element, "selectedEmployeesPills", setRemovedSelectedEmployee)
+            });
 
-        const loadEmployees = async () => {
-            const employeesRes = await list_employee_with_role();
-            setEmployees(employeesRes);
         }
-        if (employees.length === 0) loadEmployees();
 
         if (Object.keys(clickedEmployee).length > 0) {
             if (clickedEmployeeAlreadySelected === undefined) {
@@ -51,33 +58,30 @@ const CreateActivity = (props) => {
                 currentSelectedEmployees = [...selectedEmployees];
                 currentSelectedEmployees.push(clickedEmployee);
                 setSelectedEmployees(currentSelectedEmployees);
+                addEmployeeNode(clickedEmployee, "selectedEmployeesPills", setRemovedSelectedEmployee)
                 setClickedEmployee({});
                 // setRemovedSelectedEmployee({});
             }
         } else if (removedSelectedEmployee !== 0) {
             let removedSelectedEmployeeNode = document.getElementById(`selectedEmployee-${removedSelectedEmployee}`);
-            if (removedSelectedEmployeeNode.style.display === "auto") removedSelectedEmployeeNode.style.display = "none";
             // console.log("Employe to remove: ", removedSelectedEmployee);
-            // console.log("Node Before: ", removedSelectedEmployeeNode);
-            setRemovedSelectedEmployee(0);
-            setSelectedEmployees(selectedEmployees.filter(employee => employee.idEmpleado !== removedSelectedEmployee));
+            deleteEmployeeNode("selectedEmployeesPills", removedSelectedEmployeeNode);
+            setSelectedEmployees(selectedEmployees.filter(employee => {
+                if (employee.hasOwnProperty("idEmpleado") === true) selectedEmployeeId = "idEmpleado";
+                else selectedEmployeeId = "id";
+                return employee[selectedEmployeeId] !== removedSelectedEmployee
+            }));
             // console.log("Node after: ", removedSelectedEmployeeNode);
+            setRemovedSelectedEmployee(0);
         }
-    }, [clickedEmployee, employees, selectedEmployees, removedSelectedEmployee]);
+    }, [clickedEmployee, selectedEmployees, removedSelectedEmployee, props]);
+
 
     const currentListedEmployes = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        // if (offersFromQuery.length > 0) {
-        //     if (firstPageIndex > offersFromQuery.length) {
-        //         setCurrentPage(1);
-        //     }
-        //     return offersFromQuery.slice(firstPageIndex, lastPageIndex);
-        // } else {
-        //     return offers.slice(firstPageIndex, lastPageIndex);
-        // }
-        return employees.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, employees]);
+        return props.employees.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, props.employees]);
 
     const onSubmit = (activity) => {
         if (activity.tipoActividad !== "Seleccionar" && activityDateRange.reduce((accumulate, currentValue) => accumulate += currentValue.length, 0) > 0 && selectedEmployees.length > 0) {
@@ -87,6 +91,8 @@ const CreateActivity = (props) => {
             console.log("Actividad a registrar", activity);
             console.log("Participantes: ", selectedEmployees);
             // Consume actividades, empleadoEnActividades API endpoints
+            console.log(activity);
+            console.log(selectedEmployees);
             createActivity(activity).then(newData => {
                 // Participants additions
                 selectedEmployees.map(employee => {
@@ -94,10 +100,10 @@ const CreateActivity = (props) => {
                     delete employee.apellido;
                     return employee.idActividad = newData.id
                 });
-                createEmployeeInActivity(selectedEmployees).then(newData => {
-                    alert("El/los empleados se han agregado correctamente!");
-                    refreshPage();
-                });
+                return createEmployeeInActivity(selectedEmployees);
+            }).then(newData => {
+                alert("El/los empleados se han agregado correctamente!");
+                refreshPage();
             }).catch(err => console.warn(err));
 
         } else {
@@ -154,18 +160,22 @@ const CreateActivity = (props) => {
                             <Pagination
                                 className="pagination-bar"
                                 currentPage={currentPage}
-                                totalCount={employees.length}
+                                totalCount={props.employees.length}
                                 pageSize={PageSize}
                                 onPageChange={page => setCurrentPage(page)}
                             />
                         </Col>
-                        <Col xs={12} md={5} lg={5} className="px-4" id="slectedEmployeesPills">
-                            {selectedEmployees.length > 0 ? selectedEmployees.map((selectedEmployee) => <AddedToActivityUser selectedEmployee={selectedEmployee} removeSelectedEmployee={setRemovedSelectedEmployee} />) : <span>No hay empleados seleccionados</span>}
+                        <Col xs={12} md={5} lg={5} className="px-4" id="selectedEmployeesPills">
+                            {/* {selectedEmployees.length > 0 ? selectedEmployees.map((selectedEmployee) => <AddedToActivityUser selectedEmployee={selectedEmployee} removeSelectedEmployee={setRemovedSelectedEmployee} />) : <span>No hay empleados seleccionados</span>} */}
                         </Col>
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.close}>
+                    <Button variant="secondary" onClick={() => {
+                        alreadyUploadValuesToUpdate.current = false;
+                        // setCancelBtnPressed(true);
+                        props.close();
+                    }}>
                         Cancelar
                     </Button>
                     <Button type="submit" variant="primary" >
@@ -178,4 +188,4 @@ const CreateActivity = (props) => {
     );
 }
 
-export default CreateActivity;
+export default CreateUpdateActivity;
