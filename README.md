@@ -7,7 +7,7 @@
 This project aims to develop a comprehensive HR management dashboard designed to streamline the hiring and employee management process within an organization. It caters to two main user groups: applicants seeking job roles and HR employees managing the recruitment and staff management processes.
 
 ## Software Architecture
-You can see the architecture design decisions in the [Project diagrams]()
+You can see the architecture design decisions in the [Project diagrams](https://github.com/MiguelALF12/humanResourceManagement/blob/main/DIAGRAMAS%20DEL%20PROYECTO.pdf)
 ## Features
 
 ### For Applicants
